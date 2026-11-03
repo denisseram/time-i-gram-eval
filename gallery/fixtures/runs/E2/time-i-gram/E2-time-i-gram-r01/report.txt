@@ -1,0 +1,8 @@
+REPORT
+deliverable: spec.json
+requirements:
+  R1: not possible - DEMO fixture
+assumptions:
+  - none
+limitations:
+  - DEMO fixture, not an agent output

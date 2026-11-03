@@ -1,0 +1,12 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "title": "DEMO fixture: ARE consultations, Germany",
+  "width": 900, "height": 250,
+  "data": { "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv", "format": { "type": "tsv", "parse": { "Kalenderwoche": "utc:'%G-W%V'" } } },
+  "transform": [ { "filter": "datum.Bundesland === 'Bundesweit' && datum.Altersgruppe === '00+'" } ],
+  "mark": "line",
+  "encoding": {
+    "x": { "field": "Kalenderwoche", "type": "temporal", "timeUnit": "utcyearmonthdate", "title": "week" },
+    "y": { "field": "ARE_Konsultationsinzidenz", "type": "quantitative", "title": "per 100,000" }
+  }
+}

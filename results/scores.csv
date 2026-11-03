@@ -1,0 +1,1 @@
+run_id,example,tool,repeat,model,agent_harness,date,prompt_sha256,renders_without_edits,manual_fixes,R1,R2,R3,R4,R5,R6,R7,score_sum,score_max,report_mismatches,deliverable_lines,deliverable_chars,data_handling_lines,agent_turns,tool_calls,self_renders,input_tokens,output_tokens,wall_seconds,render_seconds,evaluator,notes

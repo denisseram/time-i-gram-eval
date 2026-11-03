@@ -1,0 +1,16 @@
+{
+  "title": "ARE consultations, Germany",
+  "xDomain": { "interval": ["2012-W40", "2026-W43"] },
+  "tracks": [{
+    "data": { "type": "csv-time", "separator": "\t", "dateFields": ["Kalenderwoche"],
+      "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv" },
+    "dataTransform": [
+      { "type": "filter", "field": "Bundesland", "oneOf": ["Bundesweit"] },
+      { "type": "filter", "field": "Altersgruppe", "oneOf": ["00+"] }
+    ],
+    "mark": "line",
+    "x": { "field": "Kalenderwoche", "type": "temporal", "axis": "bottom" },
+    "y": { "field": "ARE_Konsultationsinzidenz", "type": "quantitative", "axis": "left" },
+    "width": 900, "height": 250
+  }]
+}

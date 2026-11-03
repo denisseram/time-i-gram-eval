@@ -1,0 +1,19 @@
+{
+  "name": "time-i-gram-eval-gallery",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "observable preview",
+    "build": "observable build",
+    "deploy": "observable deploy"
+  },
+  "dependencies": {
+    "vega": "6.4.0",
+    "vega-embed": "7.3.0",
+    "vega-lite": "6.5.0",
+    "time-i-gram": "0.1.0"
+  },
+  "devDependencies": {
+    "@observablehq/framework": "1.13.4"
+  }
+}
