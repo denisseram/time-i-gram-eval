@@ -15,10 +15,11 @@ measurements at a glance and zoom in down to individual 10-minute readings**.
 
   | Column | Type | Meaning |
   |---|---|---|
-  | `time` | date-time (ISO 8601, UTC offset `+00:00`) | End of the 10-minute interval |
-  | `station` | integer | Station id |
+  | `time` | date-time (ISO 8601, UTC offset `+00:00`, e.g. `2020-01-01T00:10+00:00`) | Time stamp of the 10-minute value |
+  | `station` | integer | Station id (105) |
   | `tl` | number | Air temperature 2 m above ground, °C |
   | `rr` | number | Precipitation in the 10-minute interval, mm |
+  | `substation` | integer | Id of the measuring site within the station |
 
 - Missing measurements are empty fields.
 
