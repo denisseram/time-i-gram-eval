@@ -150,7 +150,7 @@
     "deliverable": "index.html",
     "dataset": "ubuntu_releases",
     "status": "ready",
-    "sha256": "3bf9d100870bd7ec05742d8cfcaee07b954a266175cc2d4790d4894d868b7fab"
+    "sha256": "7241bae6cf8ab923bba208f8c6ac5d023d8591d8bd67250dab4a75ec4370bb44"
   },
   {
     "example": "E4",
@@ -159,7 +159,7 @@
     "deliverable": "spec.vl.json",
     "dataset": "ubuntu_releases",
     "status": "ready",
-    "sha256": "e09a60a8ed32895cdd7c8da92f3216ac5bc21a9fd746b6857ed6753fab319b4e"
+    "sha256": "c1eba4fc77658589ff386ffe06915c3c18a623bafd98f6b108d6a637f39d1ce2"
   },
   {
     "example": "E4",
@@ -168,7 +168,7 @@
     "deliverable": "plot.R",
     "dataset": "ubuntu_releases",
     "status": "ready",
-    "sha256": "4c114f2725f87f43b56910e27d22a7b1c6f427367018afd32a08df8a3420e6ba"
+    "sha256": "279cffdd4480caa4d1b2938479e6576854556bbdb7f9f7ae0bb5995afbc0fc60"
   },
   {
     "example": "E4",
@@ -177,7 +177,7 @@
     "deliverable": "spec.json",
     "dataset": "ubuntu_releases",
     "status": "ready",
-    "sha256": "0245ead31b578e8b98248d26a5ad64d6889e703d99d105777a7d6ca9ee9bee9f"
+    "sha256": "48b506c49066709a5b56450cf668e3b32530e6aadbd252622566cb89eb67a941"
   },
   {
     "example": "E5",
@@ -186,7 +186,7 @@
     "deliverable": "index.html",
     "dataset": "geosphere_wien_10min",
     "status": "ready",
-    "sha256": "22715e4b97d90dd2b865da9d7411dac6c7924cf05c860fef17d8a5294f9023ed"
+    "sha256": "471edb54a5a0f0e770920653d001ffe219b3c21fbfe7aab1f73e04051ba85bd3"
   },
   {
     "example": "E5",
@@ -195,7 +195,7 @@
     "deliverable": "spec.vl.json",
     "dataset": "geosphere_wien_10min",
     "status": "ready",
-    "sha256": "c01634dd4a1a3979c5b4d9c262bc1e2f92208c029f6ad4a697f85c8633adb99e"
+    "sha256": "41efbd7210ce71b702da150b4ddb307a343d7ab813a5a80e3ece905dd3e2ecb2"
   },
   {
     "example": "E5",
@@ -204,7 +204,7 @@
     "deliverable": "plot.R",
     "dataset": "geosphere_wien_10min",
     "status": "ready",
-    "sha256": "022e2e2568121e8014133555ce3da24f0a2fd6dbb489afed17058e37717acfea"
+    "sha256": "8920750642932b749b7befa7bb8cdff9ee91407c81e853753a4b383798a8f1bc"
   },
   {
     "example": "E5",
@@ -213,6 +213,6 @@
     "deliverable": "spec.json",
     "dataset": "geosphere_wien_10min",
     "status": "ready",
-    "sha256": "0c74c736925c748e75c38b8b74dabb849ea19b8105269b48e19f2946ddc4cdf4"
+    "sha256": "ffb83e5718c983930c36f891d57bcb45180adc836f58135d36578dd1839e6d8b"
   }
 ]

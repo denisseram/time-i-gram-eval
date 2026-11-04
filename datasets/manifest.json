@@ -35,7 +35,7 @@
       "E4"
     ],
     "status": "verified",
-    "url": "https://raw.githubusercontent.com/denisseram/time-i-gram-eval-data/a1255a3a085a6ccd10603a52f3f569d09121ac7e/ubuntu.csv",
+    "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
     "format": "csv",
     "bytes": 3165,
     "rows": 46,
@@ -49,7 +49,7 @@
       "E5"
     ],
     "status": "verified",
-    "url": "https://raw.githubusercontent.com/denisseram/time-i-gram-eval-data/a1255a3a085a6ccd10603a52f3f569d09121ac7e/geosphere_wien_10min_2020-2024.csv",
+    "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/geosphere_wien_10min_2020-2024.csv",
     "format": "csv",
     "bytes": 10688473,
     "rows": 263088,

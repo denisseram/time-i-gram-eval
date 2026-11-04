@@ -5,7 +5,7 @@ measurements at a glance and zoom in down to individual 10-minute readings**.
 
 ## Data
 
-- URL: https://raw.githubusercontent.com/denisseram/time-i-gram-eval-data/a1255a3a085a6ccd10603a52f3f569d09121ac7e/geosphere_wien_10min_2020-2024.csv
+- URL: https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/geosphere_wien_10min_2020-2024.csv
 - Format: comma-separated, one header row.
 - Publisher: GeoSphere Austria, quality-controlled station data in 10-minute resolution (`klima-v2-10min`),
   station Wien Hohe Warte, 2020-01-01 to 2024-12-31. License: CC BY 4.0.

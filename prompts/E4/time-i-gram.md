@@ -6,7 +6,7 @@ releases with interim releases.
 
 ## Data
 
-- URL: https://raw.githubusercontent.com/denisseram/time-i-gram-eval-data/a1255a3a085a6ccd10603a52f3f569d09121ac7e/ubuntu.csv
+- URL: https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv
 - Format: comma-separated, one header row. **Rows have different numbers of fields:** trailing fields that
   do not apply to a release are omitted.
 - Publisher: `distro-info-data` (Debian and Ubuntu developers), the release table used by Ubuntu's
