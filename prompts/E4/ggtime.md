@@ -1,5 +1,3 @@
-> **DRAFT, do not run:** the data URL for this example is not pinned and verified yet (see datasets/manifest.json).
-
 # Task E4: Do Ubuntu releases follow the same life cycle once aligned on their release date?
 
 Make one visualization with ggtime that answers this question: **once every Ubuntu release is
@@ -8,7 +6,7 @@ releases with interim releases.
 
 ## Data
 
-- URL: TODO: pinned raw URL of ubuntu.csv from https://salsa.debian.org/debian/distro-info-data (tag matching package 2026.10.12), or a byte-identical copy hosted by you
+- URL: https://raw.githubusercontent.com/denisseram/time-i-gram-eval-data/a1255a3a085a6ccd10603a52f3f569d09121ac7e/ubuntu.csv
 - Format: comma-separated, one header row. **Rows have different numbers of fields:** trailing fields that
   do not apply to a release are omitted.
 - Publisher: `distro-info-data` (Debian and Ubuntu developers), the release table used by Ubuntu's
@@ -88,9 +86,9 @@ limitations:
   https://tsibble.tidyverts.org for ggplot2 and tsibble.
 - **Deliverable:** one file, `plot.R`. Running it must write the figure to `plot.png` (1400 × 900 px) and
   `plot.svg` in the working directory.
-- **How it will be run:** `Rscript plot.R` in an empty directory with internet access and the packages below
-  installed. It must finish without errors.
-- **Allowed:** ggtime, ggplot2, tsibble, mixtime, readr, dplyr, tidyr, lubridate, scales, and patchwork
-  (only to arrange several plots in one figure).
+- **How it will be run:** `Rscript plot.R` in a folder containing only `plot.R`, with internet access and the
+  packages below installed. It must finish without errors.
+- **Allowed:** ggtime, ggplot2, tsibble, mixtime, readr, dplyr, tidyr, lubridate, scales, svglite (only to
+  write `plot.svg`), and patchwork (only to arrange several plots in one figure).
 - **Not allowed:** any other package, in particular interactive or web graphics packages (plotly, ggiraph,
   htmlwidgets, shiny, …).

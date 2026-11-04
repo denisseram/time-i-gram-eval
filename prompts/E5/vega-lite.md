@@ -1,5 +1,3 @@
-> **DRAFT, do not run:** the data URL for this example is not pinned and verified yet (see datasets/manifest.json).
-
 # Task E5: Five years of 10-minute weather data, from overview to single readings
 
 Make one visualization with Vega-Lite that lets a reader see **five years of 10-minute weather
@@ -7,7 +5,7 @@ measurements at a glance and zoom in down to individual 10-minute readings**.
 
 ## Data
 
-- URL: TODO: confirm station id (105 = Wien Hohe Warte?) then use https://dataset.api.hub.geosphere.at/v1/station/historical/klima-v2-10min?parameters=tl,rr&station_ids=105&start=2020-01-01T00:00&end=2024-12-31T23:50&output_format=csv or a byte-identical saved copy
+- URL: https://raw.githubusercontent.com/denisseram/time-i-gram-eval-data/a1255a3a085a6ccd10603a52f3f569d09121ac7e/geosphere_wien_10min_2020-2024.csv
 - Format: comma-separated, one header row.
 - Publisher: GeoSphere Austria, quality-controlled station data in 10-minute resolution (`klima-v2-10min`),
   station Wien Hohe Warte, 2020-01-01 to 2024-12-31. License: CC BY 4.0.
@@ -21,7 +19,7 @@ measurements at a glance and zoom in down to individual 10-minute readings**.
   | `rr` | number | Precipitation in the 10-minute interval, mm |
   | `substation` | integer | Id of the measuring site within the station |
 
-- Missing measurements are empty fields.
+- A missing measurement would be an empty field.
 
 ## Requirements
 

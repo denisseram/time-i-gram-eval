@@ -12,9 +12,9 @@ deliverable_kind: the R script
   https://tsibble.tidyverts.org for ggplot2 and tsibble.
 - **Deliverable:** one file, `plot.R`. Running it must write the figure to `plot.png` (1400 × 900 px) and
   `plot.svg` in the working directory.
-- **How it will be run:** `Rscript plot.R` in an empty directory with internet access and the packages below
-  installed. It must finish without errors.
-- **Allowed:** ggtime, ggplot2, tsibble, mixtime, readr, dplyr, tidyr, lubridate, scales, and patchwork
-  (only to arrange several plots in one figure).
+- **How it will be run:** `Rscript plot.R` in a folder containing only `plot.R`, with internet access and the
+  packages below installed. It must finish without errors.
+- **Allowed:** ggtime, ggplot2, tsibble, mixtime, readr, dplyr, tidyr, lubridate, scales, svglite (only to
+  write `plot.svg`), and patchwork (only to arrange several plots in one figure).
 - **Not allowed:** any other package, in particular interactive or web graphics packages (plotly, ggiraph,
   htmlwidgets, shiny, …).

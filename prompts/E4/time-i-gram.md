@@ -1,5 +1,3 @@
-> **DRAFT, do not run:** the data URL for this example is not pinned and verified yet (see datasets/manifest.json).
-
 # Task E4: Do Ubuntu releases follow the same life cycle once aligned on their release date?
 
 Make one visualization with time-i-gram that answers this question: **once every Ubuntu release is
@@ -8,7 +6,7 @@ releases with interim releases.
 
 ## Data
 
-- URL: TODO: pinned raw URL of ubuntu.csv from https://salsa.debian.org/debian/distro-info-data (tag matching package 2026.10.12), or a byte-identical copy hosted by you
+- URL: https://raw.githubusercontent.com/denisseram/time-i-gram-eval-data/a1255a3a085a6ccd10603a52f3f569d09121ac7e/ubuntu.csv
 - Format: comma-separated, one header row. **Rows have different numbers of fields:** trailing fields that
   do not apply to a release are omitted.
 - Publisher: `distro-info-data` (Debian and Ubuntu developers), the release table used by Ubuntu's

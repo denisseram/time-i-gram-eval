@@ -1,7 +1,7 @@
 # Run <run_id>
 
-Copy this file to `runs/<example>/<tool>/<run_id>/run.md` and fill it in.
-`run_id` = `<example>-<tool>-r<NN>`, e.g. `E3-vega-lite-r02`.
+Created by `scripts/runner.py` in `runs/<example>/<tool>/<run_id>/`. The runner records the setup in
+`meta.json` (model, versions, times, turns, tokens); evaluators fill in the Rendering and Scores sections.
 
 ## Setup
 
@@ -15,11 +15,13 @@ Copy this file to `runs/<example>/<tool>/<run_id>/run.md` and fill it in.
 ## Files in this folder
 
 - `prompt.md`: exact prompt sent (byte-identical copy)
-- `transcript.*`: full agent transcript, including tool calls
+- `transcript.jsonl`: full agent transcript (Claude Code stream-json), including tool calls
+- `meta.json`, `status.json`: written by the runner (settings, versions, turns, tokens, time, status)
+- `workspace/`: everything the agent left in its folder (files over 2 MB listed in meta.json, not kept)
+- `render/`, `console.txt`: the official render and its log
 - deliverable: `index.html` | `spec.vl.json` | `plot.R` (+ `plot.png`, `plot.svg`) | `spec.json`
 - `render.png`: screenshot at 1400 × 900 of the deliverable rendered as specified in the prompt
 - `interaction.gif` or `interaction-*.png` (E3, E5): the linking/zoom requirement being exercised
-- `console.txt`: errors and warnings from rendering
 - `report.txt`: the agent's REPORT block, copied verbatim
 
 ## Rendering

@@ -1,0 +1,13 @@
+{
+  "name": "time-i-gram-eval-render",
+  "private": true,
+  "type": "module",
+  "description": "The `render` command of the evaluation (see PROTOCOL.md). Versions are pinned.",
+  "dependencies": {
+    "playwright": "1.64.1",
+    "time-i-gram": "0.1.0",
+    "vega": "6.4.0",
+    "vega-embed": "7.3.0",
+    "vega-lite": "6.5.0"
+  }
+}

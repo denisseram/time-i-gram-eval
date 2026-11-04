@@ -1,5 +1,5 @@
 {
-  "_comment": "One entry per dataset used in the prompts. url is pasted verbatim into the prompts. status=verified means the file was downloaded and the sha256 matches; status=todo means the prompt is a DRAFT until the URL is pinned and checked.",
+  "_comment": "One entry per dataset used in the prompts. url is pasted verbatim into the prompts and must allow browser access (CORS); source_url is where the unmodified copy came from. status=verified means the file at url was downloaded and its size and sha256 match.",
   "ocean_temperature": {
     "used_by": [
       "E1"
@@ -11,7 +11,8 @@
     "rows": 19165,
     "sha256": "ca9ed1ac30d91c82be2b0bc82f87fc9c1a3fa75681e05560918568696a52bd4e",
     "license": "Open Government Licence - Nova Scotia (source data); CC0 1.0 (TidyTuesday repository)",
-    "citation": "Centre for Marine Applied Research (2026). Lunenburg County Water Quality Data, Coastal Monitoring Program, station Birchy Head. Nova Scotia Open Data Portal, eda5-aubu. Daily means compiled for TidyTuesday 2026-03-31."
+    "citation": "Centre for Marine Applied Research (2026). Lunenburg County Water Quality Data, Coastal Monitoring Program, station Birchy Head. Nova Scotia Open Data Portal, eda5-aubu. Daily means compiled for TidyTuesday 2026-03-31.",
+    "source_url": "https://raw.githubusercontent.com/rfordatascience/tidytuesday/6753376ef104727ef0ca3e3db6f2ca580c0d5a7b/data/2026/2026-03-31/ocean_temperature.csv"
   },
   "are_konsultationsinzidenz": {
     "used_by": [
@@ -26,32 +27,50 @@
     "rows": 24756,
     "sha256": "025b5ef613cf536400a77fd502c6d3014ab417dcca94063c86c2454d64eb3597",
     "license": "CC BY 4.0",
-    "citation": "Robert Koch-Institut (2026). ARE-Konsultationsinzidenz [Data set]. Zenodo. https://doi.org/10.5281/zenodo.23758109"
+    "citation": "Robert Koch-Institut (2026). ARE-Konsultationsinzidenz [Data set]. Zenodo. https://doi.org/10.5281/zenodo.23758109",
+    "source_url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv"
   },
   "ubuntu_releases": {
     "used_by": [
       "E4"
     ],
-    "status": "todo",
-    "url": "TODO: pinned raw URL of ubuntu.csv from https://salsa.debian.org/debian/distro-info-data (tag matching package 2026.10.12), or a byte-identical copy hosted by you",
+    "status": "verified",
+    "url": "https://raw.githubusercontent.com/denisseram/time-i-gram-eval-data/a1255a3a085a6ccd10603a52f3f569d09121ac7e/ubuntu.csv",
     "format": "csv",
     "bytes": 3165,
     "rows": 46,
     "sha256": "4d885d8ebe21b26874eb20b54e484f4a0842f5537233952a151ba5300b560358",
     "license": "ISC",
-    "citation": "Drung, B., Rivera, S. et al. distro-info-data (ubuntu.csv), Debian, version 2026.10.12."
+    "citation": "Drung, B., Rivera, S. et al. distro-info-data (ubuntu.csv), Debian, tag debian/2026.10.12-1.",
+    "source_url": "https://salsa.debian.org/debian/distro-info-data/-/raw/debian/2026.10.12-1/ubuntu.csv"
   },
   "geosphere_wien_10min": {
     "used_by": [
       "E5"
     ],
-    "status": "todo",
-    "url": "TODO: confirm station id (105 = Wien Hohe Warte?) then use https://dataset.api.hub.geosphere.at/v1/station/historical/klima-v2-10min?parameters=tl,rr&station_ids=105&start=2020-01-01T00:00&end=2024-12-31T23:50&output_format=csv or a byte-identical saved copy",
+    "status": "verified",
+    "url": "https://raw.githubusercontent.com/denisseram/time-i-gram-eval-data/a1255a3a085a6ccd10603a52f3f569d09121ac7e/geosphere_wien_10min_2020-2024.csv",
     "format": "csv",
-    "bytes": null,
+    "bytes": 10688473,
     "rows": 263088,
-    "sha256": null,
+    "sha256": "0da260e183dea5af1c8fb47644024231a06957b726430c1b283cccd50fa7cdf9",
     "license": "CC BY 4.0",
-    "citation": "GeoSphere Austria (2024). Messstationen Zehnminutendaten v2 (klima-v2-10min). https://doi.org/10.60669/8fya-7x87"
+    "citation": "GeoSphere Austria (2024). Messstationen Zehnminutendaten v2 (klima-v2-10min). https://doi.org/10.60669/8fya-7x87",
+    "source_url": "https://dataset.api.hub.geosphere.at/v1/station/historical/klima-v2-10min?parameters=tl,rr&station_ids=105&start=2020-01-01T00:00&end=2024-12-31T23:50&output_format=csv",
+    "downloaded": "2026-11-03"
+  },
+  "a64_traffic": {
+    "used_by": [
+      "E0 (pilot)"
+    ],
+    "status": "verified",
+    "url": "https://raw.githubusercontent.com/rfordatascience/tidytuesday/6753376ef104727ef0ca3e3db6f2ca580c0d5a7b/data/2024/2024-12-03/A64_traffic.csv",
+    "source_url": "https://raw.githubusercontent.com/rfordatascience/tidytuesday/6753376ef104727ef0ca3e3db6f2ca580c0d5a7b/data/2024/2024-12-03/A64_traffic.csv",
+    "format": "csv",
+    "bytes": 3042359,
+    "rows": 11904,
+    "sha256": "530f4d6505eeab26219912019f837055e59c069f92537ebd5183734fbefc01a3",
+    "license": "National Highways WebTRIS data (Open Government Licence v3.0 per National Highways; not checked); TidyTuesday repository CC0 1.0",
+    "citation": "National Highways WebTRIS traffic data, A64 sensors, May 2021; compiled for TidyTuesday 2024-12-03."
   }
 }

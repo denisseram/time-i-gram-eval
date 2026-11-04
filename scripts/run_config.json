@@ -1,0 +1,13 @@
+{
+  "_comment": "Fixed settings of the evaluation (PROTOCOL.md). Change only before the freeze tag; every run records them.",
+  "image": "tig-eval:1",
+  "model": "claude-opus-5-5",
+  "max_turns": 50,
+  "timeout_seconds": 1800,
+  "examples": ["E1", "E2", "E3", "E4", "E5"],
+  "tools": ["d3", "vega-lite", "ggtime", "time-i-gram"],
+  "repeats": 3,
+  "pilot_example": "E0",
+  "seed": 20261104,
+  "keep_workspace_file_max_mb": 2
+}

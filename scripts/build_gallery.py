@@ -35,7 +35,7 @@ TOOLS = [  # order on the page: name, folder, deliverable, code language
     ("ggtime", "ggtime", "plot.R", "r"),
 ]
 COPY = ["index.html", "spec.vl.json", "spec.json", "plot.R", "plot.svg", "plot.png", "render.png",
-        "interaction.gif", "report.txt", "run.md"]
+        "interaction.gif", "report.txt", "run.md", "console.txt", "meta.json"]
 # libraries copied from gallery/node_modules into gallery/src/lib/<name>-<version>.js (versions pinned in package.json)
 LIBS = [("vega", "6.4.0", "build/vega.min.js"), ("vega-lite", "6.5.0", "build/vega-lite.min.js"),
         ("vega-embed", "7.3.0", "build/vega-embed.min.js"), ("time-i-gram", "0.1.0", "dist/index.js")]
@@ -88,6 +88,8 @@ def copy_runs():
     runs = {}
     for run_dir in sorted(RUNS.glob("*/*/*/")):
         example, tool, run_id = run_dir.parts[-3:]
+        if example.startswith("_"):  # runs/_interrupted: not counted, not shown
+            continue
         out = dest / example / tool / run_id
         out.mkdir(parents=True)
         files = [n for n in COPY if (run_dir / n).exists()]
@@ -206,6 +208,12 @@ def example_page(example, task_meta, tools_runs, scores):
             path = f"runs/{example}/{tool}/{run_id}"
             out.append(f"### {run_id}\n")
             out.append(score_table(scores.get(run_id)) + "\n")
+            if "meta.json" in files:
+                m = json.loads((run_dir / "meta.json").read_text())
+                out.append(f"<small>Agent: {m.get('reason', '')}; {m.get('wall_seconds', 0) // 60} min, "
+                           f"{m.get('turns')} turns, {m.get('tool_calls')} tool calls, "
+                           f"{m.get('render_calls')} self-checks with <code>render</code>; official render "
+                           f"{'OK' if m.get('render_ok') else 'failed'}.</small>\n")
             if deliverable not in files:
                 out.append(f"_No `{deliverable}` in this run._\n")
             else:
@@ -214,6 +222,9 @@ def example_page(example, task_meta, tools_runs, scores):
                 n = len([l for l in code.splitlines() if l.strip()])
                 out.append(f"<details><summary>Code: <code>{deliverable}</code> ({n} lines)</summary>\n\n"
                            f"{fence(code, lang)}\n\n</details>\n")
+            if "console.txt" in files:
+                out.append("<details><summary>Official render log (console.txt)</summary>\n\n"
+                           f"{fence((run_dir / 'console.txt').read_text(), 'text')}\n\n</details>\n")
             if "report.txt" in files:
                 out.append("<details><summary>Agent's REPORT</summary>\n\n"
                            f"{fence((run_dir / 'report.txt').read_text(), 'text')}\n\n</details>\n")

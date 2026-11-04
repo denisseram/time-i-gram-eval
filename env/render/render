@@ -1,0 +1,3 @@
+#!/bin/sh
+# The evaluation's render command (see PROTOCOL.md).
+exec node /opt/render/render.mjs "$@"

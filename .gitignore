@@ -1,2 +1,9 @@
 __pycache__/
 .DS_Store
+
+# credentials (see env/README.md)
+.env
+# local test installs
+env/render/node_modules/
+__pycache__/
+results/smoke/

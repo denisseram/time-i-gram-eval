@@ -32,6 +32,8 @@ def strip(path, text):
 writer = sys.stdout
 writer.write("run_dir,deliverable,lines,chars\n")
 for run_dir in sorted(ROOT.glob("runs/*/*/*/")):
+    if run_dir.parts[-3].startswith("_"):
+        continue
     for name in DELIVERABLES:
         p = run_dir / name
         if p.exists():

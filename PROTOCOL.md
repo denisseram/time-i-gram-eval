@@ -50,19 +50,30 @@ render <deliverable>      # index.html | spec.vl.json | plot.R | spec.json, chos
 - The time-i-gram agent reads the time-i-gram repository at tag `v0.1.0`. That commit contains none of the
   evaluation data or files.
 
-## Per run
+## Per run (automated by `scripts/runner.py`)
 
-1. `python3 scripts/verify_data.py` (once per batch): pinned files unchanged.
-2. `python3 scripts/new_run.py <example> <tool>`: creates the run folder with the exact prompt.
-3. Run the agent on `prompt.md` in a fresh folder with the fixed settings. Save the full transcript
-   (`transcript.jsonl`), the deliverable and the REPORT block (`report.txt`) in the run folder.
-4. Render the deliverable with `render`. **No manual edits.** If it only works after an edit, record the
-   edit, but score the unedited version.
-5. Keep `render.png` and the console output (`console.txt`); for E3 and E5 also record the interaction
-   (`interaction.gif` or before/after screenshots).
-6. Score with `rubrics/<example>.md`, fill `run.md`, and add one row to `results/scores.csv`.
-7. `python3 scripts/measure.py` fills the deliverable size columns (`deliverable_lines`, `deliverable_chars`).
-8. `python3 scripts/build_gallery.py` and `cd gallery && npm run dev` to see all outputs with their code.
+1. A new container from the image `tig-eval:1` (`env/Dockerfile`), with an empty folder `/work` holding only
+   `prompt.md`, the user `agent` (not root) and one credential (plan token or API key).
+2. `claude -p "<prompt>" --model claude-opus-5-5 --max-turns 50 --output-format stream-json --verbose
+   --dangerously-skip-permissions`, stopped after 30 minutes (`timeout`). The full transcript is saved.
+3. The agent's folder is copied into the run folder; the deliverable is taken from it **unedited**.
+4. **Official render:** the deliverable alone, in a new container, with `render` → `render.png`, `console.txt`.
+5. `meta.json` records model, versions, times, turns, tool calls, `render` self-checks and tokens; the
+   credential is removed from all saved files.
+6. **Runs that are not the agent's fault** (usage limit reached, authentication or Docker failure, no
+   answer from Claude Code) are moved to `runs/_interrupted/`, kept for the record, **not counted**, and run
+   again from scratch. A run that reaches the turn or time limit **is** counted: its saved deliverable is
+   evaluated.
+7. Evaluators: record the interaction for E3 and E5 (`interaction.gif` or before/after screenshots), score
+   with `rubrics/<example>.md`, fill `run.md`, add a row to `results/scores.csv`.
+8. `python3 scripts/measure.py` (deliverable size) and `python3 scripts/build_gallery.py` (all outputs with
+   their code).
+
+## Order and batches
+
+`runner.py init` draws the order once (seed in `scripts/run_config.json`): the 15 blocks (5 examples × 3
+repeats) in random order, the four tools in random order within each block. Batches run whole blocks, so
+the four tools of one example always run close together in time, under the same conditions.
 
 ## Scoring
 

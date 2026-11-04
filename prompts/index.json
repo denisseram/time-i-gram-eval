@@ -1,5 +1,41 @@
 [
   {
+    "example": "E0",
+    "tool": "d3",
+    "prompt": "prompts/E0/d3.md",
+    "deliverable": "index.html",
+    "dataset": "a64_traffic",
+    "status": "ready",
+    "sha256": "467f3c49f175d39ea1287d34009a5b006e781f165693259bde55e4d98ed8de5a"
+  },
+  {
+    "example": "E0",
+    "tool": "vega-lite",
+    "prompt": "prompts/E0/vega-lite.md",
+    "deliverable": "spec.vl.json",
+    "dataset": "a64_traffic",
+    "status": "ready",
+    "sha256": "e6e6372a2d4c24d0dc1b7006383ab219867ecbec7c9124cade5411fa8d83d8dc"
+  },
+  {
+    "example": "E0",
+    "tool": "ggtime",
+    "prompt": "prompts/E0/ggtime.md",
+    "deliverable": "plot.R",
+    "dataset": "a64_traffic",
+    "status": "ready",
+    "sha256": "52fc4599d5e723d91607424672e2e50b92a726096f89998a1f9013883a99137d"
+  },
+  {
+    "example": "E0",
+    "tool": "time-i-gram",
+    "prompt": "prompts/E0/time-i-gram.md",
+    "deliverable": "spec.json",
+    "dataset": "a64_traffic",
+    "status": "ready",
+    "sha256": "7fe7485e2390392ef376d9ac00af5e5ca749d42a93b78b37bf80a975aa92d809"
+  },
+  {
     "example": "E1",
     "tool": "d3",
     "prompt": "prompts/E1/d3.md",
@@ -24,7 +60,7 @@
     "deliverable": "plot.R",
     "dataset": "ocean_temperature",
     "status": "ready",
-    "sha256": "b3a440fc03370f16123a20d7016cdf016455b16981bc1c623cdebed646d24431"
+    "sha256": "d0680540fdf0c1ceeaba915ee5e0cb962a8908a74236a13e6b104874e52a462d"
   },
   {
     "example": "E1",
@@ -60,7 +96,7 @@
     "deliverable": "plot.R",
     "dataset": "are_konsultationsinzidenz",
     "status": "ready",
-    "sha256": "a563003c1f8abef0c51f8b88095ee4813a0bed6a6fd71e01d5ce18460b3924cf"
+    "sha256": "9adb1f6be64d2a298ea662b223c180a095ab32a93edb4ecbde13084d3c79d717"
   },
   {
     "example": "E2",
@@ -96,7 +132,7 @@
     "deliverable": "plot.R",
     "dataset": "are_konsultationsinzidenz",
     "status": "ready",
-    "sha256": "1badcd82baf214bb12f1471b6a95132532a47a07701296058a7bd182aab4cef0"
+    "sha256": "fcc54f4222b166540444bb739d6000bb7441b82c70cb7f2ef858d519a3bb0251"
   },
   {
     "example": "E3",
@@ -113,8 +149,8 @@
     "prompt": "prompts/E4/d3.md",
     "deliverable": "index.html",
     "dataset": "ubuntu_releases",
-    "status": "draft",
-    "sha256": "9d6fa145988782ebc60cfbe236ae47297698ae6a8c6c1460a50452c0d3c201cb"
+    "status": "ready",
+    "sha256": "3bf9d100870bd7ec05742d8cfcaee07b954a266175cc2d4790d4894d868b7fab"
   },
   {
     "example": "E4",
@@ -122,8 +158,8 @@
     "prompt": "prompts/E4/vega-lite.md",
     "deliverable": "spec.vl.json",
     "dataset": "ubuntu_releases",
-    "status": "draft",
-    "sha256": "8d14588e12710b1a5cbe98560907c39e8f3dfe94a150ae4b874fe2e181c4dcbc"
+    "status": "ready",
+    "sha256": "e09a60a8ed32895cdd7c8da92f3216ac5bc21a9fd746b6857ed6753fab319b4e"
   },
   {
     "example": "E4",
@@ -131,8 +167,8 @@
     "prompt": "prompts/E4/ggtime.md",
     "deliverable": "plot.R",
     "dataset": "ubuntu_releases",
-    "status": "draft",
-    "sha256": "dd410aedaab55f6fe93b47213cfa4913e3581b0192197d87bbb7965c49f8af85"
+    "status": "ready",
+    "sha256": "4c114f2725f87f43b56910e27d22a7b1c6f427367018afd32a08df8a3420e6ba"
   },
   {
     "example": "E4",
@@ -140,8 +176,8 @@
     "prompt": "prompts/E4/time-i-gram.md",
     "deliverable": "spec.json",
     "dataset": "ubuntu_releases",
-    "status": "draft",
-    "sha256": "928deb480bfab20c9563fbd987a2229f44514e2238e5e976ed8524ed1cf73172"
+    "status": "ready",
+    "sha256": "0245ead31b578e8b98248d26a5ad64d6889e703d99d105777a7d6ca9ee9bee9f"
   },
   {
     "example": "E5",
@@ -149,8 +185,8 @@
     "prompt": "prompts/E5/d3.md",
     "deliverable": "index.html",
     "dataset": "geosphere_wien_10min",
-    "status": "draft",
-    "sha256": "77f2a02dc65479581e3cb1bbbcaed7648802f5d1c181c4e5b16116979c7c60ec"
+    "status": "ready",
+    "sha256": "22715e4b97d90dd2b865da9d7411dac6c7924cf05c860fef17d8a5294f9023ed"
   },
   {
     "example": "E5",
@@ -158,8 +194,8 @@
     "prompt": "prompts/E5/vega-lite.md",
     "deliverable": "spec.vl.json",
     "dataset": "geosphere_wien_10min",
-    "status": "draft",
-    "sha256": "88ff83f3bfd5c9cc80152796b1f412ddfc6af61bb1348e9b0b51f22897ee7696"
+    "status": "ready",
+    "sha256": "c01634dd4a1a3979c5b4d9c262bc1e2f92208c029f6ad4a697f85c8633adb99e"
   },
   {
     "example": "E5",
@@ -167,8 +203,8 @@
     "prompt": "prompts/E5/ggtime.md",
     "deliverable": "plot.R",
     "dataset": "geosphere_wien_10min",
-    "status": "draft",
-    "sha256": "a4e01f2daa7ad1707216599c0eafae70e97470f1e5695b0075a9be7846764061"
+    "status": "ready",
+    "sha256": "022e2e2568121e8014133555ce3da24f0a2fd6dbb489afed17058e37717acfea"
   },
   {
     "example": "E5",
@@ -176,7 +212,7 @@
     "prompt": "prompts/E5/time-i-gram.md",
     "deliverable": "spec.json",
     "dataset": "geosphere_wien_10min",
-    "status": "draft",
-    "sha256": "2fb7a88bbbc8c9bc7a3ab244a0575ecff4b7675f195c42347a767eed96a5f473"
+    "status": "ready",
+    "sha256": "0c74c736925c748e75c38b8b74dabb849ea19b8105269b48e19f2946ddc4cdf4"
   }
 ]
