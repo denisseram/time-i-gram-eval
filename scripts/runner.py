@@ -63,11 +63,20 @@ def load_dotenv():
     """KEY=VALUE lines from .env in the repository root (never committed: see .gitignore)."""
     env_file = ROOT / ".env"
     if env_file.exists():
+        lines = []
         for line in env_file.read_text().splitlines():
+            if lines and line.strip() and "=" not in line and not line.strip().startswith("#"):
+                lines[-1] += line.strip()  # continuation of a token pasted over two lines
+            else:
+                lines.append(line)
+        for line in lines:
             line = line.strip()
             if line and not line.startswith("#") and "=" in line:
                 key, value = line.split("=", 1)
-                os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
+                value = value.strip().strip('"').strip("'")
+                if key.strip() in ("CLAUDE_CODE_OAUTH_TOKEN", "ANTHROPIC_API_KEY"):
+                    value = "".join(value.split())  # a pasted token may carry line breaks or spaces
+                os.environ.setdefault(key.strip(), value)
 
 
 def credential():

@@ -30,12 +30,10 @@ for t in vega-lite time-i-gram d3 ggtime; do [ -f "$TMP/$t/render.png" ] && cp "
 echo; echo "Screenshots copied to results/smoke/ (look at them)."
 
 echo; echo "== Claude Code login"
-[ -f "$ROOT/.env" ] && set -a && . "$ROOT/.env" && set +a
-if [ -n "${CLAUDE_CODE_OAUTH_TOKEN:-}" ] && [ -n "${ANTHROPIC_API_KEY:-}" ]; then
-  echo "Both CLAUDE_CODE_OAUTH_TOKEN and ANTHROPIC_API_KEY are set: keep only one."; exit 1
-fi
-VAR=CLAUDE_CODE_OAUTH_TOKEN; [ -z "${CLAUDE_CODE_OAUTH_TOKEN:-}" ] && VAR=ANTHROPIC_API_KEY
-if [ -z "${!VAR:-}" ]; then echo "No credential in .env (see env/README.md)."; exit 1; fi
+# read the credential exactly as the runner does (tolerates spaces or line breaks in a pasted token)
+CRED="$(cd "$ROOT" && python3 -c 'import sys; sys.path.insert(0, "scripts"); import runner; v, s = runner.credential(); print(v + "=" + s)')" || exit 1
+VAR="${CRED%%=*}"
+export "$VAR"="${CRED#*=}"
 MODEL="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["model"])' "$ROOT/scripts/run_config.json")"
 docker run --rm -e "$VAR" "$IMAGE" claude -p "Reply with the single word OK." --model "$MODEL" --max-turns 1 \
   && echo "-> Claude Code works with $VAR and model $MODEL" || { echo "-> Claude Code FAILED"; fail=1; }
