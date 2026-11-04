@@ -1,0 +1,18 @@
+REPORT
+deliverable: spec.vl.json
+requirements:
+  R1: done - one row per release, y labels = version, sorted by release date within each group
+  R2: done - x = years relative to each release's own release date (0 = release), unit in axis title
+  R3: done - development / standard / extended server / ESM / legacy bars, 5 colours, legend; missing phases not drawn
+  R4: done - created = filled dot, release = black tick at 0
+  R5: done - row facet "LTS releases" vs "Interim releases"; LTS label also in the version text
+  R6: done - title plus a one-sentence caption (subtitle) stating the main pattern
+assumptions:
+  - ESM starts at max(eol, eol-server); extended server support is drawn only if eol-server > eol
+  - Missing/empty trailing fields are treated as "no date"
+  - A year is 365.25 days; x-axis is fixed to -1..16 years to fit the longest cycle
+  - Grouped LTS and interim into two panels, each ordered by release date, not one combined order
+limitations:
+  - Caption text is written by hand, so it will not update if the data change
+  - "Today" diamond uses the render-time clock (now()); dates after today are planned
+  - Vega-Lite prints 5 warnings about faceted independent y scales; they do not change the figure

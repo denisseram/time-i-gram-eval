@@ -1,0 +1,207 @@
+{
+  "title": "Vienna Hohe Warte 2020–2024: 10-minute air temperature and precipitation (GeoSphere Austria, CC BY 4.0)",
+  "subtitle": "Temperature follows a strong annual cycle (coldest Dec–Feb, warmest Jul–Aug) with a day–night cycle in the detail; rain falls in short bursts.",
+  "arrangement": "vertical",
+  "spacing": 30,
+  "zoomLimits": [
+    "1 hour",
+    "6 years"
+  ],
+  "views": [
+    {
+      "xDomain": {
+        "interval": [
+          "2020",
+          "2024"
+        ]
+      },
+      "tracks": [
+        {
+          "title": "Overview 2020–2024 (time in UTC): daily mean air temperature — brush to set the detail period below",
+          "data": {
+            "type": "csv-time",
+            "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/geosphere_wien_10min_2020-2024.csv",
+            "dateFields": [
+              "time"
+            ]
+          },
+          "alignment": "overlay",
+          "x": {
+            "field": "time",
+            "type": "temporal",
+            "timeUnit": "day",
+            "axis": "bottom"
+          },
+          "y": {
+            "field": "tl",
+            "type": "quantitative",
+            "aggregate": "mean",
+            "axis": "left",
+            "title": "Air temperature, daily mean (°C)",
+            "domain": [
+              -10,
+              30
+            ]
+          },
+          "tracks": [
+            {
+              "mark": "line",
+              "color": {
+                "value": "#c4620f"
+              }
+            },
+            {
+              "mark": "brush",
+              "x": {
+                "linkingId": "detail"
+              },
+              "color": {
+                "value": "steelBlue"
+              }
+            }
+          ],
+          "width": 1250,
+          "height": 200
+        }
+      ]
+    },
+    {
+      "xDomain": {
+        "interval": [
+          "2024-07-08",
+          "2024-07-14"
+        ]
+      },
+      "linkingId": "detail",
+      "spacing": 0,
+      "tracks": [
+        {
+          "title": "Detail (time in UTC): air temperature — 10-minute readings below 10 days visible, hourly means below 120 days, daily means above",
+          "data": {
+            "type": "csv-time",
+            "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/geosphere_wien_10min_2020-2024.csv",
+            "dateFields": [
+              "time"
+            ]
+          },
+          "alignment": "overlay",
+          "x": {
+            "field": "time",
+            "type": "temporal",
+            "axis": "bottom",
+            "timeUnit": [
+              {
+                "unit": "none",
+                "maxSpan": "10 days"
+              },
+              {
+                "unit": "hour",
+                "maxSpan": "120 days"
+              },
+              {
+                "unit": "day"
+              }
+            ]
+          },
+          "y": {
+            "field": "tl",
+            "type": "quantitative",
+            "aggregate": "mean",
+            "axis": "left",
+            "title": "Air temperature (°C)",
+            "domain": [
+              -12,
+              38
+            ]
+          },
+          "tracks": [
+            {
+              "mark": "line",
+              "color": {
+                "value": "#c4620f"
+              }
+            },
+            {
+              "mark": "point",
+              "size": {
+                "value": 2
+              },
+              "color": {
+                "value": "#c4620f"
+              },
+              "tooltip": [
+                {
+                  "field": "time",
+                  "type": "temporal",
+                  "alt": "Time (UTC)"
+                },
+                {
+                  "field": "tl",
+                  "type": "quantitative",
+                  "alt": "Air temperature (°C)",
+                  "format": ".1f"
+                }
+              ]
+            }
+          ],
+          "width": 1250,
+          "height": 220
+        },
+        {
+          "title": "Detail (time in UTC): precipitation — 10-minute readings below 10 days visible; above, the largest 10-minute value per hour / per day",
+          "data": {
+            "type": "csv-time",
+            "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/geosphere_wien_10min_2020-2024.csv",
+            "dateFields": [
+              "time"
+            ]
+          },
+          "mark": "bar",
+          "x": {
+            "field": "time",
+            "type": "temporal",
+            "axis": "bottom",
+            "timeUnit": [
+              {
+                "unit": "none",
+                "maxSpan": "10 days"
+              },
+              {
+                "unit": "hour",
+                "maxSpan": "120 days"
+              },
+              {
+                "unit": "day"
+              }
+            ]
+          },
+          "y": {
+            "field": "rr",
+            "type": "quantitative",
+            "aggregate": "max",
+            "axis": "left",
+            "title": "Precipitation (mm per 10 min)"
+          },
+          "color": {
+            "value": "#2c5d8f"
+          },
+          "tooltip": [
+            {
+              "field": "time",
+              "type": "temporal",
+              "alt": "Time (UTC)"
+            },
+            {
+              "field": "rr",
+              "type": "quantitative",
+              "alt": "Precipitation (mm per 10 min)",
+              "format": ".1f"
+            }
+          ],
+          "width": 1250,
+          "height": 150
+        }
+      ]
+    }
+  ]
+}

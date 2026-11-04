@@ -1,0 +1,20 @@
+REPORT
+deliverable: spec.json
+requirements:
+  R1: partial - one row per ISO year, but 2012 comes last (rows follow time-i-gram's data-chunk order; no sort option exists)
+  R2: done - rect per ISO week (week-based year period, week 1 left); week 53 shown for 2015 and 2020
+  R3: done - viridis sequential scale; legend strip titled "colour = ARE consultations per 100,000 population per week"
+  R4: done - weeks before 2012-W40 and after 2026-W43 have no cells (blank)
+  R5: done - W1…W49 tick labels on x (every 8 weeks); year label at the top-left of each row
+  R6: done - title plus one-sentence caption (subtitle) on the main pattern
+assumptions:
+  - Week 1 of an ISO year is placed by ISO week-year, so weeks in late Dec/early Jan sit in the right year's row
+  - Each cell spans its Monday to the next Monday (span transform of 1 week)
+  - The caption is a reading of the data written as text; nothing in the chart encoding is hard-coded
+limitations:
+  - Row order is 2013…2026 then 2012 (see R1); listing the years in the spec would fix it but breaks rule 2
+  - The legend is drawn by a second, invisible copy of the track, because the normal legend covered data cells
+  - The legend's own title is short ("per 100k/wk") because it gets cut off; the full unit is in the strip title above it
+  - Week ticks are labelled every 8 weeks, not every week
+  - Year labels partly cover the week-1 cell of each row
+  - Colour scale runs from 0 to the data maximum

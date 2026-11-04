@@ -1,0 +1,208 @@
+{
+ "title": "Wien Hohe Warte, 2020–2024: air temperature and precipitation in 10-minute steps",
+ "subtitle": "Temperature follows a strong annual cycle with a daily cycle on top; rain comes in short bursts. Brush the overview to set the detail period.",
+ "arrangement": "vertical",
+ "spacing": 30,
+ "zoomLimits": [
+  "1 hour",
+  "6 years"
+ ],
+ "views": [
+  {
+   "xDomain": {
+    "interval": [
+     "2020",
+     "2024"
+    ]
+   },
+   "spacing": 0,
+   "tracks": [
+    {
+     "title": "Overview: daily mean air temperature (°C), time in UTC. Data: GeoSphere Austria klima-v2-10min, Wien Hohe Warte (CC BY 4.0)",
+     "alignment": "overlay",
+     "data": {
+      "type": "csv-time",
+      "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/geosphere_wien_10min_2020-2024.csv",
+      "dateFields": [
+       "time"
+      ]
+     },
+     "x": {
+      "field": "time",
+      "type": "temporal",
+      "timeUnit": "day",
+      "axis": "bottom"
+     },
+     "y": {
+      "field": "tl",
+      "type": "quantitative",
+      "aggregate": "mean",
+      "axis": "left",
+      "title": "Air temp. (°C)",
+      "domain": [
+       -15,
+       40
+      ]
+     },
+     "tracks": [
+      {
+       "mark": "line",
+       "color": {
+        "value": "#c4620f"
+       }
+      },
+      {
+       "mark": "brush",
+       "x": {
+        "linkingId": "detail"
+       },
+       "color": {
+        "value": "steelBlue"
+       }
+      }
+     ],
+     "width": 1250,
+     "height": 170
+    }
+   ]
+  },
+  {
+   "xDomain": {
+    "interval": [
+     "2024-07-15T00:00:00Z",
+     "2024-07-18T00:00:00Z"
+    ]
+   },
+   "linkingId": "detail",
+   "spacing": 0,
+   "tracks": [
+    {
+     "title": "Detail: air temperature 2 m (°C); single 10-min readings below 4 days, hourly means below 60 days, daily means above",
+     "alignment": "overlay",
+     "data": {
+      "type": "csv-time",
+      "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/geosphere_wien_10min_2020-2024.csv",
+      "dateFields": [
+       "time"
+      ]
+     },
+     "x": {
+      "field": "time",
+      "type": "temporal",
+      "axis": "bottom",
+      "timeUnit": [
+       {
+        "unit": "none",
+        "maxSpan": "4 days"
+       },
+       {
+        "unit": "hour",
+        "maxSpan": "60 days"
+       },
+       {
+        "unit": "day"
+       }
+      ]
+     },
+     "y": {
+      "field": "tl",
+      "type": "quantitative",
+      "aggregate": "mean",
+      "axis": "left",
+      "title": "Air temp. (°C)",
+      "domain": [
+       -15,
+       40
+      ]
+     },
+     "tracks": [
+      {
+       "mark": "line",
+       "color": {
+        "value": "#c4620f"
+       }
+      },
+      {
+       "mark": "point",
+       "size": {
+        "value": 2
+       },
+       "color": {
+        "value": "#c4620f"
+       },
+       "tooltip": [
+        {
+         "field": "time",
+         "type": "temporal",
+         "alt": "Time (UTC)"
+        },
+        {
+         "field": "tl",
+         "type": "quantitative",
+         "alt": "Air temperature (°C)",
+         "format": ".1f"
+        }
+       ]
+      }
+     ],
+     "width": 1250,
+     "height": 220
+    },
+    {
+     "title": "Detail: precipitation (mm per 10 min; summed per hour/day when zoomed out); time in UTC",
+     "data": {
+      "type": "csv-time",
+      "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/geosphere_wien_10min_2020-2024.csv",
+      "dateFields": [
+       "time"
+      ]
+     },
+     "mark": "bar",
+     "x": {
+      "field": "time",
+      "type": "temporal",
+      "axis": "bottom",
+      "timeUnit": [
+       {
+        "unit": "none",
+        "maxSpan": "4 days"
+       },
+       {
+        "unit": "hour",
+        "maxSpan": "60 days"
+       },
+       {
+        "unit": "day"
+       }
+      ]
+     },
+     "y": {
+      "field": "rr",
+      "type": "quantitative",
+      "aggregate": "sum",
+      "axis": "left",
+      "title": "Precip. (mm)"
+     },
+     "color": {
+      "value": "#2c5d8f"
+     },
+     "tooltip": [
+      {
+       "field": "time",
+       "type": "temporal",
+       "alt": "Time (UTC)"
+      },
+      {
+       "field": "rr",
+       "type": "quantitative",
+       "alt": "Precipitation (mm)",
+       "format": ".1f"
+      }
+     ],
+     "width": 1250,
+     "height": 150
+    }
+   ]
+  }
+ ]
+}

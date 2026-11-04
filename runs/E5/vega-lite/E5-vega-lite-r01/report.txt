@@ -1,0 +1,19 @@
+REPORT
+deliverable: spec.vl.json
+requirements:
+  R1: done - overview of daily min–max band and daily mean tl, 2020–2024, aggregated inside the spec
+  R2: done - detail shows the raw 10-min tl line; points appear when the window is under 3 days; tooltips show each reading
+  R3: done - x-interval brush on the overview filters both detail panels and sets their x domain
+  R4: done - separate rr track (bars per 10-min interval) under tl, same x domain
+  R5: done - overview shows bold years and Apr/Jul/Oct; detail adapts from "Jul 2024" and "Tue 02 Jul" down to HH:MM
+  R6: done - full CSV loaded from the URL; aggregation happens only inside the overview view
+  R7: done - axes say °C, mm per 10 min and UTC; title plus a one-sentence caption (subtitle line 1)
+assumptions:
+  - The initial brush (1–8 Jul 2024) is a fixed starting view, not a data value; the reader moves or resizes it
+  - The rr value at time stamp t covers (t−10 min, t], so each bar spans that interval
+  - "Daily" in the overview means UTC calendar days
+limitations:
+  - A very wide brush (years) draws ~260k points in the detail line and is slow; panning is smooth for windows of days to weeks
+  - Very short brushes (hours) are only a few pixels wide in the overview and hard to see there
+  - The labelExpression setting is dropped on these temporal axes in VL 6.5, so labels are set through config.style labelExpr instead
+  - The caption is written text; the statistics behind it were checked against the data outside the spec, not computed in it

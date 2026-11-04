@@ -1,0 +1,20 @@
+REPORT
+deliverable: plot.R
+requirements:
+  R1: done - panel A shows daily mean line and min–max band for tl over 2020–2024
+  R2: done - panel C shows individual 10-min readings as points/bars; panel B shows one week at 10-min resolution
+  R3: partial - static output, so no interactive brushing; the linked range is set by select_range/zoom_range (default chosen from data) and drawn as a yellow band in the panel above
+  R4: done - rr is a separate bar track (mm/10 min) under tl in B and C, on the same x scale
+  R5: done - A: months/years; B: weekday + date; C: HH:MM with 10-min minor grid
+  R6: done - all 263,088 rows are loaded from the URL; aggregation to daily values for A happens in the script
+  R7: done - axes give °C, mm/10 min and Time (UTC); title plus a data-computed one-sentence caption
+assumptions:
+  - "Linked" in a static PNG/SVG means a shared range variable plus a highlighted region in the overview
+  - Default detail period: the week around the wettest 10-min reading; zoom = ±4 h around it
+  - Timestamps are parsed as UTC; the script checks that every stamp ends in +00:00
+  - Gaps are made explicit with tsibble::fill_gaps so lines break instead of bridging them
+limitations:
+  - ggtime 1.1.0 has no interactive brush or zoom; to look at another period, edit two variables at the top of plot.R
+  - Of ggtime's functions only geom_time_line is used; axes use ggplot2's scale_x_datetime (POSIXct UTC), not scale_x_mixtime
+  - Overview shows daily aggregates, not raw 10-min values; precipitation is not shown in the overview
+  - The caption's "12.2 °C drop" is the max minus the min temperature in the hour leading up to the peak rain reading (computed in the script)

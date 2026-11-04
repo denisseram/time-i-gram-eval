@@ -1,0 +1,134 @@
+{
+  "title": "Acute respiratory illness in Germany: does every year follow the same cycle?",
+  "subtitle": "Most years repeat one cycle (high Dec\u2013Mar, low in summer), but 2020\u201321 break it: incidence stayed low from spring 2020 to autumn 2021.",
+  "views": [
+    {
+      "tracks": [
+        {
+          "title": "Legend \u2192 colour = ARE consultations per 100,000 population per week (Source: RKI ARE-Praxis-Sentinel, CC BY 4.0)",
+          "data": {
+            "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+            "type": "csv-time",
+            "separator": "\t",
+            "dateFields": [
+              "Kalenderwoche"
+            ]
+          },
+          "dataTransform": [
+            {
+              "type": "filter",
+              "field": "Bundesland",
+              "oneOf": [
+                "Bundesweit"
+              ]
+            },
+            {
+              "type": "filter",
+              "field": "Altersgruppe",
+              "oneOf": [
+                "00+"
+              ]
+            },
+            {
+              "type": "span",
+              "field": "Kalenderwoche",
+              "duration": "1 week",
+              "newField": "weekEnd"
+            }
+          ],
+          "mark": "rect",
+          "x": {
+            "field": "Kalenderwoche",
+            "type": "temporal",
+            "period": {
+              "unit": "year",
+              "weekBased": true,
+              "newField": "year"
+            },
+            "axis": "none"
+          },
+          "xe": {
+            "field": "weekEnd",
+            "type": "temporal"
+          },
+          "color": {
+            "field": "ARE_Konsultationsinzidenz",
+            "type": "quantitative",
+            "legend": true,
+            "title": "per 100k/wk",
+            "range": "viridis"
+          },
+          "width": 1200,
+          "height": 90,
+          "opacity": {
+            "value": 0
+          }
+        },
+        {
+          "data": {
+            "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+            "type": "csv-time",
+            "separator": "\t",
+            "dateFields": [
+              "Kalenderwoche"
+            ]
+          },
+          "dataTransform": [
+            {
+              "type": "filter",
+              "field": "Bundesland",
+              "oneOf": [
+                "Bundesweit"
+              ]
+            },
+            {
+              "type": "filter",
+              "field": "Altersgruppe",
+              "oneOf": [
+                "00+"
+              ]
+            },
+            {
+              "type": "span",
+              "field": "Kalenderwoche",
+              "duration": "1 week",
+              "newField": "weekEnd"
+            }
+          ],
+          "mark": "rect",
+          "x": {
+            "field": "Kalenderwoche",
+            "type": "temporal",
+            "period": {
+              "unit": "year",
+              "weekBased": true,
+              "newField": "year"
+            },
+            "axis": "bottom"
+          },
+          "xe": {
+            "field": "weekEnd",
+            "type": "temporal"
+          },
+          "row": {
+            "field": "year",
+            "type": "nominal",
+            "legend": true,
+            "padding": 1.5
+          },
+          "color": {
+            "field": "ARE_Konsultationsinzidenz",
+            "type": "quantitative",
+            "legend": false,
+            "title": "ARE consultations per 100,000 per week",
+            "range": "viridis"
+          },
+          "width": 1200,
+          "height": 600
+        }
+      ],
+      "spacing": 0
+    }
+  ],
+  "spacing": 0
+}

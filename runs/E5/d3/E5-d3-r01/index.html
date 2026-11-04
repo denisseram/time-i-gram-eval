@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Wien Hohe Warte, 10-minute weather 2020–2024</title>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<style>
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; margin: 14px 24px; color: #222; background: #fff; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  #caption { font-size: 14px; color: #444; margin: 0 0 6px; max-width: 1300px; }
+  #status { font-size: 13px; color: #a33; }
+  .hint { font-size: 12px; color: #666; }
+  #chart { position: relative; }
+  #chart canvas { position: absolute; left: 0; top: 0; }
+  #chart svg { position: absolute; left: 0; top: 0; }
+  .axis text { font-size: 11px; fill: #444; }
+  .axis path, .axis line { stroke: #999; }
+  .grid line { stroke: #eee; }
+  .grid path { display: none; }
+  .label { font-size: 12px; fill: #333; }
+  .panel-title { font-size: 12px; font-weight: 600; fill: #333; }
+  #tip { position: absolute; pointer-events: none; background: rgba(255,255,255,.95); border: 1px solid #bbb; border-radius: 3px; padding: 4px 6px; font-size: 12px; display: none; white-space: nowrap; }
+  .source { font-size: 11px; color: #777; }
+</style>
+</head>
+<body>
+<h1>Air temperature and precipitation at Wien Hohe Warte, 10-minute readings, 2020–2024</h1>
+<p id="caption">Loading data…</p>
+<div class="hint">Drag in the overview to select a period; scroll/drag in the detail view to zoom and pan (down to single 10-minute readings). Double-click the detail to reset. <span id="status"></span></div>
+<div id="chart"></div>
+<div class="source">Data: GeoSphere Austria, klima-v2-10min, station 105 Wien Hohe Warte (CC BY 4.0). All times UTC.</div>
+<script>
+const URL_DATA = "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/geosphere_wien_10min_2020-2024.csv";
+
+const W = 1350, H = 760;
+const M = { l: 62, r: 20 };
+const iw = W - M.l - M.r;
+// vertical layout
+const ovTop = 30, ovH = 150;                 // overview
+const tlTop = ovTop + ovH + 70, tlH = 280;   // detail temperature
+const rrTop = tlTop + tlH + 28, rrH = 110;   // detail precipitation
+const dpr = window.devicePixelRatio || 1;
+
+function parseTime(s) {
+  // "YYYY-MM-DDTHH:MM+00:00" (also tolerates seconds)
+  const y = +s.slice(0, 4), mo = +s.slice(5, 7) - 1, d = +s.slice(8, 10),
+        h = +s.slice(11, 13), mi = +s.slice(14, 16);
+  let ms = Date.UTC(y, mo, d, h, mi);
+  const m = /([+-])(\d\d):?(\d\d)$/.exec(s);
+  if (m) ms -= (m[1] === "+" ? 1 : -1) * ((+m[2]) * 60 + (+m[3])) * 60000;
+  return ms;
+}
+
+d3.text(URL_DATA).then(text => {
+  const rows = d3.csvParse(text);
+  const n = rows.length;
+  const T = new Float64Array(n), TL = new Float64Array(n), RR = new Float64Array(n);
+  for (let i = 0; i < n; i++) {
+    const r = rows[i];
+    T[i] = parseTime(r.time);
+    TL[i] = r.tl === "" || r.tl == null ? NaN : +r.tl;
+    RR[i] = r.rr === "" || r.rr == null ? NaN : +r.rr;
+  }
+  // ensure sorted by time
+  let sorted = true;
+  for (let i = 1; i < n; i++) if (T[i] < T[i - 1]) { sorted = false; break; }
+  if (!sorted) {
+    const idx = d3.range(n).sort((a, b) => T[a] - T[b]);
+    const t2 = Float64Array.from(idx, i => T[i]), l2 = Float64Array.from(idx, i => TL[i]), r2 = Float64Array.from(idx, i => RR[i]);
+    T.set(t2); TL.set(l2); RR.set(r2);
+  }
+  build(T, TL, RR, n);
+}).catch(err => {
+  document.getElementById("status").textContent = "Failed to load data: " + err;
+  console.warn(err);
+});
+
+function build(T, TL, RR, n) {
+  // ---- daily aggregation for overview ----
+  const DAY = 86400000;
+  const days = [];
+  {
+    let cur = null;
+    for (let i = 0; i < n; i++) {
+      const d0 = Math.floor(T[i] / DAY) * DAY;
+      if (!cur || cur.t !== d0) { cur = { t: d0, min: Infinity, max: -Infinity, sum: 0, cnt: 0, rr: 0 }; days.push(cur); }
+      const v = TL[i];
+      if (!isNaN(v)) { if (v < cur.min) cur.min = v; if (v > cur.max) cur.max = v; cur.sum += v; cur.cnt++; }
+      if (!isNaN(RR[i])) cur.rr += RR[i];
+    }
+    days.forEach(d => d.mean = d.cnt ? d.sum / d.cnt : NaN);
+  }
+  const validDays = days.filter(d => d.cnt > 0);
+
+  // ---- stats for caption ----
+  let iMax = -1, iMin = -1, nMissT = 0, nMissR = 0;
+  for (let i = 0; i < n; i++) {
+    if (isNaN(TL[i])) { nMissT++; } else {
+      if (iMax < 0 || TL[i] > TL[iMax]) iMax = i;
+      if (iMin < 0 || TL[i] < TL[iMin]) iMin = i;
+    }
+    if (isNaN(RR[i])) nMissR++;
+  }
+  const monthly = d3.rollups(validDays, v => d3.mean(v, d => d.mean), d => new Date(d.t).getUTCMonth());
+  const mWarm = monthly.reduce((a, b) => b[1] > a[1] ? b : a), mCold = monthly.reduce((a, b) => b[1] < a[1] ? b : a);
+  const meanRange = d3.mean(validDays, d => d.max - d.min);
+  const fmtT = d3.utcFormat("%-d %b %Y %H:%M");
+  const monName = m => d3.utcFormat("%B")(new Date(Date.UTC(2000, m, 1)));
+  const f1 = d3.format(".1f");
+  document.getElementById("caption").textContent =
+    `Temperature follows a strong seasonal cycle — ${monName(mWarm[0])} averages ${f1(mWarm[1])} °C and ${monName(mCold[0])} ${f1(mCold[1])} °C — ` +
+    `overlaid by a day–night swing of ${f1(meanRange)} °C on average, while rain falls in short bursts ` +
+    `(extremes: ${f1(TL[iMax])} °C on ${fmtT(new Date(T[iMax]))}, ${f1(TL[iMin])} °C on ${fmtT(new Date(T[iMin]))} UTC; ${n.toLocaleString("en")} readings loaded).`;
+  if (nMissT || nMissR) document.getElementById("status").textContent = `Missing values: tl ${nMissT}, rr ${nMissR} (shown as gaps).`;
+
+  // ---- scales ----
+  const full = [T[0], T[n - 1]];
+  const xOv = d3.scaleUtc().domain(full).range([0, iw]);
+  const yOv = d3.scaleLinear().domain([d3.min(validDays, d => d.min), d3.max(validDays, d => d.max)]).nice().range([ovH, 0]);
+  const x = d3.scaleUtc().domain(full).range([0, iw]);
+  const x0 = x.copy();
+  const y = d3.scaleLinear().range([tlH, 0]);
+  const yR = d3.scaleLinear().range([rrH, 0]);
+
+  // ---- DOM ----
+  const chart = d3.select("#chart").style("width", W + "px").style("height", H + "px");
+  const canvas = chart.append("canvas").attr("width", W * dpr).attr("height", H * dpr).style("width", W + "px").style("height", H + "px");
+  const ctx = canvas.node().getContext("2d");
+  ctx.scale(dpr, dpr);
+  const svg = chart.append("svg").attr("width", W).attr("height", H);
+  const tip = chart.append("div").attr("id", "tip");
+
+  // overview (SVG)
+  const gO = svg.append("g").attr("transform", `translate(${M.l},${ovTop})`);
+  gO.append("text").attr("class", "panel-title").attr("y", -10).text("Overview 2020–2024: daily min–max range (band) and daily mean (line) of air temperature");
+  gO.append("g").attr("class", "grid").call(d3.axisLeft(yOv).ticks(5).tickSize(-iw).tickFormat(""));
+  gO.append("path").datum(validDays).attr("fill", "#f2b8a2").attr("opacity", 0.8)
+    .attr("d", d3.area().defined(d => d.cnt > 0).x(d => xOv(d.t + DAY / 2)).y0(d => yOv(d.min)).y1(d => yOv(d.max)));
+  gO.append("path").datum(days).attr("fill", "none").attr("stroke", "#b3401f").attr("stroke-width", 1)
+    .attr("d", d3.line().defined(d => d.cnt > 0).x(d => xOv(d.t + DAY / 2)).y(d => yOv(d.mean)));
+  gO.append("line").attr("x1", 0).attr("x2", iw).attr("y1", yOv(0)).attr("y2", yOv(0)).attr("stroke", "#888").attr("stroke-dasharray", "2,2");
+  // overview axes: years (major) and months (minor)
+  gO.append("g").attr("class", "axis").attr("transform", `translate(0,${ovH})`)
+    .call(d3.axisBottom(xOv).ticks(d3.utcMonth.every(3)).tickFormat(d => d.getUTCMonth() === 0 ? "" : d3.utcFormat("%b")(d)).tickSize(4));
+  gO.append("g").attr("class", "axis").attr("transform", `translate(0,${ovH + 16})`)
+    .call(d3.axisBottom(xOv).ticks(d3.utcYear.every(1)).tickFormat(d3.utcFormat("%Y")).tickSize(0))
+    .call(g => g.select(".domain").remove())
+    .call(g => g.selectAll("text").attr("font-weight", 600).attr("text-anchor", "start").attr("dx", 3));
+  gO.append("g").attr("class", "axis").attr("transform", `translate(0,0)`)
+    .call(d3.axisBottom(xOv).ticks(d3.utcYear.every(1)).tickSize(ovH).tickFormat(""))
+    .call(g => g.select(".domain").remove()).call(g => g.selectAll("line").attr("stroke", "#ccc"));
+  gO.append("g").attr("class", "axis").call(d3.axisLeft(yOv).ticks(5));
+  gO.append("text").attr("class", "label").attr("transform", "rotate(-90)").attr("x", -ovH / 2).attr("y", -44).attr("text-anchor", "middle").text("Air temp. (°C)");
+  gO.append("text").attr("class", "label").attr("x", iw).attr("y", ovH + 44).attr("text-anchor", "end").text("Time (UTC)");
+
+  // detail axes (SVG), plot on canvas
+  const gD = svg.append("g").attr("transform", `translate(${M.l},${tlTop})`);
+  const detTitle = gD.append("text").attr("class", "panel-title").attr("y", -10);
+  const gYgrid = gD.append("g").attr("class", "grid");
+  const gY = gD.append("g").attr("class", "axis");
+  const gX = gD.append("g").attr("class", "axis").attr("transform", `translate(0,${tlH})`);
+  gD.append("text").attr("class", "label").attr("transform", "rotate(-90)").attr("x", -tlH / 2).attr("y", -44).attr("text-anchor", "middle").text("Air temperature 2 m (°C)");
+  const gR = svg.append("g").attr("transform", `translate(${M.l},${rrTop})`);
+  const gRgrid = gR.append("g").attr("class", "grid");
+  const gRY = gR.append("g").attr("class", "axis");
+  const gRX = gR.append("g").attr("class", "axis").attr("transform", `translate(0,${rrH})`);
+  gR.append("text").attr("class", "label").attr("transform", "rotate(-90)").attr("x", -rrH / 2).attr("y", -44).attr("text-anchor", "middle").text("Precip. (mm / 10 min)");
+  gR.append("text").attr("class", "label").attr("x", iw).attr("y", rrH + 34).attr("text-anchor", "end").text("Time (UTC)");
+  const rrNote = gR.append("text").attr("class", "label").attr("x", 4).attr("y", 10).attr("fill", "#555").style("font-size", "11px");
+
+  const hover = gD.append("line").attr("y1", 0).attr("y2", rrTop - tlTop + rrH).attr("stroke", "#555").attr("stroke-dasharray", "3,3").style("display", "none");
+
+  // ---- index helpers ----
+  const bisect = t => { let lo = 0, hi = n; while (lo < hi) { const m = (lo + hi) >> 1; if (T[m] < t) lo = m + 1; else hi = m; } return lo; };
+
+  // detail multi-scale tick format (UTC)
+  const fmtDetail = d => {
+    const f = d3.utcMinute(d) < d ? "%H:%M:%S" : d3.utcHour(d) < d ? "%H:%M" : d3.utcDay(d) < d ? "%H:%M"
+      : d3.utcMonth(d) < d ? "%-d %b" : d3.utcYear(d) < d ? "%b %Y" : "%Y";
+    return d3.utcFormat(f)(d);
+  };
+  const fmtSpan = d3.utcFormat("%-d %b %Y %H:%M");
+
+  function draw() {
+    const [t0, t1] = x.domain().map(Number);
+    const i0 = Math.max(0, bisect(t0) - 1), i1 = Math.min(n, bisect(t1) + 1);
+    const cnt = i1 - i0, cntVis = bisect(t1 + 1) - bisect(t0);
+    const perPx = cnt / iw;
+    // bins (per pixel) or raw
+    let tMin = Infinity, tMax = -Infinity, rMax = 0;
+    for (let i = i0; i < i1; i++) {
+      const v = TL[i]; if (!isNaN(v)) { if (v < tMin) tMin = v; if (v > tMax) tMax = v; }
+      const r = RR[i]; if (r > rMax) rMax = r;
+    }
+    if (!isFinite(tMin)) { tMin = 0; tMax = 1; }
+    if (tMax - tMin < 2) { const c = (tMin + tMax) / 2; tMin = c - 1; tMax = c + 1; }
+    y.domain([tMin, tMax]).nice();
+    yR.domain([0, Math.max(0.5, rMax)]).nice();
+
+    const spanH = (t1 - t0) / 3600000;
+    detTitle.text(`Detail: ${fmtSpan(new Date(t0))} – ${fmtSpan(new Date(t1))} UTC  ·  ${cntVis.toLocaleString("en")} readings` +
+      (perPx > 1.5 ? "  ·  shown as min–max per pixel column; zoom in for single readings" : "  ·  individual 10-minute readings"));
+
+    gYgrid.call(d3.axisLeft(y).ticks(6).tickSize(-iw).tickFormat(""));
+    gY.call(d3.axisLeft(y).ticks(6));
+    gX.call(d3.axisBottom(x).ticks(10).tickFormat(fmtDetail));
+    gRgrid.call(d3.axisLeft(yR).ticks(3).tickSize(-iw).tickFormat(""));
+    gRY.call(d3.axisLeft(yR).ticks(3));
+    gRX.call(d3.axisBottom(x).ticks(10).tickFormat(fmtDetail));
+
+    ctx.clearRect(0, 0, W, H);
+    ctx.save();
+    ctx.beginPath(); ctx.rect(M.l, tlTop, iw, rrTop + rrH - tlTop); ctx.clip();
+
+    if (perPx > 1.5) {
+      // per-pixel min/max envelope for tl, max for rr
+      const cols = Math.ceil(iw);
+      const mn = new Float64Array(cols).fill(Infinity), mx = new Float64Array(cols).fill(-Infinity),
+            sm = new Float64Array(cols), cn = new Uint32Array(cols), rm = new Float64Array(cols);
+      for (let i = i0; i < i1; i++) {
+        const c = Math.floor(x(T[i])); if (c < 0 || c >= cols) continue;
+        const v = TL[i]; if (!isNaN(v)) { if (v < mn[c]) mn[c] = v; if (v > mx[c]) mx[c] = v; sm[c] += v; cn[c]++; }
+        if (RR[i] > rm[c]) rm[c] = RR[i];
+      }
+      ctx.fillStyle = "rgba(214,96,60,0.45)";
+      for (let c = 0; c < cols; c++) if (cn[c]) {
+        const ya = tlTop + y(mx[c]), yb = tlTop + y(mn[c]);
+        ctx.fillRect(M.l + c, ya, 1, Math.max(1, yb - ya));
+      }
+      ctx.strokeStyle = "#a8361a"; ctx.lineWidth = 1; ctx.beginPath();
+      let pen = false;
+      for (let c = 0; c < cols; c++) {
+        if (!cn[c]) { pen = false; continue; }
+        const px = M.l + c + 0.5, py = tlTop + y(sm[c] / cn[c]);
+        if (pen) ctx.lineTo(px, py); else { ctx.moveTo(px, py); pen = true; }
+      }
+      if (perPx < 40) ctx.stroke();
+      ctx.fillStyle = "#2b6cb0";
+      for (let c = 0; c < cols; c++) if (rm[c] > 0) {
+        const yy = rrTop + yR(rm[c]); ctx.fillRect(M.l + c, yy, 1, rrTop + rrH - yy);
+      }
+      rrNote.text("bars: maximum 10-min precipitation per pixel column");
+    } else {
+      // raw 10-minute readings
+      ctx.strokeStyle = "#c0461f"; ctx.lineWidth = 1.5; ctx.beginPath();
+      let pen = false, prevT = null;
+      for (let i = i0; i < i1; i++) {
+        const v = TL[i];
+        if (isNaN(v) || (prevT !== null && T[i] - prevT > 600000 * 1.5)) pen = false;
+        prevT = T[i];
+        if (isNaN(v)) continue;
+        const px = M.l + x(T[i]), py = tlTop + y(v);
+        if (pen) ctx.lineTo(px, py); else { ctx.moveTo(px, py); pen = true; }
+      }
+      ctx.stroke();
+      const pxStep = iw / Math.max(1, cnt);
+      if (pxStep > 3) {
+        ctx.fillStyle = "#c0461f";
+        const rad = Math.min(3.5, pxStep / 3);
+        for (let i = i0; i < i1; i++) if (!isNaN(TL[i])) {
+          ctx.beginPath(); ctx.arc(M.l + x(T[i]), tlTop + y(TL[i]), rad, 0, 2 * Math.PI); ctx.fill();
+        }
+      }
+      ctx.fillStyle = "#2b6cb0";
+      const bw = Math.max(1, x(T[0] + 600000) - x(T[0]) - (pxStep > 4 ? 1 : 0));
+      for (let i = i0; i < i1; i++) if (RR[i] > 0) {
+        // value covers the 10-min interval ending at the time stamp
+        const xa = M.l + x(T[i] - 600000), yy = rrTop + yR(RR[i]);
+        ctx.fillRect(xa, yy, bw, rrTop + rrH - yy);
+      }
+      rrNote.text("bars: 10-min precipitation sum (interval ending at time stamp)");
+    }
+    ctx.restore();
+  }
+
+  // ---- brush (overview) and zoom (detail), linked ----
+  let syncing = false;
+  const brush = d3.brushX().extent([[0, 0], [iw, ovH]]).on("brush end", ev => {
+    if (syncing) return;
+    const s = ev.selection || [0, iw];
+    const dom = s.map(xOv.invert);
+    if (!ev.selection && ev.type === "end") { setZoomFromDomain(full); return; }
+    setZoomFromDomain(dom);
+  });
+  const gBrush = gO.append("g").attr("class", "brush").call(brush);
+
+  const MINSPAN = 2 * 3600000; // 2 hours → ~12 readings across the width
+  const kMax = (full[1] - full[0]) / MINSPAN;
+  const zoom = d3.zoom().scaleExtent([1, kMax]).extent([[0, 0], [iw, H]]).translateExtent([[0, 0], [iw, H]])
+    .on("zoom", ev => {
+      x.domain(ev.transform.rescaleX(x0).domain());
+      draw();
+      if (!syncing && ev.sourceEvent) {
+        syncing = true;
+        gBrush.call(brush.move, x.domain().map(xOv));
+        syncing = false;
+      }
+    });
+  const zoomRect = svg.append("rect").attr("x", M.l).attr("y", tlTop).attr("width", iw).attr("height", rrTop + rrH - tlTop)
+    .attr("fill", "transparent").style("cursor", "grab").call(zoom).on("dblclick.zoom", null)
+    .on("dblclick", () => { gBrush.call(brush.move, null); });
+
+  function setZoomFromDomain(dom) {
+    const [a, b] = dom.map(Number);
+    const k = Math.min(kMax, (full[1] - full[0]) / Math.max(1, b - a));
+    const tr = d3.zoomIdentity.scale(k).translate(-x0(a), 0);
+    syncing = true;
+    zoomRect.call(zoom.transform, tr);
+    syncing = false;
+  }
+
+  // tooltip on detail
+  zoomRect.on("mousemove", ev => {
+    const [mx] = d3.pointer(ev, gD.node());
+    const t = x.invert(mx).getTime();
+    let i = bisect(t); if (i >= n) i = n - 1; if (i > 0 && Math.abs(T[i - 1] - t) < Math.abs(T[i] - t)) i--;
+    const span = x.domain()[1] - x.domain()[0];
+    hover.style("display", null).attr("x1", x(T[i])).attr("x2", x(T[i]));
+    const fmtNum = v => isNaN(v) ? "missing" : f1(v);
+    tip.style("display", "block").style("left", (M.l + mx + 12) + "px").style("top", (tlTop + 10) + "px")
+      .html(`<b>${d3.utcFormat("%a %-d %b %Y %H:%M")(new Date(T[i]))} UTC</b><br>tl: ${fmtNum(TL[i])} °C<br>rr: ${isNaN(RR[i]) ? "missing" : d3.format(".2f")(RR[i])} mm / 10 min` +
+        (span > 7 * DAY ? "<br><span style='color:#777'>nearest reading; zoom in to see all</span>" : ""));
+  }).on("mouseleave", () => { hover.style("display", "none"); tip.style("display", "none"); });
+
+  // initial selection: last 14 days of the record (computed from data)
+  const initEnd = T[n - 1], initStart = initEnd - 14 * DAY;
+  gBrush.call(brush.move, [xOv(initStart), xOv(initEnd)]);
+}
+</script>
+</body>
+</html>

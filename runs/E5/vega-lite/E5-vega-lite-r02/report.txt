@@ -1,0 +1,19 @@
+REPORT
+deliverable: spec.vl.json
+requirements:
+  R1: done - daily mean line + daily min–max band of tl, 2020–2024, aggregated in-spec
+  R2: done - detail line+points at every 10-min reading inside the brushed range
+  R3: done - interval brush on overview sets x-domain and filter of both detail tracks
+  R4: done - separate rr track (mm per 10 min) below tl, same brushed UTC x-domain
+  R5: done - overview "%b %Y" labels; detail uses automatic UTC multi-format (days → hours → minutes)
+  R6: done - full CSV loaded from URL; aggregation only in the overview transform
+  R7: done - axes in °C, mm per 10 min, UTC; title + one-sentence caption (subtitle)
+assumptions:
+  - Time stamp marks the end of the 10-min interval; rr bars span [time−10 min, time]
+  - The initial brush (8–15 Jul 2024) is a view choice, not a data value; the reader can move it
+  - Overview uses daily aggregation (mean, min, max) to keep the 5-year view readable
+  - Caption describes the visible qualitative pattern (annual cycle, diurnal swing, short rain bursts) without numbers
+limitations:
+  - Brushing a multi-year range in the detail view draws up to ~263k points and is slow
+  - Only intervals with rr > 0 are drawn as bars; zero-rain intervals are blank
+  - Empty fields (missing values) are skipped in the aggregates and are not flagged visually

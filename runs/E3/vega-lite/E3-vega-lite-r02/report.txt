@@ -1,0 +1,21 @@
+REPORT
+deliverable: spec.vl.json
+requirements:
+  R1: done - x/y computed from angle = 2π(week-1)/weeks-in-ISO-year, W1 at top, clockwise; radius = incidence
+  R2: done - one line per ISO year, colour (turbo scheme) + "ISO year" legend
+  R3: done - max week per Saison marked with outlined point + season label (also marked in linear view)
+  R4: done - line of full series 2012-W40 to 2026-W43 on UTC time axis
+  R5: done - x-interval brush in linear view; circle shows selected weeks in colour, rest grey; peak markers dimmed
+  R6: done - W1, W5, … labels around circle, value rings 1,000–4,000 "per 100,000 / week", year ticks + titled y axis
+  R7: done - title + one-sentence caption (subtitle), plus source line
+assumptions:
+  - Date of an ISO week = its Monday, computed in UTC inside the spec
+  - Angle uses 52 or 53 weeks according to the ISO year, so each year makes one full turn
+  - Radius has an inner hole (0 = 12% of the radius) so low values stay readable; ring scale max = max value rounded up to the next 1,000
+  - Peak colour = the ISO year of the peak week; ties would mark all tied weeks
+  - With no brush, all years are shown in colour
+limitations:
+  - 2026/27 is incomplete (to 2026-W43); its "peak" is marked with a triangle as "season in progress"
+  - Lines are not joined across the year boundary (W52/53 → W1), so each ring has a small gap at the top
+  - Season labels near the February cluster overlap; the tooltips give the exact season and week
+  - Before 2020 the caption's pattern is clear; after 2020 the peak timing varies (W50 to W12, and W39 in 2020/21)

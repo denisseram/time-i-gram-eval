@@ -1,0 +1,1377 @@
+{
+ "title": "Do Ubuntu releases follow the same life cycle once aligned on their release date?",
+ "subtitle": "Interim releases end 9 months after release (18 up to 12.10); every LTS since 14.04 shares one 15-year cycle: 5 y standard, 5 y ESM, 5 y legacy.",
+ "arrangement": "vertical",
+ "spacing": 18,
+ "views": [
+  {
+   "spacing": 0,
+   "tracks": [
+    {
+     "title": "LTS releases, one row each by release date",
+     "alignment": "overlay",
+     "data": {
+      "type": "csv-time",
+      "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+      "interval": [
+       "created",
+       "release",
+       "eol",
+       "eol-server",
+       "eol-esm",
+       "eol-legacy"
+      ]
+     },
+     "tracks": [
+      {
+       "mark": "rect",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "field": "created"
+       },
+       "xe": {
+        "field": "release",
+        "type": "temporal"
+       },
+       "color": {
+        "value": "#bab0ac"
+       },
+       "style": {
+        "legendLabel": "Development"
+       }
+      },
+      {
+       "mark": "rect",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "field": "release"
+       },
+       "xe": {
+        "field": "eol",
+        "type": "temporal"
+       },
+       "color": {
+        "value": "#4e79a7"
+       },
+       "style": {
+        "legendLabel": "Standard support"
+       }
+      },
+      {
+       "mark": "rect",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "field": "eol"
+       },
+       "xe": {
+        "field": "eol-server",
+        "type": "temporal"
+       },
+       "color": {
+        "value": "#59a14f"
+       },
+       "style": {
+        "legendLabel": "Extended server support"
+       }
+      },
+      {
+       "mark": "rect",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "field": "eol-server"
+       },
+       "xe": {
+        "field": "eol-esm",
+        "type": "temporal"
+       },
+       "color": {
+        "value": "#f28e2b"
+       },
+       "style": {
+        "legendLabel": "ESM"
+       }
+      },
+      {
+       "mark": "rect",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "field": "eol-esm"
+       },
+       "xe": {
+        "field": "eol-legacy",
+        "type": "temporal"
+       },
+       "color": {
+        "value": "#e15759"
+       },
+       "style": {
+        "legendLabel": "Legacy add-on"
+       }
+      },
+      {
+       "mark": "triangleRight",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "field": "created"
+       },
+       "color": {
+        "value": "#222"
+       },
+       "style": {
+        "legendLabel": "Created (start of development)"
+       }
+      },
+      {
+       "mark": "point",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "field": "release"
+       },
+       "color": {
+        "value": "#000"
+       },
+       "style": {
+        "legendLabel": "Release"
+       }
+      }
+     ],
+     "width": 1150,
+     "height": 24
+    },
+    {
+     "alignment": "overlay",
+     "data": {
+      "type": "csv-time",
+      "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+      "interval": [
+       "created",
+       "release",
+       "eol",
+       "eol-server",
+       "eol-esm",
+       "eol-legacy"
+      ]
+     },
+     "x": {
+      "type": "temporal",
+      "relative": {
+       "anchor": {
+        "field": "release"
+       },
+       "unit": "year",
+       "label": "the release"
+      },
+      "domain": {
+       "interval": [
+        "-1.5 years",
+        "16 years"
+       ]
+      },
+      "axis": "bottom",
+      "field": "release"
+     },
+     "row": {
+      "field": "version",
+      "type": "nominal"
+     },
+     "tracks": [
+      {
+       "mark": "rect",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "created",
+         "oneOf": [
+          ""
+         ],
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "release",
+         "oneOf": [
+          ""
+         ],
+         "not": true
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "field": "created"
+       },
+       "xe": {
+        "field": "release",
+        "type": "temporal"
+       },
+       "row": {
+        "field": "version",
+        "type": "nominal",
+        "legend": true
+       },
+       "color": {
+        "value": "#bab0ac"
+       },
+       "size": {
+        "value": 9
+       }
+      },
+      {
+       "mark": "rect",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "release",
+         "oneOf": [
+          ""
+         ],
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "eol",
+         "oneOf": [
+          ""
+         ],
+         "not": true
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "field": "release"
+       },
+       "xe": {
+        "field": "eol",
+        "type": "temporal"
+       },
+       "row": {
+        "field": "version",
+        "type": "nominal",
+        "legend": false
+       },
+       "color": {
+        "value": "#4e79a7"
+       },
+       "size": {
+        "value": 9
+       }
+      },
+      {
+       "mark": "rect",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "eol",
+         "oneOf": [
+          ""
+         ],
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "eol-server",
+         "oneOf": [
+          ""
+         ],
+         "not": true
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "field": "eol"
+       },
+       "xe": {
+        "field": "eol-server",
+        "type": "temporal"
+       },
+       "row": {
+        "field": "version",
+        "type": "nominal",
+        "legend": false
+       },
+       "color": {
+        "value": "#59a14f"
+       },
+       "size": {
+        "value": 9
+       }
+      },
+      {
+       "mark": "rect",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "eol-server",
+         "oneOf": [
+          ""
+         ],
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "eol-esm",
+         "oneOf": [
+          ""
+         ],
+         "not": true
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "field": "eol-server"
+       },
+       "xe": {
+        "field": "eol-esm",
+        "type": "temporal"
+       },
+       "row": {
+        "field": "version",
+        "type": "nominal",
+        "legend": false
+       },
+       "color": {
+        "value": "#f28e2b"
+       },
+       "size": {
+        "value": 9
+       }
+      },
+      {
+       "mark": "rect",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "eol-esm",
+         "oneOf": [
+          ""
+         ],
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "eol-legacy",
+         "oneOf": [
+          ""
+         ],
+         "not": true
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "field": "eol-esm"
+       },
+       "xe": {
+        "field": "eol-legacy",
+        "type": "temporal"
+       },
+       "row": {
+        "field": "version",
+        "type": "nominal",
+        "legend": false
+       },
+       "color": {
+        "value": "#e15759"
+       },
+       "size": {
+        "value": 9
+       }
+      },
+      {
+       "mark": "triangleRight",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": true
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "field": "created"
+       },
+       "row": {
+        "field": "version",
+        "type": "nominal"
+       },
+       "color": {
+        "value": "#333"
+       },
+       "size": {
+        "value": 7
+       },
+       "stroke": {
+        "value": "white"
+       },
+       "strokeWidth": {
+        "value": 0.5
+       }
+      },
+      {
+       "mark": "point",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": true
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "field": "release"
+       },
+       "row": {
+        "field": "version",
+        "type": "nominal"
+       },
+       "color": {
+        "value": "#000"
+       },
+       "size": {
+        "value": 4
+       },
+       "stroke": {
+        "value": "white"
+       },
+       "strokeWidth": {
+        "value": 0.5
+       }
+      }
+     ],
+     "width": 1150,
+     "height": 210
+    }
+   ]
+  },
+  {
+   "spacing": 0,
+   "tracks": [
+    {
+     "title": "Interim releases, one row each by release date",
+     "alignment": "overlay",
+     "data": {
+      "type": "csv-time",
+      "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+      "interval": [
+       "created",
+       "release",
+       "eol",
+       "eol-server",
+       "eol-esm",
+       "eol-legacy"
+      ]
+     },
+     "tracks": [
+      {
+       "mark": "rect",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "field": "created"
+       },
+       "xe": {
+        "field": "release",
+        "type": "temporal"
+       },
+       "color": {
+        "value": "#bab0ac"
+       }
+      },
+      {
+       "mark": "rect",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "field": "release"
+       },
+       "xe": {
+        "field": "eol",
+        "type": "temporal"
+       },
+       "color": {
+        "value": "#4e79a7"
+       }
+      },
+      {
+       "mark": "rect",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "field": "eol"
+       },
+       "xe": {
+        "field": "eol-server",
+        "type": "temporal"
+       },
+       "color": {
+        "value": "#59a14f"
+       }
+      },
+      {
+       "mark": "rect",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "field": "eol-server"
+       },
+       "xe": {
+        "field": "eol-esm",
+        "type": "temporal"
+       },
+       "color": {
+        "value": "#f28e2b"
+       }
+      },
+      {
+       "mark": "rect",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "field": "eol-esm"
+       },
+       "xe": {
+        "field": "eol-legacy",
+        "type": "temporal"
+       },
+       "color": {
+        "value": "#e15759"
+       }
+      }
+     ],
+     "width": 1150,
+     "height": 24
+    },
+    {
+     "alignment": "overlay",
+     "data": {
+      "type": "csv-time",
+      "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+      "interval": [
+       "created",
+       "release",
+       "eol",
+       "eol-server",
+       "eol-esm",
+       "eol-legacy"
+      ]
+     },
+     "x": {
+      "type": "temporal",
+      "relative": {
+       "anchor": {
+        "field": "release"
+       },
+       "unit": "year",
+       "label": "the release"
+      },
+      "domain": {
+       "interval": [
+        "-1.5 years",
+        "16 years"
+       ]
+      },
+      "axis": "bottom",
+      "field": "release"
+     },
+     "row": {
+      "field": "version",
+      "type": "nominal"
+     },
+     "tracks": [
+      {
+       "mark": "rect",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": false
+        },
+        {
+         "type": "filter",
+         "field": "created",
+         "oneOf": [
+          ""
+         ],
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "release",
+         "oneOf": [
+          ""
+         ],
+         "not": true
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "field": "created"
+       },
+       "xe": {
+        "field": "release",
+        "type": "temporal"
+       },
+       "row": {
+        "field": "version",
+        "type": "nominal",
+        "legend": true
+       },
+       "color": {
+        "value": "#bab0ac"
+       },
+       "size": {
+        "value": 8
+       }
+      },
+      {
+       "mark": "rect",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": false
+        },
+        {
+         "type": "filter",
+         "field": "release",
+         "oneOf": [
+          ""
+         ],
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "eol",
+         "oneOf": [
+          ""
+         ],
+         "not": true
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "field": "release"
+       },
+       "xe": {
+        "field": "eol",
+        "type": "temporal"
+       },
+       "row": {
+        "field": "version",
+        "type": "nominal",
+        "legend": false
+       },
+       "color": {
+        "value": "#4e79a7"
+       },
+       "size": {
+        "value": 8
+       }
+      },
+      {
+       "mark": "rect",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": false
+        },
+        {
+         "type": "filter",
+         "field": "eol",
+         "oneOf": [
+          ""
+         ],
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "eol-server",
+         "oneOf": [
+          ""
+         ],
+         "not": true
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "field": "eol"
+       },
+       "xe": {
+        "field": "eol-server",
+        "type": "temporal"
+       },
+       "row": {
+        "field": "version",
+        "type": "nominal",
+        "legend": false
+       },
+       "color": {
+        "value": "#59a14f"
+       },
+       "size": {
+        "value": 8
+       }
+      },
+      {
+       "mark": "rect",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": false
+        },
+        {
+         "type": "filter",
+         "field": "eol-server",
+         "oneOf": [
+          ""
+         ],
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "eol-esm",
+         "oneOf": [
+          ""
+         ],
+         "not": true
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "field": "eol-server"
+       },
+       "xe": {
+        "field": "eol-esm",
+        "type": "temporal"
+       },
+       "row": {
+        "field": "version",
+        "type": "nominal",
+        "legend": false
+       },
+       "color": {
+        "value": "#f28e2b"
+       },
+       "size": {
+        "value": 8
+       }
+      },
+      {
+       "mark": "rect",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": false
+        },
+        {
+         "type": "filter",
+         "field": "eol-esm",
+         "oneOf": [
+          ""
+         ],
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "eol-legacy",
+         "oneOf": [
+          ""
+         ],
+         "not": true
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "field": "eol-esm"
+       },
+       "xe": {
+        "field": "eol-legacy",
+        "type": "temporal"
+       },
+       "row": {
+        "field": "version",
+        "type": "nominal",
+        "legend": false
+       },
+       "color": {
+        "value": "#e15759"
+       },
+       "size": {
+        "value": 8
+       }
+      },
+      {
+       "mark": "triangleRight",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": false
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "field": "created"
+       },
+       "row": {
+        "field": "version",
+        "type": "nominal"
+       },
+       "color": {
+        "value": "#333"
+       },
+       "size": {
+        "value": 7
+       },
+       "stroke": {
+        "value": "white"
+       },
+       "strokeWidth": {
+        "value": 0.5
+       }
+      },
+      {
+       "mark": "point",
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": false
+        }
+       ],
+       "x": {
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "the release"
+        },
+        "domain": {
+         "interval": [
+          "-1.5 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "field": "release"
+       },
+       "row": {
+        "field": "version",
+        "type": "nominal"
+       },
+       "color": {
+        "value": "#000"
+       },
+       "size": {
+        "value": 4
+       },
+       "stroke": {
+        "value": "white"
+       },
+       "strokeWidth": {
+        "value": 0.5
+       }
+      }
+     ],
+     "width": 1150,
+     "height": 400
+    }
+   ]
+  }
+ ]
+}

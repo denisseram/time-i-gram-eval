@@ -1,0 +1,19 @@
+REPORT
+deliverable: spec.json
+requirements:
+  R1: done - csv-time loaded from URL; x.timeUnit "month" + color aggregate "mean", grouped by depth (row)
+  R2: done - xDomain 2018-02 to 2025-12, one rect per month
+  R3: done - months with no rows produce no rect (white cells); checked against the data
+  R4: done - row labels 2,5,10,15,20,30,40 in depth order via row domain; track title says "sensor depth (m)"
+  R5: done - colour legend titled "°C"; separate header track says "monthly mean water temperature (°C)"
+  R6: done - title plus one-sentence subtitle as caption
+assumptions:
+  - "Monthly mean" = mean of the daily means of the rows in each calendar month (UTC)
+  - Edge months (Feb 2018 from the 20th, Dec 2025 to the 6th) are averaged from the days present
+  - Rows with an empty or non-numeric temperature are dropped by a range filter (-50 to 100 °C)
+  - Heatmap (depth × month) chosen over 7 line charts so that gaps read as empty cells
+limitations:
+  - The legend is drawn by a second, invisible copy of the track (opacity 0) placed above the heatmap so it doesn't cover data cells; its scale matches the main track because both have the same encoding
+  - Row labels show numbers without "m"; the unit is given in the track title
+  - Colour scale is viridis on the data extent; small differences between months are hard to read exactly (tooltips give values)
+  - The renderer prints Gosling console warnings ("unknown data type", "No dataConfig children…"); no errors

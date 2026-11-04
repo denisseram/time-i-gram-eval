@@ -1,0 +1,18 @@
+REPORT
+deliverable: index.html
+requirements:
+  R1: done - monthly mean of daily means per depth (d3.rollup), shown as heatmap cells
+  R2: done - one column per month, Feb 2018 to Dec 2025, with year labels and quarterly month ticks
+  R3: done - a depth-month with no daily rows is drawn as a hatched "no data" cell, never filled in
+  R4: done - rows labelled "2 m" to "40 m", ordered by depth
+  R5: done - colour legend titled "Monthly mean temperature (°C)", ticks in °C
+  R6: done - title plus a one-sentence caption whose numbers are computed from the data
+assumptions:
+  - Monthly mean = unweighted mean of that month's daily means (not weighted by n_obs)
+  - A month with at least one daily value counts as having data, so partial months are shown
+  - The time range comes from the first and last dates in the data
+  - Colour scale (blue to red) spans the full range of the monthly means
+limitations:
+  - Cells from partly covered months look the same as full months; the tooltip shows the day count
+  - "Peak month by depth" in the caption is the warmest calendar month averaged over all years
+  - Exact values are only shown in the hover tooltip

@@ -1,0 +1,135 @@
+{
+  "title": "Monthly mean water temperature by sensor depth, Birchy Head, Nova Scotia (2018–2025)",
+  "subtitle": "Every depth warms in late summer and cools in late winter; shallow water (2–10 m) swings much more each year than deep water (30–40 m). White cells: no data.",
+  "xDomain": {
+    "interval": [
+      "2018-02",
+      "2025-12"
+    ]
+  },
+  "tracks": [
+    {
+      "title": "Colour: monthly mean water temperature (°C)",
+      "data": {
+        "type": "csv-time",
+        "url": "https://raw.githubusercontent.com/rfordatascience/tidytuesday/6753376ef104727ef0ca3e3db6f2ca580c0d5a7b/data/2026/2026-03-31/ocean_temperature.csv",
+        "dateFields": [
+          "date"
+        ]
+      },
+      "dataTransform": [
+        {
+          "type": "filter",
+          "field": "mean_temperature_degree_c",
+          "inRange": [
+            -50,
+            100
+          ]
+        }
+      ],
+      "mark": "rect",
+      "x": {
+        "field": "date",
+        "type": "temporal",
+        "timeUnit": "month",
+        "axis": "none"
+      },
+      "color": {
+        "field": "mean_temperature_degree_c",
+        "type": "quantitative",
+        "aggregate": "mean",
+        "range": "viridis",
+        "legend": true,
+        "title": "°C"
+      },
+      "width": 1250,
+      "height": 100,
+      "opacity": {
+        "value": 0
+      },
+      "row": {
+        "field": "sensor_depth_at_low_tide_m",
+        "type": "nominal",
+        "domain": [
+          "2",
+          "5",
+          "10",
+          "15",
+          "20",
+          "30",
+          "40"
+        ],
+        "legend": false
+      }
+    },
+    {
+      "title": "Rows: sensor depth at low tide, 2 m (top) to 40 m (bottom); source: CMAR Coastal Monitoring Program",
+      "data": {
+        "type": "csv-time",
+        "url": "https://raw.githubusercontent.com/rfordatascience/tidytuesday/6753376ef104727ef0ca3e3db6f2ca580c0d5a7b/data/2026/2026-03-31/ocean_temperature.csv",
+        "dateFields": [
+          "date"
+        ]
+      },
+      "dataTransform": [
+        {
+          "type": "filter",
+          "field": "mean_temperature_degree_c",
+          "inRange": [
+            -50,
+            100
+          ]
+        }
+      ],
+      "mark": "rect",
+      "x": {
+        "field": "date",
+        "type": "temporal",
+        "timeUnit": "month",
+        "axis": "bottom"
+      },
+      "row": {
+        "field": "sensor_depth_at_low_tide_m",
+        "type": "nominal",
+        "domain": [
+          "2",
+          "5",
+          "10",
+          "15",
+          "20",
+          "30",
+          "40"
+        ],
+        "legend": true
+      },
+      "color": {
+        "field": "mean_temperature_degree_c",
+        "type": "quantitative",
+        "aggregate": "mean",
+        "range": "viridis",
+        "legend": false,
+        "title": "°C"
+      },
+      "tooltip": [
+        {
+          "field": "date",
+          "type": "temporal",
+          "alt": "Month"
+        },
+        {
+          "field": "sensor_depth_at_low_tide_m",
+          "type": "nominal",
+          "alt": "Depth (m)"
+        },
+        {
+          "field": "mean_temperature_degree_c",
+          "type": "quantitative",
+          "alt": "Mean °C",
+          "format": ".1f"
+        }
+      ],
+      "width": 1250,
+      "height": 500
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+REPORT
+deliverable: plot.R
+requirements:
+  R1: done - mean of daily means per depth per month (tsibble yearmonth + dplyr), all 7 depths shown as rows
+  R2: done - fill_gaps(.full = TRUE) gives a full monthly grid Feb 2018–Dec 2025; ggtime scale_x_mixtime with yearly breaks
+  R3: done - depth-months with no data are explicit NA tiles in light grey, explained in the subtitle
+  R4: done - y-axis labels "2 m" … "40 m" in depth order, shallowest at the top
+  R5: done - colour legend titled "Monthly mean temperature (°C)"
+  R6: done - title plus a one-sentence caption with numbers computed from the data
+assumptions:
+  - monthly mean = unweighted mean of the daily means (not weighted by n_obs)
+  - a month counts as having data if it has at least one daily row for that depth
+  - caption "seasonal range" = max minus min of the month-of-year averages per depth over all years
+limitations:
+  - tsibble yearmonth crashes scale_x_mixtime, so the x variable is converted to mixtime::yearmonth for plotting
+  - months with only a few days of data look the same as complete months
+  - ggtime places the year labels at the middle of each year rather than at January
+  - read_csv prints a harmless note that the curl package is missing and falls back to url()

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "title": {
+    "text": "Acute respiratory illness in Germany: weekly doctor consultations by ISO year and week",
+    "subtitle": "Most years repeat the same cycle (high in winter, low in summer, dip at the Christmas week 52), but early 2021 had no winter wave and 2022 peaked unusually early, in December.",
+    "anchor": "start",
+    "fontSize": 18,
+    "subtitleFontSize": 13,
+    "subtitleColor": "#444"
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+    "format": {"type": "tsv", "parse": {"ARE_Konsultationsinzidenz": "number"}}
+  },
+  "transform": [
+    {"filter": "datum.Bundesland === 'Bundesweit' && datum.Altersgruppe === '00+'"},
+    {"calculate": "toNumber(substring(datum.Kalenderwoche, 0, 4))", "as": "isoYear"},
+    {"calculate": "toNumber(substring(datum.Kalenderwoche, 6, 8))", "as": "isoWeek"}
+  ],
+  "width": 1200,
+  "height": 520,
+  "mark": {"type": "rect", "stroke": "white", "strokeWidth": 0.5},
+  "encoding": {
+    "x": {
+      "field": "isoWeek", "type": "ordinal", "sort": "ascending",
+      "title": "ISO week",
+      "axis": {"labelAngle": 0, "orient": "top"}
+    },
+    "y": {
+      "field": "isoYear", "type": "ordinal", "sort": "ascending",
+      "title": "ISO year"
+    },
+    "color": {
+      "field": "ARE_Konsultationsinzidenz", "type": "quantitative",
+      "scale": {"scheme": "yelloworangered", "zero": true},
+      "legend": {
+        "title": ["ARE consultations", "per 100,000 per week"],
+        "orient": "right", "gradientLength": 300
+      }
+    },
+    "tooltip": [
+      {"field": "Kalenderwoche", "title": "ISO week"},
+      {"field": "Saison", "title": "Season"},
+      {"field": "ARE_Konsultationsinzidenz", "title": "Consultations per 100,000", "format": ","}
+    ]
+  },
+  "config": {"view": {"stroke": null}}
+}

@@ -1,0 +1,18 @@
+REPORT
+deliverable: spec.vl.json
+requirements:
+  R1: done - daily means averaged per UTC year-month and depth inside the spec (aggregate transform)
+  R2: done - x axis has all 95 months Feb 2018–Dec 2025, labelled at each January
+  R3: done - no rect is drawn for a missing depth-month; grey background shows as an empty cell; no imputation
+  R4: done - y axis labelled "2 m"…"40 m", sorted by number from shallow to deep
+  R5: done - colour legend titled "Mean temperature (°C)"
+  R6: done - title plus a one-sentence caption on the main pattern (subtitle), plus a note on data source and grey cells
+assumptions:
+  - Monthly mean = unweighted mean of daily means (not weighted by n_obs)
+  - Months are UTC calendar months; ISO dates parsed as UTC
+  - Rows with empty or non-numeric temperature are dropped before aggregating
+limitations:
+  - The x axis is ordinal: it lists only months with data at some depth. All 95 months have data, but a month with no data at any depth would be dropped rather than shown as an empty column
+  - A month with only a few days of data is shown like a full month; the tooltip gives the day count
+  - The turbo colour scheme is not perceptually uniform; use the tooltip for exact values
+  - The caption was written after checking the data and is fixed text, not computed in the spec

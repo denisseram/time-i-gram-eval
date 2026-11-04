@@ -1,0 +1,17 @@
+REPORT
+deliverable: spec.vl.json
+requirements:
+  R1: done - aggregate transform: mean of daily means per yearmonth × depth
+  R2: done - temporal yearmonth x axis, Feb 2018–Dec 2025, one cell per month
+  R3: done - months without data have no row after aggregation, so they show as blank cells
+  R4: done - y axis labels each depth, ordinal sorted ascending 2→40 m
+  R5: done - colour legend titled "Monthly mean temperature (°C)"
+  R6: done - title plus a one-sentence caption (subtitle) stating the main pattern
+assumptions:
+  - Monthly mean = unweighted mean of the daily means (not weighted by n_obs)
+  - A month counts as having data if at least one day has a valid mean temperature
+  - Heatmap chosen over 7 lines so that gaps show clearly
+limitations:
+  - Months with only a few days of data look the same as full months; the day count is shown only in the tooltip
+  - The temperature ranges in the caption were read from the data during development; they are static text, not computed by the spec
+  - The "blank = no data" note is in the x-axis title so the caption stays one sentence

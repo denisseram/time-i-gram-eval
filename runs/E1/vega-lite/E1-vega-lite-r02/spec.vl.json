@@ -1,0 +1,61 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "title": {
+    "text": "Monthly mean water temperature by sensor depth, Birchy Head, Nova Scotia (2018–2025)",
+    "subtitle": [
+      "Every year, shallow water warms strongly in summer and peaks in August–September, while deep water (30–40 m) stays cool and peaks later, in autumn, with a much smaller seasonal swing.",
+      "Monthly means of daily sensor means (CMAR Coastal Monitoring Program). Grey cells = no data for that depth and month."
+    ],
+    "anchor": "start", "fontSize": 18, "subtitleFontSize": 13, "subtitlePadding": 6, "offset": 14
+  },
+  "width": 1180,
+  "height": 560,
+  "data": {
+    "url": "https://raw.githubusercontent.com/rfordatascience/tidytuesday/6753376ef104727ef0ca3e3db6f2ca580c0d5a7b/data/2026/2026-03-31/ocean_temperature.csv",
+    "format": {"type": "csv", "parse": {"sensor_depth_at_low_tide_m": "number", "mean_temperature_degree_c": "number"}}
+  },
+  "transform": [
+    {"filter": "isValid(datum.mean_temperature_degree_c) && isFinite(datum.mean_temperature_degree_c)"},
+    {"timeUnit": "utcyearmonth", "field": "date", "as": "month"},
+    {"aggregate": [
+      {"op": "mean", "field": "mean_temperature_degree_c", "as": "temp"},
+      {"op": "count", "as": "days"}
+    ], "groupby": ["month", "sensor_depth_at_low_tide_m"]},
+    {"calculate": "datum.sensor_depth_at_low_tide_m + ' m'", "as": "depth_label"}
+  ],
+  "encoding": {
+    "x": {
+      "field": "month", "timeUnit": "utcyearmonth", "type": "ordinal",
+      "title": "Month",
+      "axis": {"labelExpr": "month(datum.value) == 0 ? timeFormat(datum.value, '%Y') : ''", "labelAngle": 0, "ticks": false, "labelFontSize": 12, "titleFontSize": 13},
+      "scale": {"paddingInner": 0}
+    },
+    "y": {
+      "field": "sensor_depth_at_low_tide_m", "type": "ordinal",
+      "sort": "ascending",
+      "title": "Sensor depth at low tide",
+      "axis": {"labelExpr": "datum.value + ' m'", "labelFontSize": 12, "titleFontSize": 13},
+      "scale": {"paddingInner": 0}
+    }
+  },
+  "layer": [
+    {
+      "mark": {"type": "rect", "stroke": "white", "strokeWidth": 0.6},
+      "encoding": {
+        "color": {
+          "field": "temp", "type": "quantitative",
+          "title": "Mean temperature (°C)",
+          "scale": {"scheme": "turbo"},
+          "legend": {"orient": "right", "gradientLength": 400, "titleFontSize": 12, "labelFontSize": 12, "titleOrient": "left", "direction": "vertical"}
+        },
+        "tooltip": [
+          {"field": "month", "timeUnit": "utcyearmonth", "type": "temporal", "title": "Month", "format": "%B %Y"},
+          {"field": "depth_label", "title": "Depth"},
+          {"field": "temp", "type": "quantitative", "title": "Mean temperature (°C)", "format": ".2f"},
+          {"field": "days", "title": "Days with data"}
+        ]
+      }
+    }
+  ],
+  "config": {"view": {"stroke": null, "fill": "#e6e6e6"}, "axis": {"grid": false, "domain": false}}
+}

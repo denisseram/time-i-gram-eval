@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Does the ARE peak happen at the same time each year?</title>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<style>
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: #222; background: #fff; }
+  #wrap { width: 1380px; margin: 0 auto; padding: 10px 10px 0; }
+  h1 { font-size: 22px; margin: 4px 0 2px; }
+  #caption { font-size: 14px; color: #444; margin: 0 0 4px; max-width: 1300px; }
+  #source { font-size: 11px; color: #777; }
+  svg text { font-size: 11px; fill: #444; }
+  .axis path, .axis line { stroke: #999; }
+  .grid circle { fill: none; stroke: #e2e2e2; }
+  .spoke { stroke: #ececec; }
+  .yearline { fill: none; stroke-width: 1.4; stroke-linejoin: round; }
+  .hl { fill: none; stroke-width: 2.4; stroke-linejoin: round; }
+  .peak { stroke: #000; stroke-width: 1.2; }
+  .legend-item { cursor: pointer; }
+  .panel-title { font-size: 13px !important; font-weight: 600; fill: #222 !important; }
+  .note { font-size: 11px; fill: #666 !important; }
+  #tip { position: absolute; pointer-events: none; background: rgba(255,255,255,.95); border: 1px solid #bbb;
+         padding: 4px 7px; font-size: 12px; border-radius: 3px; display: none; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <h1>Does the yearly peak of acute respiratory illness in Germany happen at the same time every year?</h1>
+  <p id="caption">Loading data…</p>
+  <svg id="chart" width="1380" height="770"></svg>
+  <div id="source">Data: Robert Koch-Institut, ARE-Praxis-Sentinel, ARE-Konsultationsinzidenz (CC BY 4.0); Bundesweit, all ages (00+).
+    Drag in the timeline (top right) to select a time range; click the empty timeline to reset. Hover legend to isolate a year.</div>
+</div>
+<div id="tip"></div>
+<script>
+const URL = "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv";
+const UNIT = "ARE consultations per 100,000 population per week";
+
+// Monday of ISO week w in ISO year y (UTC)
+function isoWeekMonday(y, w) {
+  const jan4 = new Date(Date.UTC(y, 0, 4));
+  const mon1 = d3.utcMonday.floor(jan4);
+  return d3.utcDay.offset(mon1, (w - 1) * 7);
+}
+function weeksInIsoYear(y) {
+  // ISO year has 53 weeks iff Dec 28 falls in week 53
+  const dec28 = new Date(Date.UTC(y, 11, 28));
+  const mon1 = d3.utcMonday.floor(new Date(Date.UTC(y, 0, 4)));
+  return Math.round((d3.utcMonday.floor(dec28) - mon1) / (7 * 864e5)) + 1;
+}
+
+d3.tsv(URL).then(raw => {
+  const data = raw
+    .filter(d => d.Bundesland === "Bundesweit" && d.Altersgruppe === "00+")
+    .map(d => {
+      const m = /^(\d{4})-W(\d{2})$/.exec(d.Kalenderwoche);
+      const year = +m[1], week = +m[2];
+      return {
+        season: d.Saison, year, week, label: d.Kalenderwoche,
+        value: +d.ARE_Konsultationsinzidenz,
+        date: isoWeekMonday(year, week),
+        nWeeks: weeksInIsoYear(year)
+      };
+    })
+    .filter(d => Number.isFinite(d.value))
+    .sort((a, b) => a.date - b.date);
+
+  const years = Array.from(new Set(data.map(d => d.year))).sort(d3.ascending);
+  const byYear = d3.group(data, d => d.year);
+
+  // R3: peak week per season (complete or not; incomplete seasons flagged)
+  const peaks = d3.groups(data, d => d.season).map(([season, rows]) => {
+    const p = d3.greatest(rows, d => d.value);
+    return { ...p, nRows: rows.length };
+  }).sort((a, b) => d3.ascending(a.season, b.season));
+  const completePeaks = peaks.filter(p => p.nRows >= 52);
+
+  // Caption computed from data: offset of peak relative to week 1 (weeks 40..53 -> negative)
+  const off = p => p.week >= 40 ? p.week - p.nWeeks - 1 : p.week - 1;
+  const pre = completePeaks.filter(p => +p.season.slice(0, 4) < 2020);
+  const post = completePeaks.filter(p => +p.season.slice(0, 4) >= 2020);
+  const wlab = o => "W" + (o < 0 ? o + 53 : o + 1);
+  const ext = arr => d3.extent(arr, off);
+  const [a0, a1] = ext(pre), [b0, b1] = ext(post);
+  d3.select("#caption").text(
+    `Not any more: from ${pre[0].season} to ${pre[pre.length - 1].season} the season peak always fell in ISO weeks ${wlab(a0)}–${wlab(a1)} (February–March), ` +
+    `but from ${post[0].season} on it has ranged from ${wlab(b0)} to ${wlab(b1)}, and ${post.filter(p => off(p) < a0 || off(p) > a1).length} of ${post.length} of these peaks fell outside that earlier window.`);
+
+  // ---------- colours ----------
+  const color = d3.scaleSequential()
+    .domain([years[0], years[years.length - 1]])
+    .interpolator(t => d3.interpolateTurbo(0.08 + 0.84 * t));
+
+  const svg = d3.select("#chart");
+  const tip = d3.select("#tip");
+  const vmax = d3.max(data, d => d.value);
+
+  // ---------- circular view ----------
+  const R = 335, r0 = 30;
+  const cx = 375, cy = 400;
+  const gC = svg.append("g").attr("transform", `translate(${cx},${cy})`);
+  const rScale = d3.scaleLinear().domain([0, vmax]).nice().range([r0, R]);
+  const angle = d => (d.week - 1) / d.nWeeks * 2 * Math.PI; // week 1 at 12 o'clock, clockwise
+  const radial = d3.lineRadial().angle(angle).radius(d => rScale(d.value)).curve(d3.curveCatmullRom);
+
+  // grid
+  const rt = rScale.ticks(5).filter(t => t > 0);
+  gC.append("g").attr("class", "grid").selectAll("circle").data(rt).join("circle").attr("r", rScale);
+  // month spokes/labels (by approximate angle of the month start in a 52-week year)
+  const weekTicks = [1, 5, 9, 13, 18, 22, 26, 31, 35, 40, 44, 48];
+  gC.append("g").selectAll("line").data(d3.range(1, 53)).join("line")
+    .attr("class", "spoke")
+    .attr("x1", w => r0 * Math.sin((w - 1) / 52 * 2 * Math.PI))
+    .attr("y1", w => -r0 * Math.cos((w - 1) / 52 * 2 * Math.PI))
+    .attr("x2", w => R * Math.sin((w - 1) / 52 * 2 * Math.PI))
+    .attr("y2", w => -R * Math.cos((w - 1) / 52 * 2 * Math.PI))
+    .attr("stroke-opacity", w => weekTicks.includes(w) ? 1 : 0.35)
+    .style("stroke", w => weekTicks.includes(w) ? "#ccc" : null);
+  gC.append("g").selectAll("text").data(weekTicks).join("text")
+    .attr("x", w => (R + 14) * Math.sin((w - 1) / 52 * 2 * Math.PI))
+    .attr("y", w => -(R + 14) * Math.cos((w - 1) / 52 * 2 * Math.PI))
+    .attr("text-anchor", "middle").attr("dominant-baseline", "middle")
+    .style("font-weight", w => w === 1 ? 700 : 400)
+    .text(w => "W" + w);
+  // radial value labels along the 12-o'clock spoke (slightly offset)
+  gC.append("g").selectAll("text").data(rt).join("text")
+    .attr("x", 3).attr("y", t => -rScale(t) - 2).attr("class", "note")
+    .text(d3.format(","));
+  gC.append("text").attr("x", 0).attr("y", 4).attr("text-anchor", "middle").attr("class", "note")
+    .text("radius:");
+  gC.append("text").attr("x", 0).attr("y", 16).attr("text-anchor", "middle").attr("class", "note")
+    .text("value");
+
+  // year lines (base) + highlight overlay
+  const gBase = gC.append("g");
+  const gHL = gC.append("g");
+  const yearArr = years.map(y => ({ year: y, rows: byYear.get(y) }));
+  const baseLines = gBase.selectAll("path").data(yearArr).join("path")
+    .attr("class", "yearline").attr("stroke", d => color(d.year)).attr("d", d => radial(d.rows));
+  const hlLines = gHL.selectAll("path").data(yearArr).join("path")
+    .attr("class", "hl").attr("stroke", d => color(d.year));
+
+  // season peaks
+  const gPeaks = gC.append("g");
+  const peakDots = gPeaks.selectAll("g").data(peaks).join("g")
+    .attr("transform", d => {
+      const a = angle(d), r = rScale(d.value);
+      return `translate(${r * Math.sin(a)},${-r * Math.cos(a)})`;
+    });
+  peakDots.append("path").attr("class", "peak")
+    .attr("d", d3.symbol(d3.symbolTriangle, 70))
+    .attr("fill", d => color(d.year))
+    .on("mousemove", (e, d) => showTip(e, `<b>Peak of season ${d.season}</b>${d.nRows < 52 ? " (season incomplete)" : ""}<br>${d.label} (week of ${d3.utcFormat("%d %b %Y")(d.date)})<br>${d3.format(",")(d.value)} per 100,000`))
+    .on("mouseleave", hideTip);
+
+  gC.append("text").attr("class", "panel-title").attr("x", -cx + 15).attr("y", -cy + 12)
+    .text("Cyclic view: one turn = one ISO year (week 1 at top, clockwise)");
+  gC.append("text").attr("class", "note").attr("x", -cx + 15).attr("y", -cy + 27)
+    .text("radius = " + UNIT);
+
+  // ---------- legend ----------
+  const lg = svg.append("g").attr("transform", `translate(745, 40)`);
+  lg.append("text").attr("class", "panel-title").attr("y", 0).text("ISO year");
+  const items = lg.selectAll("g.legend-item").data(years).join("g").attr("class", "legend-item")
+    .attr("transform", (d, i) => `translate(0, ${14 + i * 17})`);
+  items.append("line").attr("x1", 0).attr("x2", 20).attr("y1", 0).attr("y2", 0)
+    .attr("stroke", d => color(d)).attr("stroke-width", 3);
+  items.append("text").attr("x", 25).attr("dy", "0.35em").text(d => d);
+  items.on("mouseenter", (e, y) => { focusYear = y; update(); })
+       .on("mouseleave", () => { focusYear = null; update(); });
+  const pl = lg.append("g").attr("transform", `translate(0, ${14 + years.length * 17 + 8})`);
+  pl.append("path").attr("d", d3.symbol(d3.symbolTriangle, 70)).attr("transform", "translate(10,0)")
+    .attr("fill", "#bbb").attr("class", "peak");
+  pl.append("text").attr("x", 25).attr("dy", "0.35em").text("season peak");
+  pl.append("text").attr("x", 0).attr("y", 16).attr("dy", "0.35em").attr("class", "note").text("(max week per Saison,");
+  pl.append("text").attr("x", 0).attr("y", 29).attr("dy", "0.35em").attr("class", "note").text(" W40–W39)");
+
+  // ---------- linear view ----------
+  const L = { x: 880, y: 40, w: 470, h: 250 };
+  const gL = svg.append("g").attr("transform", `translate(${L.x},${L.y})`);
+  const x = d3.scaleUtc().domain([d3.utcYear.floor(data[0].date), d3.utcYear.ceil(data[data.length - 1].date)]).range([0, L.w]);
+  const y = d3.scaleLinear().domain([0, vmax]).nice().range([L.h, 0]);
+  gL.append("text").attr("class", "panel-title").attr("y", -22).text("Linear view: whole series (drag to select a time range)");
+  gL.append("g").attr("class", "axis").attr("transform", `translate(0,${L.h})`)
+    .call(d3.axisBottom(x).ticks(d3.utcYear.every(2)).tickFormat(d3.utcFormat("%Y")));
+  gL.append("g").attr("class", "axis").call(d3.axisLeft(y).ticks(5).tickFormat(d3.format(",")));
+  gL.append("text").attr("class", "note").attr("transform", "rotate(-90)").attr("x", -L.h / 2).attr("y", -48)
+    .attr("text-anchor", "middle").text("consultations per 100,000 per week");
+  gL.append("text").attr("class", "note").attr("x", L.w / 2).attr("y", L.h + 32).attr("text-anchor", "middle")
+    .text("date (Monday of ISO reporting week)");
+  // year-coloured segments
+  const lineL = d3.line().x(d => x(d.date)).y(d => y(d.value));
+  gL.append("g").selectAll("path").data(yearArr).join("path")
+    .attr("fill", "none").attr("stroke-width", 1.2).attr("stroke", d => color(d.year))
+    .attr("d", d => {
+      // connect to first point of next year for continuity
+      const nxt = byYear.get(d.year + 1);
+      return lineL(nxt ? d.rows.concat([nxt[0]]) : d.rows);
+    });
+  gL.append("g").selectAll("path").data(peaks).join("path").attr("class", "peak")
+    .attr("d", d3.symbol(d3.symbolTriangle, 40))
+    .attr("transform", d => `translate(${x(d.date)},${y(d.value)})`)
+    .attr("fill", d => color(d.year));
+
+  const brush = d3.brushX().extent([[0, 0], [L.w, L.h]])
+    .on("brush end", ({ selection }) => {
+      range = selection ? selection.map(x.invert) : null;
+      update();
+    });
+  const brushG = gL.append("g").attr("class", "brush").call(brush);
+
+  // ---------- peak-week strip (season vs. week of peak) ----------
+  const S = { x: 880, y: 380, w: 470, h: 340 };
+  const gS = svg.append("g").attr("transform", `translate(${S.x},${S.y})`);
+  gS.append("text").attr("class", "panel-title").attr("y", -22).text("Week of the season peak, by season");
+  // x: position in season (week 40 .. week 39), expressed as offset from week 1
+  const sx = d3.scaleLinear().domain([-14, 39]).range([0, S.w]);
+  const sy = d3.scaleBand().domain(peaks.map(p => p.season)).range([0, S.h]).padding(0.3);
+  const offOf = p => p.week >= 40 ? p.week - p.nWeeks - 1 : p.week - 1;
+  const stickW = [40, 45, 50, 1, 5, 10, 15, 20, 25, 30, 35];
+  gS.append("g").attr("class", "axis").attr("transform", `translate(0,${S.h})`)
+    .call(d3.axisBottom(sx).tickValues(stickW.map(w => w >= 40 ? w - 53 : w - 1)).tickFormat(o => "W" + (o < 0 ? o + 53 : o + 1)));
+  gS.append("text").attr("class", "note").attr("x", S.w / 2).attr("y", S.h + 32).attr("text-anchor", "middle")
+    .text("ISO week of peak (season runs W40 → W39)");
+  gS.append("g").attr("class", "axis").call(d3.axisLeft(sy).tickSize(0)).select(".domain").remove();
+  gS.append("line").attr("x1", sx(0)).attr("x2", sx(0)).attr("y1", 0).attr("y2", S.h)
+    .attr("stroke", "#bbb").attr("stroke-dasharray", "3,3");
+  gS.append("text").attr("class", "note").attr("x", sx(0) + 3).attr("y", -6).text("W1 (new year)");
+  gS.append("g").selectAll("line").data(peaks).join("line")
+    .attr("x1", 0).attr("x2", S.w).attr("y1", p => sy(p.season) + sy.bandwidth() / 2).attr("y2", p => sy(p.season) + sy.bandwidth() / 2)
+    .attr("stroke", "#f0f0f0");
+  const sDots = gS.append("g").selectAll("g").data(peaks).join("g")
+    .attr("transform", p => `translate(${sx(offOf(p))},${sy(p.season) + sy.bandwidth() / 2})`);
+  sDots.append("path").attr("class", "peak").attr("d", d3.symbol(d3.symbolTriangle, 60)).attr("fill", p => color(p.year));
+  sDots.append("text").attr("x", p => sx(offOf(p)) > S.w - 150 ? -8 : 8)
+    .attr("text-anchor", p => sx(offOf(p)) > S.w - 150 ? "end" : "start").attr("dy", "0.35em").attr("class", "note")
+    .text(p => `${p.label}, ${d3.format(",")(p.value)}${p.nRows < 52 ? " (season incomplete)" : ""}`);
+
+  // ---------- linking ----------
+  let range = null, focusYear = null;
+  const inRange = d => !range || (d.date >= range[0] && d.date <= range[1]);
+  function update() {
+    const active = !!range || focusYear !== null;
+    const yearOk = yv => focusYear === null || yv === focusYear;
+    baseLines.attr("stroke-opacity", d => active ? 0.12 : 0.85);
+    hlLines.attr("d", d => active && yearOk(d.year)
+        ? d3.lineRadial().angle(angle).radius(r => rScale(r.value)).curve(d3.curveCatmullRom)
+            .defined(inRange)(d.rows)
+        : null);
+    const on = p => inRange(p) && yearOk(p.year);
+    peakDots.attr("opacity", p => !active || on(p) ? 1 : 0.12);
+    sDots.attr("opacity", p => !active || on(p) ? 1 : 0.2);
+  }
+  update();
+
+  function showTip(e, html) { tip.style("display", "block").html(html).style("left", (e.pageX + 12) + "px").style("top", (e.pageY - 10) + "px"); }
+  function hideTip() { tip.style("display", "none"); }
+}).catch(err => {
+  d3.select("#caption").text("Failed to load data: " + err);
+  console.error(err);
+});
+</script>
+</body>
+</html>

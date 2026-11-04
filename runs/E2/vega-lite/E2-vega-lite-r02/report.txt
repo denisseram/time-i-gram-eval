@@ -1,0 +1,16 @@
+REPORT
+deliverable: spec.vl.json
+requirements:
+  R1: done - ordinal y on ISO year from Kalenderwoche, ascending top to bottom (2012–2026)
+  R2: done - ordinal x on ISO week 1–53; week 53 cells appear only in 2015 and 2020
+  R3: done - sequential yelloworangered scale; legend "ARE consultations per 100,000 per week"
+  R4: done - only reported weeks are drawn; 2012 before W40 and 2026 after W43 are blank
+  R5: done - week numbers on the top x axis, years on the y axis
+  R6: done - title plus a one-sentence caption as the subtitle
+assumptions:
+  - ISO year and week are taken from the Kalenderwoche string (YYYY-Www), not from Saison
+  - The week axis is placed at the top so labels sit next to the first rows
+  - The caption text is my reading of the rendered figure; it is not computed from the data
+limitations:
+  - Weeks are columns of equal width, so they show no calendar-date detail
+  - The caption describes the data as of commit 65ac2d2 and would need rewording if the data changed

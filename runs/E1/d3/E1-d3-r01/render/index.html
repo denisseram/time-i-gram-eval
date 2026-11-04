@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Birchy Head water temperature by depth, 2018–2025</title>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<style>
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; margin: 20px 28px; color: #222; background: #fff; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  #caption { font-size: 14px; color: #444; margin: 0 0 10px; max-width: 1300px; }
+  .axis text { font-size: 11px; fill: #333; }
+  .axis path, .axis line { stroke: #888; }
+  .lbl { font-size: 12px; fill: #333; }
+  #source { font-size: 11px; color: #777; margin-top: 4px; }
+  #tip { position: absolute; pointer-events: none; background: #fff; border: 1px solid #aaa; padding: 4px 7px; font-size: 12px; border-radius: 3px; display: none; }
+</style>
+</head>
+<body>
+<h1>Monthly mean water temperature by sensor depth at Birchy Head, Nova Scotia (2018–2025)</h1>
+<p id="caption">Loading…</p>
+<div id="chart"></div>
+<div id="source">Data: Centre for Marine Applied Research (CMAR) Coastal Monitoring Program, station Birchy Head, via TidyTuesday 2026-03-31. Open Government Licence – Nova Scotia. Each cell = mean of daily means for that month and depth; hatched cells = no data that month.</div>
+<div id="tip"></div>
+<script>
+const URL = "https://raw.githubusercontent.com/rfordatascience/tidytuesday/6753376ef104727ef0ca3e3db6f2ca580c0d5a7b/data/2026/2026-03-31/ocean_temperature.csv";
+
+d3.csv(URL, d => ({
+  date: d3.utcParse("%Y-%m-%d")(d.date),
+  depth: +d.sensor_depth_at_low_tide_m,
+  t: d.mean_temperature_degree_c === "" || d.mean_temperature_degree_c == null ? NaN : +d.mean_temperature_degree_c
+})).then(raw => {
+  const rows = raw.filter(d => d.date && Number.isFinite(d.depth) && Number.isFinite(d.t));
+  const depths = Array.from(new Set(rows.map(d => d.depth))).sort((a, b) => a - b);
+
+  // monthly mean per depth
+  const roll = d3.rollup(rows, v => ({ mean: d3.mean(v, d => d.t), n: v.length }),
+    d => d.depth, d => +d3.utcMonth.floor(d.date));
+  const [minD, maxD] = d3.extent(rows, d => d.date);
+  const months = d3.utcMonth.range(d3.utcMonth.floor(minD), d3.utcMonth.offset(d3.utcMonth.floor(maxD), 1));
+
+  const cells = [];
+  for (const dep of depths) for (const m of months) {
+    const r = roll.get(dep)?.get(+m);
+    cells.push({ depth: dep, month: m, mean: r ? r.mean : null, n: r ? r.n : 0 });
+  }
+  const valid = cells.filter(c => c.mean != null);
+
+  // ---- caption computed from data ----
+  // calendar month with highest average (climatology) per depth
+  function peakMonth(dep) {
+    const clim = d3.rollups(valid.filter(c => c.depth === dep), v => d3.mean(v, c => c.mean), c => c.month.getUTCMonth());
+    return d3.greatest(clim, d => d[1])[0];
+  }
+  const mName = i => d3.utcFormat("%B")(new Date(Date.UTC(2000, i, 1)));
+  const top = depths[0], bot = depths[depths.length - 1];
+  const rng = dep => d3.extent(valid.filter(c => c.depth === dep), c => c.mean);
+  const rTop = rng(top), rBot = rng(bot);
+  const f1 = d3.format(".1f");
+  const peakTop = d3.greatest(valid.filter(c => c.depth === top), c => c.mean);
+  document.getElementById("caption").textContent =
+    `Every depth follows the same seasonal cycle, but the swing shrinks with depth: monthly means at ${top} m ranged from ${f1(rTop[0])} to ${f1(rTop[1])} °C ` +
+    `(peak ${d3.utcFormat("%b %Y")(peakTop.month)}), while at ${bot} m they stayed between ${f1(rBot[0])} and ${f1(rBot[1])} °C, and the warmest month shifts later with depth (${mName(peakMonth(top))} at ${top} m vs ${mName(peakMonth(bot))} at ${bot} m).`;
+
+  // ---- layout ----
+  const W = 1340, margin = { top: 10, right: 20, bottom: 90, left: 70 };
+  const cellH = 64;
+  const innerW = W - margin.left - margin.right;
+  const innerH = cellH * depths.length;
+  const H = innerH + margin.top + margin.bottom;
+
+  const svg = d3.select("#chart").append("svg").attr("width", W).attr("height", H);
+  const defs = svg.append("defs");
+  const pat = defs.append("pattern").attr("id", "hatch").attr("patternUnits", "userSpaceOnUse")
+    .attr("width", 5).attr("height", 5).attr("patternTransform", "rotate(45)");
+  pat.append("rect").attr("width", 5).attr("height", 5).attr("fill", "#f4f4f4");
+  pat.append("line").attr("x1", 0).attr("y1", 0).attr("x2", 0).attr("y2", 5).attr("stroke", "#c8c8c8").attr("stroke-width", 1.5);
+
+  const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+  const x = d3.scaleBand().domain(months.map(m => +m)).range([0, innerW]).paddingInner(0.06);
+  const y = d3.scaleBand().domain(depths).range([0, innerH]).paddingInner(0.08);
+  const tExt = d3.extent(valid, c => c.mean);
+  const color = d3.scaleSequential(t => d3.interpolateRdYlBu(1 - t)).domain(tExt);
+
+  const tip = d3.select("#tip");
+  g.selectAll("rect.cell").data(cells).join("rect")
+    .attr("class", "cell")
+    .attr("x", c => x(+c.month)).attr("y", c => y(c.depth))
+    .attr("width", x.bandwidth()).attr("height", y.bandwidth())
+    .attr("fill", c => c.mean == null ? "url(#hatch)" : color(c.mean))
+    .on("mousemove", (ev, c) => {
+      tip.style("display", "block").style("left", (ev.pageX + 12) + "px").style("top", (ev.pageY - 10) + "px")
+        .html(`<b>${c.depth} m · ${d3.utcFormat("%B %Y")(c.month)}</b><br>` +
+          (c.mean == null ? "no data" : `${f1(c.mean)} °C (${c.n} days)`));
+    })
+    .on("mouseleave", () => tip.style("display", "none"));
+
+  // year separators
+  const jans = months.filter(m => m.getUTCMonth() === 0);
+  g.selectAll("line.yr").data(jans).join("line")
+    .attr("x1", m => x(+m) - x.step() * x.paddingInner() / 2).attr("x2", m => x(+m) - x.step() * x.paddingInner() / 2)
+    .attr("y1", -4).attr("y2", innerH + 4).attr("stroke", "#333").attr("stroke-width", 1);
+
+  // y axis
+  g.append("g").attr("class", "axis").call(d3.axisLeft(y).tickFormat(d => d + " m").tickSize(0).tickPadding(6))
+    .call(s => s.select(".domain").remove()).selectAll("text").style("font-size", "13px");
+  svg.append("text").attr("class", "lbl").attr("transform", `translate(16,${margin.top + innerH / 2}) rotate(-90)`)
+    .attr("text-anchor", "middle").text("Sensor depth at low tide (shallow → deep)");
+
+  // x axis: month ticks (quarterly) + year labels
+  const xa = g.append("g").attr("class", "axis").attr("transform", `translate(0,${innerH})`)
+    .call(d3.axisBottom(x).tickValues(months.filter(m => m.getUTCMonth() % 3 === 0).map(m => +m))
+      .tickFormat(v => d3.utcFormat("%b")(new Date(v))).tickSize(3));
+  xa.select(".domain").remove();
+  const years = d3.groups(months, m => m.getUTCFullYear());
+  g.selectAll("text.year").data(years).join("text")
+    .attr("class", "lbl").attr("text-anchor", "middle").style("font-weight", "600").style("font-size", "13px")
+    .attr("x", ([, ms]) => (x(+ms[0]) + x(+ms[ms.length - 1]) + x.bandwidth()) / 2)
+    .attr("y", innerH + 34).text(([yr]) => yr);
+
+  // ---- colour legend ----
+  const lgW = 360, lgH = 12, lgX = margin.left, lgY = margin.top + innerH + 52;
+  const lg = svg.append("g").attr("transform", `translate(${lgX},${lgY})`);
+  const grad = defs.append("linearGradient").attr("id", "grad");
+  d3.range(0, 1.0001, 0.1).forEach(s => grad.append("stop").attr("offset", s).attr("stop-color", color(tExt[0] + s * (tExt[1] - tExt[0]))));
+  lg.append("text").attr("class", "lbl").attr("x", 0).attr("y", lgH - 1).text("Monthly mean temperature (°C)");
+  const lx = 215;
+  lg.append("rect").attr("x", lx).attr("width", lgW).attr("height", lgH).attr("fill", "url(#grad)");
+  const ls = d3.scaleLinear().domain(tExt).range([lx, lx + lgW]);
+  lg.append("g").attr("class", "axis").attr("transform", `translate(0,${lgH})`)
+    .call(d3.axisBottom(ls).ticks(8).tickFormat(d => d + " °C").tickSize(4)).select(".domain").remove();
+  const nx = lx + lgW + 40;
+  lg.append("rect").attr("x", nx).attr("width", 22).attr("height", lgH).attr("fill", "url(#hatch)").attr("stroke", "#bbb");
+  lg.append("text").attr("class", "lbl").attr("x", nx + 28).attr("y", lgH - 1).text("No data in that month");
+}).catch(err => {
+  document.getElementById("caption").textContent = "Failed to load data: " + err;
+  console.error(err);
+});
+</script>
+</body>
+</html>

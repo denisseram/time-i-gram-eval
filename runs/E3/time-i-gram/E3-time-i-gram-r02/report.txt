@@ -1,0 +1,22 @@
+REPORT
+deliverable: spec.json
+requirements:
+  R1: done - period ring (year, weekBased): ISO W1 at 12 o'clock, clockwise, one turn per ISO year; radius = incidence
+  R2: done - one line per ISO year, colour (viridis, year order) + legend; small rings labelled by year
+  R3: not possible - no transform keeps only each season's highest row; peak calc only used for alignment; no peak marked
+  R4: done - whole series 2012-2026 on a calendar date axis (plus a detail view of the selection)
+  R5: partial - brush links to 15 per-year rings (calendar time, W1 at top), shading selected weeks; can't link to overlaid ring
+  R6: done - W1/W9/... around the ring, dates on linear axes, "ARE consultations per 100,000 per week" on all value axes
+  R7: done - title + one-sentence caption (subtitle) with the main pattern
+assumptions:
+  - "year" in the circular view = ISO week-based year; seasons (W40-W39) are not used as rings
+  - "Highlight" = grey shading of the brushed weeks in the per-year rings (rest not dimmed)
+  - Each small ring spans ISO W1 Monday to next ISO W1 Monday (calendar dates, not data values)
+  - The default brush range 2022-W40..2024-W39 is a view choice, not data
+limitations:
+  - No marks for each season's peak week (R3); the caption's peak weeks came from a separate command-line check of the same data
+  - Overlaid ring has no linking (time-i-gram only links views in the same time coordinate system)
+  - 15 year colours on a sequential ramp are hard to tell apart next to each other; the labelled small rings help
+  - Small rings have no week labels or value axis (too small); they share the main ring's orientation
+  - About 50 harmless console warnings from the brush layers, which have no data
+  - 2026/27 season is incomplete (data to 2026-W43)

@@ -1,0 +1,326 @@
+{
+ "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+ "title": {
+  "text": "Ubuntu release life cycles, aligned on each release date",
+  "subtitle": [
+   "Once aligned on release, interim releases all follow one short cycle (~6 months of development, then 18 and, since 13.04, 9 months of support),",
+   "while LTS releases follow a far longer cycle that has been identical since 14.04 (5 years standard support + 5 years ESM + 5 years legacy support).",
+   "● start of development (created)   | release (0)   ◇ today, shown only while the release is still within its life cycle; dates after today are planned."
+  ],
+  "anchor": "start",
+  "fontSize": 18,
+  "subtitleFontSize": 12
+ },
+ "data": {
+  "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+  "format": {
+   "type": "csv",
+   "parse": {}
+  }
+ },
+ "transform": [
+  {
+   "calculate": "toDate(datum.created + 'T00:00:00')",
+   "as": "tCreated"
+  },
+  {
+   "calculate": "toDate(datum.release + 'T00:00:00')",
+   "as": "tRelease"
+  },
+  {
+   "calculate": "isValid(datum.eol) && datum.eol != '' ? toDate(datum.eol + 'T00:00:00') : null",
+   "as": "tEol"
+  },
+  {
+   "calculate": "isValid(datum['eol-server']) && datum['eol-server'] != '' ? toDate(datum['eol-server'] + 'T00:00:00') : null",
+   "as": "tServer"
+  },
+  {
+   "calculate": "isValid(datum['eol-esm']) && datum['eol-esm'] != '' ? toDate(datum['eol-esm'] + 'T00:00:00') : null",
+   "as": "tEsm"
+  },
+  {
+   "calculate": "isValid(datum['eol-legacy']) && datum['eol-legacy'] != '' ? toDate(datum['eol-legacy'] + 'T00:00:00') : null",
+   "as": "tLegacy"
+  },
+  {
+   "calculate": "indexof(datum.version, 'LTS') >= 0 ? 'LTS releases' : 'Interim releases'",
+   "as": "kind"
+  },
+  {
+   "calculate": "365.25 * 864e5",
+   "as": "yr"
+  },
+  {
+   "calculate": "(datum.tCreated - datum.tRelease) / datum.yr",
+   "as": "xCreated"
+  },
+  {
+   "calculate": "(now() - datum.tRelease) / datum.yr",
+   "as": "xToday"
+  },
+  {
+   "calculate": "datum.tServer != null && datum.tEol != null && datum.tServer > datum.tEol ? datum.tServer : datum.tEol",
+   "as": "tPrevEsm"
+  },
+  {
+   "calculate": "['1 Development','2 Standard support','3 Extended server support','4 ESM','5 Legacy support']",
+   "as": "phase"
+  },
+  {
+   "flatten": [
+    "phase"
+   ]
+  },
+  {
+   "calculate": "datum.phase[0] == '1' ? datum.tCreated : datum.phase[0] == '2' ? datum.tRelease : datum.phase[0] == '3' ? datum.tEol : datum.phase[0] == '4' ? datum.tPrevEsm : datum.tEsm",
+   "as": "tStart"
+  },
+  {
+   "calculate": "datum.phase[0] == '1' ? datum.tRelease : datum.phase[0] == '2' ? datum.tEol : datum.phase[0] == '3' ? (datum.tServer != null && datum.tEol != null && datum.tServer > datum.tEol ? datum.tServer : null) : datum.phase[0] == '4' ? datum.tEsm : datum.tLegacy",
+   "as": "tEnd"
+  },
+  {
+   "filter": "datum.tStart != null && datum.tEnd != null && datum.tEnd > datum.tStart"
+  },
+  {
+   "calculate": "(datum.tStart - datum.tRelease) / datum.yr",
+   "as": "x0"
+  },
+  {
+   "calculate": "(datum.tEnd - datum.tRelease) / datum.yr",
+   "as": "x1"
+  },
+  {
+   "calculate": "substring(datum.phase, 2)",
+   "as": "Phase"
+  },
+  {
+   "calculate": "timeFormat(datum.tStart, '%Y-%m-%d') + ' → ' + timeFormat(datum.tEnd, '%Y-%m-%d')",
+   "as": "Dates"
+  },
+  {
+   "joinaggregate": [
+    {
+     "op": "max",
+     "field": "x1",
+     "as": "xMax"
+    }
+   ],
+   "groupby": [
+    "version"
+   ]
+  }
+ ],
+ "facet": {
+  "row": {
+   "field": "kind",
+   "type": "nominal",
+   "sort": "descending",
+   "header": {
+    "title": null,
+    "labelAngle": 0,
+    "labelAlign": "left",
+    "labelAnchor": "start",
+    "labelOrient": "top",
+    "labelFontSize": 14,
+    "labelFontWeight": "bold",
+    "labelPadding": 6
+   }
+  }
+ },
+ "resolve": {
+  "scale": {
+   "y": "independent"
+  }
+ },
+ "spacing": 18,
+ "spec": {
+  "width": 1050,
+  "height": {
+   "step": 13
+  },
+  "encoding": {
+   "y": {
+    "field": "version",
+    "type": "ordinal",
+    "title": "Release (ordered by release date)",
+    "sort": {
+     "field": "tRelease",
+     "op": "min",
+     "order": "ascending"
+    },
+    "axis": {
+     "labelFontSize": 9,
+     "titleFontSize": 11
+    }
+   }
+  },
+  "layer": [
+   {
+    "mark": {
+     "type": "bar",
+     "height": {
+      "band": 0.75
+     }
+    },
+    "encoding": {
+     "x": {
+      "field": "x0",
+      "type": "quantitative",
+      "title": "Years relative to the release's own release date (0 = release)",
+      "scale": {
+       "domain": [
+        -1,
+        16
+       ],
+       "nice": false
+      },
+      "axis": {
+       "tickMinStep": 1,
+       "grid": true
+      }
+     },
+     "x2": {
+      "field": "x1"
+     },
+     "color": {
+      "field": "Phase",
+      "type": "nominal",
+      "title": "Life-cycle phase",
+      "scale": {
+       "domain": [
+        "Development",
+        "Standard support",
+        "Extended server support",
+        "ESM",
+        "Legacy support"
+       ],
+       "range": [
+        "#b0b0b0",
+        "#3b75af",
+        "#59a89c",
+        "#ef8a36",
+        "#9b6bb3"
+       ]
+      },
+      "legend": {
+       "orient": "top",
+       "direction": "horizontal",
+       "titleOrient": "left"
+      }
+     },
+     "tooltip": [
+      {
+       "field": "version"
+      },
+      {
+       "field": "codename"
+      },
+      {
+       "field": "Phase"
+      },
+      {
+       "field": "Dates"
+      },
+      {
+       "field": "x0",
+       "title": "start (years)",
+       "format": ".2f"
+      },
+      {
+       "field": "x1",
+       "title": "end (years)",
+       "format": ".2f"
+      }
+     ]
+    }
+   },
+   {
+    "transform": [
+     {
+      "filter": "datum.phase[0] == '1'"
+     }
+    ],
+    "mark": {
+     "type": "point",
+     "filled": true,
+     "size": 22,
+     "color": "#333"
+    },
+    "encoding": {
+     "x": {
+      "field": "xCreated",
+      "type": "quantitative"
+     },
+     "tooltip": [
+      {
+       "field": "version"
+      },
+      {
+       "field": "created",
+       "title": "created"
+      }
+     ]
+    }
+   },
+   {
+    "transform": [
+     {
+      "filter": "datum.phase[0] == '1'"
+     }
+    ],
+    "mark": {
+     "type": "tick",
+     "color": "#000",
+     "thickness": 2,
+     "bandSize": 11
+    },
+    "encoding": {
+     "x": {
+      "datum": 0,
+      "type": "quantitative"
+     },
+     "tooltip": [
+      {
+       "field": "version"
+      },
+      {
+       "field": "release",
+       "title": "release"
+      }
+     ]
+    }
+   },
+   {
+    "transform": [
+     {
+      "filter": "datum.phase[0] == '1' && datum.xToday <= datum.xMax"
+     }
+    ],
+    "mark": {
+     "type": "point",
+     "shape": "diamond",
+     "filled": false,
+     "size": 30,
+     "color": "#c0392b",
+     "strokeWidth": 1.2
+    },
+    "encoding": {
+     "x": {
+      "field": "xToday",
+      "type": "quantitative"
+     }
+    }
+   }
+  ]
+ },
+ "config": {
+  "view": {
+   "stroke": "#ddd"
+  },
+  "axis": {
+   "gridColor": "#eee"
+  }
+ }
+}

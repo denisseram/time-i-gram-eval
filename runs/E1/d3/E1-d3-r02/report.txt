@@ -1,0 +1,16 @@
+REPORT
+deliverable: index.html
+requirements:
+  R1: done - monthly mean of the daily means per depth, using d3.rollup on the loaded CSV
+  R2: done - one column per month from the first date (Feb 2018) to the last (Dec 2025), year labels plus month initials
+  R3: done - a month with no data for a depth is a hatched grey cell (in the legend), not filled in or set to zero
+  R4: done - row labels "2 m" … "40 m", sorted shallow to deep
+  R5: done - colour legend "Monthly mean water temperature (°C)"
+  R6: done - title plus a one-sentence caption calculated from the data (warmest-vs-coldest month difference at the shallowest and deepest sensors, and the month each peaks)
+assumptions:
+  - Monthly mean = unweighted mean of the available daily means (n_obs not used as a weight)
+  - A month counts as missing only if it has zero daily rows; a partly covered month still shows a value
+  - The caption's temperature range = warmest minus coldest calendar month, each averaged over all years
+limitations:
+  - Partly covered months may be biased toward the days that do have readings; the number of days behind each cell is shown on hover
+  - The colour scale runs from the lowest to the highest monthly mean in the data, so small differences between neighbouring cells are hard to read exactly

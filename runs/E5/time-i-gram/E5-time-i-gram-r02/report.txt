@@ -1,0 +1,21 @@
+REPORT
+deliverable: spec.json
+requirements:
+  R1: done - overview track shows daily mean tl over 2020-01-01 to 2024-12-31
+  R2: done - detail draws raw 10-min readings (timeUnit "none") below 10 days; hourly means below 120 days, daily above
+  R3: done - brush in overview linked via linkingId to detail view (opens on 2024 Jul 8–14)
+  R4: done - rr as separate bar track under tl in the same linked detail view, same x axis
+  R5: partial - detail axis goes down to hours/minutes; overview shows years only (fixed tick count of 10 in time-i-gram, no months at 5-year span)
+  R6: done - full CSV loaded via csv-time from the URL; aggregation (day/hour mean, max) done in the spec
+  R7: done - y titles in °C and mm per 10 min, "time in UTC" in track titles, title + one-sentence caption as subtitle
+assumptions:
+  - Overview aggregates tl to daily means (allowed by R6)
+  - Coarse detail levels show max 10-min rr per hour/day so the unit stays "mm per 10 min"
+  - Initial detail period (2024-07-08 to 2024-07-14) is an arbitrary view choice, not data-driven
+  - UTC stated in track titles because the time axis has no title option
+  - Caption is qualitative (no typed data values) per rule 2
+limitations:
+  - Overview has year labels only; months appear when zooming
+  - CSV is fetched once per track (3 loads); first render takes a few seconds
+  - y domains for tl are fixed (overview -10..30 °C, detail -12..38 °C); rr axis auto-scales to the visible data
+  - Library logs internal "unknown data type" console warnings; render status is OK

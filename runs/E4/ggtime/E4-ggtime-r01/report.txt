@@ -1,0 +1,19 @@
+REPORT
+deliverable: plot.R
+requirements:
+  R1: done - one row per release, version as label, ordered by release date (oldest at top)
+  R2: done - x = years since own release date (0 = release), axis "Years relative to release date"
+  R3: done - colour-coded interval bars for development, standard, extended server, ESM, legacy, with legend; missing phases not drawn
+  R4: done - created (circle) and release (diamond) point markers on each row
+  R5: done - separate LTS / interim facets
+  R6: done - title plus one-sentence caption, its numbers computed from the data
+assumptions:
+  - Extended server support drawn only when eol-server > eol; ESM starts at max(eol, eol-server)
+  - Years = days / 365.25
+  - Release order is oldest at top, within each facet
+  - Ragged rows read with readr; missing trailing fields become NA (parse warnings suppressed)
+limitations:
+  - ggtime has no interval or event geoms for relative time; bars and markers are plain ggplot2 geom_segment/geom_point (ggtime is loaded but its mixtime scales do not fit a numeric relative axis)
+  - The today tick uses the system date, so it moves depending on when the script runs
+  - Future dates (planned EOL/ESM/legacy) are drawn like past ones; only the today tick separates them
+  - Row labels are small (7 pt) to fit 47 releases in 900 px

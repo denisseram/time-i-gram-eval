@@ -1,0 +1,22 @@
+REPORT
+deliverable: plot.R
+requirements:
+  R1: done - coord_loop(time_loops = years(1L), coord = coord_radial()) on mixtime yearweek; W01 at top, clockwise, radius = incidence
+  R2: done - one line per ISO year, coloured with a year legend
+  R3: done - circle marks the max week of each Saison in both views; linear view also labels season and week
+  R4: done - linear view of 2012-W40 to 2026-W43 on a calendar time axis (yearweek, yearly breaks)
+  R5: partial - static output only: a fixed range (3 latest complete seasons, computed) is grey in the linear view and bold in the circle; no interactive brushing
+  R6: done - week labels around the circle (W09, W19, …, every 10 weeks), year labels on the linear axis, y label "ARE consultations per 100,000 per week"
+  R7: done - title plus a one-sentence subtitle, with the numbers in it computed from the data
+assumptions:
+  - ISO week "YYYY-Www" is converted to its Monday date, then to mixtime::yearweek
+  - "ISO year" = the year part of Kalenderwoche; the loop restarts at ISO week 1
+  - The linked selection is defined in code as the 3 most recent seasons with >=52 weeks of data (2023/24–2025/26)
+  - Ties for the peak: the first week is used
+  - Caption: "pre-pandemic" = seasons before 2019/20; "post-pandemic" = complete seasons after 2020/21
+limitations:
+  - No interactivity (plotly, shiny etc. are not allowed); the selection is fixed in the code
+  - Season 2026/27 is incomplete (data ends 2026-W43), so its marked "peak" is only the maximum so far
+  - The 2020/21 peak is at W39, outside winter (pandemic period)
+  - Circle week labels are ggtime defaults, every 10 weeks (W09, W19, …); a 4-week break setting produced wrong labels, so I didn't use it
+  - The radial value axis is drawn to the left of the circle, which is the coord_radial default

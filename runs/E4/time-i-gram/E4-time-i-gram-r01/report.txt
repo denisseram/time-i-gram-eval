@@ -1,0 +1,21 @@
+REPORT
+deliverable: spec.json
+requirements:
+  R1: done - one row per release labelled with version; row order is file order, which is release-date order
+  R2: done - relative time axis anchored on each row's `release` field, unit years, title "years from the release"
+  R3: done - five phases as coloured rects with a legend; rows with an empty date are filtered out per phase
+  R4: done - created = dark triangle, release = black dot on every row
+  R5: done - separate LTS and interim panels (filter on "LTS" in version); labels also include "LTS"
+  R6: done - title is the question; subtitle is the one-sentence caption with the main pattern
+assumptions:
+  - ESM starts at eol-server (every row with eol-esm has eol-server ≥ eol, so this is the end of the previous phase)
+  - extended server support is drawn eol→eol-server for all rows that have eol-server; where the two dates are equal the bar has zero width and does not show
+  - planned (future) dates are drawn the same way as past ones
+  - the two panels share one x scale so that LTS and interim cycles can be compared directly
+limitations:
+  - no field-vs-field filter in time-i-gram, so the "eol-server later than eol" rule relies on zero-width bars instead of a filter
+  - in time-i-gram 0.1.0 a plain include filter keeps rows that do NOT contain the text, so the spec uses not:true to select LTS
+  - row order is the file order; it is not sorted inside the spec (the file is already in release order)
+  - interim rows are thin (~11 px) and the bottom label (27.04) is slightly clipped
+  - the caption numbers (9/18 months, 5+5+5 years) are written by hand in the subtitle; the bars are all computed from the data
+  - the spec gives console warnings ("unknown data type") that come from inside time-i-gram; the render status is OK

@@ -1,0 +1,21 @@
+REPORT
+deliverable: index.html
+requirements:
+  R1: done - radial lines, angle = ISO week, W1 at 12 o'clock, clockwise, radius = incidence (linear scale)
+  R2: done - one line per ISO year (2012–2026), sequential turbo colour plus a legend; tooltips show the year
+  R3: done - triangle at each season's maximum week in both views (hollow for the incomplete 2026/27 season)
+  R4: done - full weekly series on a UTC time axis (Monday of ISO week), Oct 2012 – Oct 2026
+  R5: done - d3.brushX on the linear view; the circular view shows only the selected weeks in full colour, the rest faded; legend and peak markers dim too; double-click or click outside resets
+  R6: done - W1…W48 labels around the circle, value rings labelled, years on the linear axis, unit "ARE consultations per 100,000 population per week"
+  R7: done - title plus a one-sentence caption whose numbers (counts, peak weeks) are computed from the data
+assumptions:
+  - One turn = one ISO year; angle = (week-1)/(weeks in that ISO year), so 53-week years are squeezed slightly; tick labels use 52 weeks
+  - A season counts as complete if it has 52 or more weeks; only complete seasons go into the caption counts
+  - "Typical" peak window in the caption = ISO weeks 1–10
+  - Linear series is coloured by ISO year to match the circular view
+limitations:
+  - With 15 years, neighbouring years have similar colours; tooltips or brushing are needed to tell them apart for sure
+  - Circular lines are smoothed (Catmull-Rom), so the curve can slightly overshoot the weekly points
+  - Each year is drawn as a separate open line, so the change from late December to week 1 is not connected in the circular view
+  - The 2026/27 marker is only the highest value so far, not a final peak
+  - The caption's wording is my reading; its numbers come from the data

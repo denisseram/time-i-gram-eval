@@ -1,0 +1,184 @@
+{
+ "title": "Does the yearly peak of acute respiratory illness in Germany come at the same time each year?",
+ "subtitle": "Until 2019 the peak came each February (ISO weeks 5\u20139); since 2020 it has moved (March, autumn, December). Source: RKI, CC BY 4.0",
+ "arrangement": "horizontal",
+ "spacing": 60,
+ "views": [
+  {
+   "layout": "circular",
+   "centerRadius": 0.35,
+   "tracks": [
+    {
+     "alignment": "overlay",
+     "data": {
+      "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+      "type": "csv-time",
+      "separator": "\t",
+      "dateFields": [
+       "Kalenderwoche"
+      ]
+     },
+     "dataTransform": [
+      {
+       "type": "filter",
+       "field": "Bundesland",
+       "oneOf": [
+        "Bundesweit"
+       ]
+      },
+      {
+       "type": "filter",
+       "field": "Altersgruppe",
+       "oneOf": [
+        "00+"
+       ]
+      }
+     ],
+     "x": {
+      "field": "Kalenderwoche",
+      "type": "temporal",
+      "period": {
+       "unit": "year",
+       "weekBased": true,
+       "newField": "year"
+      },
+      "axis": "top"
+     },
+     "y": {
+      "field": "ARE_Konsultationsinzidenz",
+      "type": "quantitative",
+      "axis": "right",
+      "title": "ARE consultations per 100,000 per week"
+     },
+     "tracks": [
+      {
+       "mark": "line",
+       "color": {
+        "field": "year",
+        "type": "nominal",
+        "legend": true,
+        "title": "ISO year",
+        "domain": [
+         "2012",
+         "2013",
+         "2014",
+         "2015",
+         "2016",
+         "2017",
+         "2018",
+         "2019",
+         "2020",
+         "2021",
+         "2022",
+         "2023",
+         "2024",
+         "2025",
+         "2026"
+        ],
+        "range": [
+         "#1f77b4",
+         "#ff7f0e",
+         "#2ca02c",
+         "#d62728",
+         "#9467bd",
+         "#8c564b",
+         "#e377c2",
+         "#7f7f7f",
+         "#bcbd22",
+         "#17becf",
+         "#393b79",
+         "#e7ba52",
+         "#00a087",
+         "#ad494a",
+         "#000000"
+        ]
+       },
+       "size": {
+        "value": 1.5
+       }
+      }
+     ],
+     "style": {
+      "outline": "none"
+     },
+     "width": 520,
+     "height": 200
+    }
+   ]
+  },
+  {
+   "tracks": [
+    {
+     "alignment": "overlay",
+     "data": {
+      "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+      "type": "csv-time",
+      "separator": "\t",
+      "dateFields": [
+       "Kalenderwoche"
+      ]
+     },
+     "dataTransform": [
+      {
+       "type": "filter",
+       "field": "Bundesland",
+       "oneOf": [
+        "Bundesweit"
+       ]
+      },
+      {
+       "type": "filter",
+       "field": "Altersgruppe",
+       "oneOf": [
+        "00+"
+       ]
+      }
+     ],
+     "title": "Whole series, 2012 to 2026 (drag to select a time range)",
+     "x": {
+      "field": "Kalenderwoche",
+      "type": "temporal",
+      "axis": "bottom"
+     },
+     "y": {
+      "field": "ARE_Konsultationsinzidenz",
+      "type": "quantitative",
+      "axis": "left",
+      "title": "ARE consultations per 100,000 per week"
+     },
+     "tracks": [
+      {
+       "mark": "line",
+       "color": {
+        "value": "#333"
+       },
+       "size": {
+        "value": 1
+       }
+      },
+      {
+       "mark": "brush",
+       "x": {
+        "linkingId": "sel"
+       },
+       "color": {
+        "value": "steelblue"
+       }
+      }
+     ],
+     "style": {
+      "outline": "#ccc"
+     },
+     "width": 700,
+     "height": 300
+    }
+   ],
+   "xDomain": {
+    "interval": [
+     "2012-W40",
+     "2026-W44"
+    ]
+   }
+  }
+ ]
+}

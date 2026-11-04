@@ -1,0 +1,22 @@
+REPORT
+deliverable: spec.json
+requirements:
+  R1: done - overview of daily mean tl over 2020–2024, axis labelled by year
+  R2: done - detail shows raw 10-min readings when span < 4 days (hourly means < 60 days, daily above)
+  R3: done - brush in overview linked to the detail view; only static render checked
+  R4: done - rr bar track below tl in the detail view, same linked x axis
+  R5: done - overview axis shows years; detail axis shows days and hh:mm, adapting to zoom
+  R6: done - full CSV loaded from the URL via csv-time; aggregation only inside the spec
+  R7: done - title, one-sentence caption, °C / mm per 10 min / UTC in track and axis titles
+assumptions:
+  - Overview aggregates tl to daily means
+  - Detail opens on 15–17 July 2024 so single readings are visible at start; the period was picked by hand, not computed
+  - Temperature y range fixed at -15 to 40 °C so values below zero are not cut off (auto scale started at 0)
+  - Precipitation is summed per hour/day when zoomed out; the axis is titled "Precip. (mm)", and the track title says it is mm per 10 min at full detail
+limitations:
+  - The overview year axis has no month labels; months appear only in the detail view
+  - "UTC" is in track titles, not as an x-axis title
+  - At 4–60 day spans the detail shows hourly means, not single readings
+  - Loading the ~263k-row CSV takes roughly 20 s before the figure appears
+  - The renderer logs 16 warnings ("unknown data type: undefined", "No dataConfig children…"); cause not traced, render still OK
+  - The 0 °C tick label on the overview y axis overlaps the line slightly

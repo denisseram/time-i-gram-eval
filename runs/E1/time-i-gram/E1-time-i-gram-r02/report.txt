@@ -1,0 +1,20 @@
+REPORT
+deliverable: spec.json
+requirements:
+  R1: done - built-in monthly mean (x timeUnit "month", aggregate "mean" on colour), grouped by depth, from the daily rows
+  R2: done - time axis set to Feb 2018 – Dec 2025, one cell per month
+  R3: done - month/depth pairs with no data are left as empty white cells; the subtitle says what empty cells mean
+  R4: done - each row is labelled "2 m" … "40 m", in depth order
+  R5: done - colour legend titled "°C"
+  R6: done - title plus a one-sentence caption (subtitle) with the main pattern
+assumptions:
+  - Monthly mean = plain mean of that month's daily means (not weighted by n_obs).
+  - A heatmap of depth × month answers "each depth, month by month" better than 7 overlapping lines.
+  - The caption's pattern was checked against averages by calendar month that I computed outside the deliverable; no data values are typed into the spec.
+limitations:
+  - The colour legend sits in a separate, transparent copy of the track above the heatmap, because the built-in legend otherwise covered data cells. Both copies use the same data and the same automatic colour scale.
+  - The "N m" row labels are made with string-replace rules, which needed placeholder steps because replace changes every occurrence of the text ("5" inside "15"). Only the order of the 7 depth names is fixed by hand, not any data values.
+  - The legend only shows ticks at 0, 5 and 10 °C; the scale goes up to about 19 °C (the yellow end).
+  - The first month (Feb 2018) starts on 20 Feb, so its mean covers only part of the month.
+  - The "Rows: sensor depth at low tide" label slightly overlaps the "2 m" label.
+  - Viridis is a sequential scale, so it shows warm vs. cold but no reference temperature.

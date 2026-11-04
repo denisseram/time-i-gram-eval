@@ -1,0 +1,19 @@
+REPORT
+deliverable: index.html
+requirements:
+  R1: done - overview of 2020–2024: daily min–max band plus daily mean of tl
+  R2: done - canvas detail zooms to a 2 h minimum span, showing individual 10-min readings as dots
+  R3: done - overview brush sets the detail period; detail zoom/pan moves the brush back
+  R4: done - separate rr bar track below tl on a shared UTC time scale
+  R5: done - overview: years + months; detail: multi-scale UTC labels from days down to HH:MM
+  R6: done - all 263,088 rows loaded with d3.text/csvParse; aggregation done in the browser
+  R7: done - axes labelled °C, mm / 10 min, Time (UTC); title; one-sentence caption computed from data
+assumptions:
+  - rr at a time stamp is the sum over the 10 minutes ending at that stamp
+  - overview aggregated per UTC day (min/max/mean)
+  - initial detail period = last 14 days of the record (computed from data)
+  - minimum zoom span is 2 hours, which is enough to inspect single readings
+limitations:
+  - in the dense mode, rr bars show the per-pixel maximum, not the sum
+  - at very small spans the overview brush is narrower than a pixel and hard to see
+  - empty fields would show as gaps; this file has none

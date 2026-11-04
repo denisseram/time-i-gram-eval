@@ -1,0 +1,1401 @@
+{
+ "title": "Does the ARE peak in Germany come at the same time every year?",
+ "subtitle": "Before 2020 the peak came every year in ISO weeks 5-12 (Feb-Mar); since COVID-19 its timing varies (December peaks in 2022 and 2023). Data: RKI, CC BY 4.0",
+ "arrangement": "vertical",
+ "spacing": 12,
+ "views": [
+  {
+   "arrangement": "horizontal",
+   "spacing": 30,
+   "views": [
+    {
+     "layout": "circular",
+     "centerRadius": 0.4,
+     "title": "All ISO years overlaid: angle = ISO week (W1 at top, clockwise), radius = incidence",
+     "tracks": [
+      {
+       "alignment": "overlay",
+       "data": {
+        "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+        "type": "csv-time",
+        "separator": "\t",
+        "dateFields": [
+         "Kalenderwoche"
+        ]
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "Bundesland",
+         "oneOf": [
+          "Bundesweit"
+         ]
+        },
+        {
+         "type": "filter",
+         "field": "Altersgruppe",
+         "oneOf": [
+          "00+"
+         ]
+        }
+       ],
+       "x": {
+        "field": "Kalenderwoche",
+        "type": "temporal",
+        "period": {
+         "unit": "year",
+         "weekBased": true,
+         "newField": "year"
+        },
+        "axis": "top"
+       },
+       "y": {
+        "field": "ARE_Konsultationsinzidenz",
+        "type": "quantitative",
+        "title": "ARE consultations per 100,000 per week",
+        "axis": "right"
+       },
+       "tracks": [
+        {
+         "mark": "line",
+         "color": {
+          "field": "year",
+          "type": "nominal",
+          "domain": [
+           "2012",
+           "2013",
+           "2014",
+           "2015",
+           "2016",
+           "2017",
+           "2018",
+           "2019",
+           "2020",
+           "2021",
+           "2022",
+           "2023",
+           "2024",
+           "2025",
+           "2026"
+          ],
+          "range": [
+           "#440154",
+           "#461768",
+           "#472c7a",
+           "#414084",
+           "#3b528a",
+           "#33638d",
+           "#2d728e",
+           "#26818e",
+           "#22918b",
+           "#21a088",
+           "#2dae7e",
+           "#41bc72",
+           "#61c860",
+           "#86d349",
+           "#aedd30"
+          ],
+          "legend": true,
+          "title": "ISO year"
+         },
+         "size": {
+          "value": 1.5
+         }
+        }
+       ],
+       "width": 470,
+       "height": 400
+      }
+     ]
+    },
+    {
+     "arrangement": "vertical",
+     "spacing": 8,
+     "views": [
+      {
+       "arrangement": "horizontal",
+       "spacing": 10,
+       "views": [
+        {
+         "layout": "circular",
+         "centerRadius": 0.3,
+         "title": "2012",
+         "tracks": [
+          {
+           "alignment": "overlay",
+           "data": {
+            "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+            "type": "csv-time",
+            "separator": "\t",
+            "dateFields": [
+             "Kalenderwoche"
+            ]
+           },
+           "dataTransform": [
+            {
+             "type": "filter",
+             "field": "Bundesland",
+             "oneOf": [
+              "Bundesweit"
+             ]
+            },
+            {
+             "type": "filter",
+             "field": "Altersgruppe",
+             "oneOf": [
+              "00+"
+             ]
+            }
+           ],
+           "x": {
+            "field": "Kalenderwoche",
+            "type": "temporal",
+            "axis": "none",
+            "domain": {
+             "interval": [
+              "2012-01-02T00:00:00Z",
+              "2012-12-31T00:00:00Z"
+             ]
+            }
+           },
+           "y": {
+            "field": "ARE_Konsultationsinzidenz",
+            "type": "quantitative",
+            "axis": "none"
+           },
+           "tracks": [
+            {
+             "mark": "bar",
+             "color": {
+              "value": "#440154"
+             }
+            },
+            {
+             "mark": "brush",
+             "x": {
+              "linkingId": "sel"
+             },
+             "color": {
+              "value": "black"
+             },
+             "opacity": {
+              "value": 0.15
+             }
+            }
+           ],
+           "width": 118,
+           "height": 118,
+           "style": {
+            "outline": "none"
+           },
+           "title": "2012"
+          }
+         ]
+        },
+        {
+         "layout": "circular",
+         "centerRadius": 0.3,
+         "title": "2013",
+         "tracks": [
+          {
+           "alignment": "overlay",
+           "data": {
+            "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+            "type": "csv-time",
+            "separator": "\t",
+            "dateFields": [
+             "Kalenderwoche"
+            ]
+           },
+           "dataTransform": [
+            {
+             "type": "filter",
+             "field": "Bundesland",
+             "oneOf": [
+              "Bundesweit"
+             ]
+            },
+            {
+             "type": "filter",
+             "field": "Altersgruppe",
+             "oneOf": [
+              "00+"
+             ]
+            }
+           ],
+           "x": {
+            "field": "Kalenderwoche",
+            "type": "temporal",
+            "axis": "none",
+            "domain": {
+             "interval": [
+              "2012-12-31T00:00:00Z",
+              "2013-12-30T00:00:00Z"
+             ]
+            }
+           },
+           "y": {
+            "field": "ARE_Konsultationsinzidenz",
+            "type": "quantitative",
+            "axis": "none"
+           },
+           "tracks": [
+            {
+             "mark": "bar",
+             "color": {
+              "value": "#461768"
+             }
+            },
+            {
+             "mark": "brush",
+             "x": {
+              "linkingId": "sel"
+             },
+             "color": {
+              "value": "black"
+             },
+             "opacity": {
+              "value": 0.15
+             }
+            }
+           ],
+           "width": 118,
+           "height": 118,
+           "style": {
+            "outline": "none"
+           },
+           "title": "2013"
+          }
+         ]
+        },
+        {
+         "layout": "circular",
+         "centerRadius": 0.3,
+         "title": "2014",
+         "tracks": [
+          {
+           "alignment": "overlay",
+           "data": {
+            "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+            "type": "csv-time",
+            "separator": "\t",
+            "dateFields": [
+             "Kalenderwoche"
+            ]
+           },
+           "dataTransform": [
+            {
+             "type": "filter",
+             "field": "Bundesland",
+             "oneOf": [
+              "Bundesweit"
+             ]
+            },
+            {
+             "type": "filter",
+             "field": "Altersgruppe",
+             "oneOf": [
+              "00+"
+             ]
+            }
+           ],
+           "x": {
+            "field": "Kalenderwoche",
+            "type": "temporal",
+            "axis": "none",
+            "domain": {
+             "interval": [
+              "2013-12-30T00:00:00Z",
+              "2014-12-29T00:00:00Z"
+             ]
+            }
+           },
+           "y": {
+            "field": "ARE_Konsultationsinzidenz",
+            "type": "quantitative",
+            "axis": "none"
+           },
+           "tracks": [
+            {
+             "mark": "bar",
+             "color": {
+              "value": "#472c7a"
+             }
+            },
+            {
+             "mark": "brush",
+             "x": {
+              "linkingId": "sel"
+             },
+             "color": {
+              "value": "black"
+             },
+             "opacity": {
+              "value": 0.15
+             }
+            }
+           ],
+           "width": 118,
+           "height": 118,
+           "style": {
+            "outline": "none"
+           },
+           "title": "2014"
+          }
+         ]
+        },
+        {
+         "layout": "circular",
+         "centerRadius": 0.3,
+         "title": "2015",
+         "tracks": [
+          {
+           "alignment": "overlay",
+           "data": {
+            "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+            "type": "csv-time",
+            "separator": "\t",
+            "dateFields": [
+             "Kalenderwoche"
+            ]
+           },
+           "dataTransform": [
+            {
+             "type": "filter",
+             "field": "Bundesland",
+             "oneOf": [
+              "Bundesweit"
+             ]
+            },
+            {
+             "type": "filter",
+             "field": "Altersgruppe",
+             "oneOf": [
+              "00+"
+             ]
+            }
+           ],
+           "x": {
+            "field": "Kalenderwoche",
+            "type": "temporal",
+            "axis": "none",
+            "domain": {
+             "interval": [
+              "2014-12-29T00:00:00Z",
+              "2016-01-04T00:00:00Z"
+             ]
+            }
+           },
+           "y": {
+            "field": "ARE_Konsultationsinzidenz",
+            "type": "quantitative",
+            "axis": "none"
+           },
+           "tracks": [
+            {
+             "mark": "bar",
+             "color": {
+              "value": "#414084"
+             }
+            },
+            {
+             "mark": "brush",
+             "x": {
+              "linkingId": "sel"
+             },
+             "color": {
+              "value": "black"
+             },
+             "opacity": {
+              "value": 0.15
+             }
+            }
+           ],
+           "width": 118,
+           "height": 118,
+           "style": {
+            "outline": "none"
+           },
+           "title": "2015"
+          }
+         ]
+        },
+        {
+         "layout": "circular",
+         "centerRadius": 0.3,
+         "title": "2016",
+         "tracks": [
+          {
+           "alignment": "overlay",
+           "data": {
+            "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+            "type": "csv-time",
+            "separator": "\t",
+            "dateFields": [
+             "Kalenderwoche"
+            ]
+           },
+           "dataTransform": [
+            {
+             "type": "filter",
+             "field": "Bundesland",
+             "oneOf": [
+              "Bundesweit"
+             ]
+            },
+            {
+             "type": "filter",
+             "field": "Altersgruppe",
+             "oneOf": [
+              "00+"
+             ]
+            }
+           ],
+           "x": {
+            "field": "Kalenderwoche",
+            "type": "temporal",
+            "axis": "none",
+            "domain": {
+             "interval": [
+              "2016-01-04T00:00:00Z",
+              "2017-01-02T00:00:00Z"
+             ]
+            }
+           },
+           "y": {
+            "field": "ARE_Konsultationsinzidenz",
+            "type": "quantitative",
+            "axis": "none"
+           },
+           "tracks": [
+            {
+             "mark": "bar",
+             "color": {
+              "value": "#3b528a"
+             }
+            },
+            {
+             "mark": "brush",
+             "x": {
+              "linkingId": "sel"
+             },
+             "color": {
+              "value": "black"
+             },
+             "opacity": {
+              "value": 0.15
+             }
+            }
+           ],
+           "width": 118,
+           "height": 118,
+           "style": {
+            "outline": "none"
+           },
+           "title": "2016"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "arrangement": "horizontal",
+       "spacing": 10,
+       "views": [
+        {
+         "layout": "circular",
+         "centerRadius": 0.3,
+         "title": "2017",
+         "tracks": [
+          {
+           "alignment": "overlay",
+           "data": {
+            "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+            "type": "csv-time",
+            "separator": "\t",
+            "dateFields": [
+             "Kalenderwoche"
+            ]
+           },
+           "dataTransform": [
+            {
+             "type": "filter",
+             "field": "Bundesland",
+             "oneOf": [
+              "Bundesweit"
+             ]
+            },
+            {
+             "type": "filter",
+             "field": "Altersgruppe",
+             "oneOf": [
+              "00+"
+             ]
+            }
+           ],
+           "x": {
+            "field": "Kalenderwoche",
+            "type": "temporal",
+            "axis": "none",
+            "domain": {
+             "interval": [
+              "2017-01-02T00:00:00Z",
+              "2018-01-01T00:00:00Z"
+             ]
+            }
+           },
+           "y": {
+            "field": "ARE_Konsultationsinzidenz",
+            "type": "quantitative",
+            "axis": "none"
+           },
+           "tracks": [
+            {
+             "mark": "bar",
+             "color": {
+              "value": "#33638d"
+             }
+            },
+            {
+             "mark": "brush",
+             "x": {
+              "linkingId": "sel"
+             },
+             "color": {
+              "value": "black"
+             },
+             "opacity": {
+              "value": 0.15
+             }
+            }
+           ],
+           "width": 118,
+           "height": 118,
+           "style": {
+            "outline": "none"
+           },
+           "title": "2017"
+          }
+         ]
+        },
+        {
+         "layout": "circular",
+         "centerRadius": 0.3,
+         "title": "2018",
+         "tracks": [
+          {
+           "alignment": "overlay",
+           "data": {
+            "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+            "type": "csv-time",
+            "separator": "\t",
+            "dateFields": [
+             "Kalenderwoche"
+            ]
+           },
+           "dataTransform": [
+            {
+             "type": "filter",
+             "field": "Bundesland",
+             "oneOf": [
+              "Bundesweit"
+             ]
+            },
+            {
+             "type": "filter",
+             "field": "Altersgruppe",
+             "oneOf": [
+              "00+"
+             ]
+            }
+           ],
+           "x": {
+            "field": "Kalenderwoche",
+            "type": "temporal",
+            "axis": "none",
+            "domain": {
+             "interval": [
+              "2018-01-01T00:00:00Z",
+              "2018-12-31T00:00:00Z"
+             ]
+            }
+           },
+           "y": {
+            "field": "ARE_Konsultationsinzidenz",
+            "type": "quantitative",
+            "axis": "none"
+           },
+           "tracks": [
+            {
+             "mark": "bar",
+             "color": {
+              "value": "#2d728e"
+             }
+            },
+            {
+             "mark": "brush",
+             "x": {
+              "linkingId": "sel"
+             },
+             "color": {
+              "value": "black"
+             },
+             "opacity": {
+              "value": 0.15
+             }
+            }
+           ],
+           "width": 118,
+           "height": 118,
+           "style": {
+            "outline": "none"
+           },
+           "title": "2018"
+          }
+         ]
+        },
+        {
+         "layout": "circular",
+         "centerRadius": 0.3,
+         "title": "2019",
+         "tracks": [
+          {
+           "alignment": "overlay",
+           "data": {
+            "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+            "type": "csv-time",
+            "separator": "\t",
+            "dateFields": [
+             "Kalenderwoche"
+            ]
+           },
+           "dataTransform": [
+            {
+             "type": "filter",
+             "field": "Bundesland",
+             "oneOf": [
+              "Bundesweit"
+             ]
+            },
+            {
+             "type": "filter",
+             "field": "Altersgruppe",
+             "oneOf": [
+              "00+"
+             ]
+            }
+           ],
+           "x": {
+            "field": "Kalenderwoche",
+            "type": "temporal",
+            "axis": "none",
+            "domain": {
+             "interval": [
+              "2018-12-31T00:00:00Z",
+              "2019-12-30T00:00:00Z"
+             ]
+            }
+           },
+           "y": {
+            "field": "ARE_Konsultationsinzidenz",
+            "type": "quantitative",
+            "axis": "none"
+           },
+           "tracks": [
+            {
+             "mark": "bar",
+             "color": {
+              "value": "#26818e"
+             }
+            },
+            {
+             "mark": "brush",
+             "x": {
+              "linkingId": "sel"
+             },
+             "color": {
+              "value": "black"
+             },
+             "opacity": {
+              "value": 0.15
+             }
+            }
+           ],
+           "width": 118,
+           "height": 118,
+           "style": {
+            "outline": "none"
+           },
+           "title": "2019"
+          }
+         ]
+        },
+        {
+         "layout": "circular",
+         "centerRadius": 0.3,
+         "title": "2020",
+         "tracks": [
+          {
+           "alignment": "overlay",
+           "data": {
+            "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+            "type": "csv-time",
+            "separator": "\t",
+            "dateFields": [
+             "Kalenderwoche"
+            ]
+           },
+           "dataTransform": [
+            {
+             "type": "filter",
+             "field": "Bundesland",
+             "oneOf": [
+              "Bundesweit"
+             ]
+            },
+            {
+             "type": "filter",
+             "field": "Altersgruppe",
+             "oneOf": [
+              "00+"
+             ]
+            }
+           ],
+           "x": {
+            "field": "Kalenderwoche",
+            "type": "temporal",
+            "axis": "none",
+            "domain": {
+             "interval": [
+              "2019-12-30T00:00:00Z",
+              "2021-01-04T00:00:00Z"
+             ]
+            }
+           },
+           "y": {
+            "field": "ARE_Konsultationsinzidenz",
+            "type": "quantitative",
+            "axis": "none"
+           },
+           "tracks": [
+            {
+             "mark": "bar",
+             "color": {
+              "value": "#22918b"
+             }
+            },
+            {
+             "mark": "brush",
+             "x": {
+              "linkingId": "sel"
+             },
+             "color": {
+              "value": "black"
+             },
+             "opacity": {
+              "value": 0.15
+             }
+            }
+           ],
+           "width": 118,
+           "height": 118,
+           "style": {
+            "outline": "none"
+           },
+           "title": "2020"
+          }
+         ]
+        },
+        {
+         "layout": "circular",
+         "centerRadius": 0.3,
+         "title": "2021",
+         "tracks": [
+          {
+           "alignment": "overlay",
+           "data": {
+            "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+            "type": "csv-time",
+            "separator": "\t",
+            "dateFields": [
+             "Kalenderwoche"
+            ]
+           },
+           "dataTransform": [
+            {
+             "type": "filter",
+             "field": "Bundesland",
+             "oneOf": [
+              "Bundesweit"
+             ]
+            },
+            {
+             "type": "filter",
+             "field": "Altersgruppe",
+             "oneOf": [
+              "00+"
+             ]
+            }
+           ],
+           "x": {
+            "field": "Kalenderwoche",
+            "type": "temporal",
+            "axis": "none",
+            "domain": {
+             "interval": [
+              "2021-01-04T00:00:00Z",
+              "2022-01-03T00:00:00Z"
+             ]
+            }
+           },
+           "y": {
+            "field": "ARE_Konsultationsinzidenz",
+            "type": "quantitative",
+            "axis": "none"
+           },
+           "tracks": [
+            {
+             "mark": "bar",
+             "color": {
+              "value": "#21a088"
+             }
+            },
+            {
+             "mark": "brush",
+             "x": {
+              "linkingId": "sel"
+             },
+             "color": {
+              "value": "black"
+             },
+             "opacity": {
+              "value": 0.15
+             }
+            }
+           ],
+           "width": 118,
+           "height": 118,
+           "style": {
+            "outline": "none"
+           },
+           "title": "2021"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "arrangement": "horizontal",
+       "spacing": 10,
+       "views": [
+        {
+         "layout": "circular",
+         "centerRadius": 0.3,
+         "title": "2022",
+         "tracks": [
+          {
+           "alignment": "overlay",
+           "data": {
+            "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+            "type": "csv-time",
+            "separator": "\t",
+            "dateFields": [
+             "Kalenderwoche"
+            ]
+           },
+           "dataTransform": [
+            {
+             "type": "filter",
+             "field": "Bundesland",
+             "oneOf": [
+              "Bundesweit"
+             ]
+            },
+            {
+             "type": "filter",
+             "field": "Altersgruppe",
+             "oneOf": [
+              "00+"
+             ]
+            }
+           ],
+           "x": {
+            "field": "Kalenderwoche",
+            "type": "temporal",
+            "axis": "none",
+            "domain": {
+             "interval": [
+              "2022-01-03T00:00:00Z",
+              "2023-01-02T00:00:00Z"
+             ]
+            }
+           },
+           "y": {
+            "field": "ARE_Konsultationsinzidenz",
+            "type": "quantitative",
+            "axis": "none"
+           },
+           "tracks": [
+            {
+             "mark": "bar",
+             "color": {
+              "value": "#2dae7e"
+             }
+            },
+            {
+             "mark": "brush",
+             "x": {
+              "linkingId": "sel"
+             },
+             "color": {
+              "value": "black"
+             },
+             "opacity": {
+              "value": 0.15
+             }
+            }
+           ],
+           "width": 118,
+           "height": 118,
+           "style": {
+            "outline": "none"
+           },
+           "title": "2022"
+          }
+         ]
+        },
+        {
+         "layout": "circular",
+         "centerRadius": 0.3,
+         "title": "2023",
+         "tracks": [
+          {
+           "alignment": "overlay",
+           "data": {
+            "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+            "type": "csv-time",
+            "separator": "\t",
+            "dateFields": [
+             "Kalenderwoche"
+            ]
+           },
+           "dataTransform": [
+            {
+             "type": "filter",
+             "field": "Bundesland",
+             "oneOf": [
+              "Bundesweit"
+             ]
+            },
+            {
+             "type": "filter",
+             "field": "Altersgruppe",
+             "oneOf": [
+              "00+"
+             ]
+            }
+           ],
+           "x": {
+            "field": "Kalenderwoche",
+            "type": "temporal",
+            "axis": "none",
+            "domain": {
+             "interval": [
+              "2023-01-02T00:00:00Z",
+              "2024-01-01T00:00:00Z"
+             ]
+            }
+           },
+           "y": {
+            "field": "ARE_Konsultationsinzidenz",
+            "type": "quantitative",
+            "axis": "none"
+           },
+           "tracks": [
+            {
+             "mark": "bar",
+             "color": {
+              "value": "#41bc72"
+             }
+            },
+            {
+             "mark": "brush",
+             "x": {
+              "linkingId": "sel"
+             },
+             "color": {
+              "value": "black"
+             },
+             "opacity": {
+              "value": 0.15
+             }
+            }
+           ],
+           "width": 118,
+           "height": 118,
+           "style": {
+            "outline": "none"
+           },
+           "title": "2023"
+          }
+         ]
+        },
+        {
+         "layout": "circular",
+         "centerRadius": 0.3,
+         "title": "2024",
+         "tracks": [
+          {
+           "alignment": "overlay",
+           "data": {
+            "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+            "type": "csv-time",
+            "separator": "\t",
+            "dateFields": [
+             "Kalenderwoche"
+            ]
+           },
+           "dataTransform": [
+            {
+             "type": "filter",
+             "field": "Bundesland",
+             "oneOf": [
+              "Bundesweit"
+             ]
+            },
+            {
+             "type": "filter",
+             "field": "Altersgruppe",
+             "oneOf": [
+              "00+"
+             ]
+            }
+           ],
+           "x": {
+            "field": "Kalenderwoche",
+            "type": "temporal",
+            "axis": "none",
+            "domain": {
+             "interval": [
+              "2024-01-01T00:00:00Z",
+              "2024-12-30T00:00:00Z"
+             ]
+            }
+           },
+           "y": {
+            "field": "ARE_Konsultationsinzidenz",
+            "type": "quantitative",
+            "axis": "none"
+           },
+           "tracks": [
+            {
+             "mark": "bar",
+             "color": {
+              "value": "#61c860"
+             }
+            },
+            {
+             "mark": "brush",
+             "x": {
+              "linkingId": "sel"
+             },
+             "color": {
+              "value": "black"
+             },
+             "opacity": {
+              "value": 0.15
+             }
+            }
+           ],
+           "width": 118,
+           "height": 118,
+           "style": {
+            "outline": "none"
+           },
+           "title": "2024"
+          }
+         ]
+        },
+        {
+         "layout": "circular",
+         "centerRadius": 0.3,
+         "title": "2025",
+         "tracks": [
+          {
+           "alignment": "overlay",
+           "data": {
+            "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+            "type": "csv-time",
+            "separator": "\t",
+            "dateFields": [
+             "Kalenderwoche"
+            ]
+           },
+           "dataTransform": [
+            {
+             "type": "filter",
+             "field": "Bundesland",
+             "oneOf": [
+              "Bundesweit"
+             ]
+            },
+            {
+             "type": "filter",
+             "field": "Altersgruppe",
+             "oneOf": [
+              "00+"
+             ]
+            }
+           ],
+           "x": {
+            "field": "Kalenderwoche",
+            "type": "temporal",
+            "axis": "none",
+            "domain": {
+             "interval": [
+              "2024-12-30T00:00:00Z",
+              "2025-12-29T00:00:00Z"
+             ]
+            }
+           },
+           "y": {
+            "field": "ARE_Konsultationsinzidenz",
+            "type": "quantitative",
+            "axis": "none"
+           },
+           "tracks": [
+            {
+             "mark": "bar",
+             "color": {
+              "value": "#86d349"
+             }
+            },
+            {
+             "mark": "brush",
+             "x": {
+              "linkingId": "sel"
+             },
+             "color": {
+              "value": "black"
+             },
+             "opacity": {
+              "value": 0.15
+             }
+            }
+           ],
+           "width": 118,
+           "height": 118,
+           "style": {
+            "outline": "none"
+           },
+           "title": "2025"
+          }
+         ]
+        },
+        {
+         "layout": "circular",
+         "centerRadius": 0.3,
+         "title": "2026",
+         "tracks": [
+          {
+           "alignment": "overlay",
+           "data": {
+            "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+            "type": "csv-time",
+            "separator": "\t",
+            "dateFields": [
+             "Kalenderwoche"
+            ]
+           },
+           "dataTransform": [
+            {
+             "type": "filter",
+             "field": "Bundesland",
+             "oneOf": [
+              "Bundesweit"
+             ]
+            },
+            {
+             "type": "filter",
+             "field": "Altersgruppe",
+             "oneOf": [
+              "00+"
+             ]
+            }
+           ],
+           "x": {
+            "field": "Kalenderwoche",
+            "type": "temporal",
+            "axis": "none",
+            "domain": {
+             "interval": [
+              "2025-12-29T00:00:00Z",
+              "2027-01-04T00:00:00Z"
+             ]
+            }
+           },
+           "y": {
+            "field": "ARE_Konsultationsinzidenz",
+            "type": "quantitative",
+            "axis": "none"
+           },
+           "tracks": [
+            {
+             "mark": "bar",
+             "color": {
+              "value": "#aedd30"
+             }
+            },
+            {
+             "mark": "brush",
+             "x": {
+              "linkingId": "sel"
+             },
+             "color": {
+              "value": "black"
+             },
+             "opacity": {
+              "value": 0.15
+             }
+            }
+           ],
+           "width": 118,
+           "height": 118,
+           "style": {
+            "outline": "none"
+           },
+           "title": "2026"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "tracks": [
+    {
+     "alignment": "overlay",
+     "data": {
+      "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+      "type": "csv-time",
+      "separator": "\t",
+      "dateFields": [
+       "Kalenderwoche"
+      ]
+     },
+     "dataTransform": [
+      {
+       "type": "filter",
+       "field": "Bundesland",
+       "oneOf": [
+        "Bundesweit"
+       ]
+      },
+      {
+       "type": "filter",
+       "field": "Altersgruppe",
+       "oneOf": [
+        "00+"
+       ]
+      }
+     ],
+     "x": {
+      "field": "Kalenderwoche",
+      "type": "temporal",
+      "axis": "bottom",
+      "domain": {
+       "interval": [
+        "2012-10",
+        "2026-11"
+       ]
+      }
+     },
+     "y": {
+      "field": "ARE_Konsultationsinzidenz",
+      "type": "quantitative",
+      "axis": "left",
+      "title": "ARE consultations per 100,000 per week"
+     },
+     "tracks": [
+      {
+       "mark": "line",
+       "color": {
+        "value": "#333"
+       }
+      },
+      {
+       "mark": "brush",
+       "x": {
+        "linkingId": "sel"
+       },
+       "color": {
+        "value": "steelblue"
+       }
+      }
+     ],
+     "width": 1240,
+     "height": 110,
+     "title": "Whole series 2012-2026 (drag the brush)"
+    }
+   ]
+  },
+  {
+   "tracks": [
+    {
+     "data": {
+      "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+      "type": "csv-time",
+      "separator": "\t",
+      "dateFields": [
+       "Kalenderwoche"
+      ]
+     },
+     "dataTransform": [
+      {
+       "type": "filter",
+       "field": "Bundesland",
+       "oneOf": [
+        "Bundesweit"
+       ]
+      },
+      {
+       "type": "filter",
+       "field": "Altersgruppe",
+       "oneOf": [
+        "00+"
+       ]
+      }
+     ],
+     "mark": "line",
+     "x": {
+      "field": "Kalenderwoche",
+      "type": "temporal",
+      "axis": "bottom",
+      "linkingId": "sel",
+      "domain": {
+       "interval": [
+        "2022-W40",
+        "2024-W39"
+       ]
+      }
+     },
+     "y": {
+      "field": "ARE_Konsultationsinzidenz",
+      "type": "quantitative",
+      "axis": "left",
+      "title": "ARE consultations per 100,000 per week"
+     },
+     "color": {
+      "value": "steelblue"
+     },
+     "width": 1240,
+     "height": 80,
+     "title": "Selected range (zoom/pan here or drag the brush above; grey shading in the small rings)"
+    }
+   ]
+  }
+ ]
+}

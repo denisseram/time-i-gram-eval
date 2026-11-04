@@ -1,0 +1,20 @@
+REPORT
+deliverable: spec.vl.json
+requirements:
+  R1: done - angle = 2π(week−1)/weeks-in-ISO-year, W1 at 12 o'clock, clockwise; radius = incidence (x/y computed with sin/cos)
+  R2: done - one line per ISO year, viridis colour with "ISO year" legend
+  R3: done - highest week per Saison marked with black-outlined point and season label (circle and linear view)
+  R4: done - linear line chart on a temporal axis, 2012-W40 to 2026-W43, date = Monday of ISO week
+  R5: done - x-interval brush in linear view filters coloured circle lines/peaks; unselected weeks remain as faint grey (drag not tested in a live browser)
+  R6: done - W1…W49 labels around circle, grey rings labelled 1,000–4,000 with radius unit note; year axis; y title with unit
+  R7: done - title plus caption sentence (subtitle) on peak timing
+assumptions:
+  - ISO week date computed as Monday of the week (from Jan 4 rule) within the spec
+  - Years with 53 ISO weeks use 53 angular steps; week labels drawn on a 52-week grid
+  - Peak ties resolved by the earliest week; 2026/27 (only 4 weeks so far) still marked, but as a diamond labelled "season in progress"
+  - Ring spacing (1,000) is a design choice; the outer ring is the data max rounded up to the next 1,000
+limitations:
+  - Each year's line ends at week 52/53 and is not connected to week 1 of the next year (small gap at the top)
+  - The caption text is written by hand from the data; everything plotted is computed in the spec
+  - The circle is visually dense; the brush is the main way to isolate individual years
+  - Light yellow (most recent years) has lower contrast on white

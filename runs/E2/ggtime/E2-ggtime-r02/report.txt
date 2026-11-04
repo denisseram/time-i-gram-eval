@@ -1,0 +1,18 @@
+REPORT
+deliverable: plot.R
+requirements:
+  R1: done - coord_calendar rows = cal_isoweek$year, 2012 (top) to 2026 (bottom)
+  R2: done - one cell per ISO week, weeks 1-53; week 53 appears in 2015 and 2020
+  R3: done - viridis sequential fill; legend "ARE consultations per 100,000 population per week"
+  R4: done - weeks outside the data are NA cells drawn transparent (empty), not zero
+  R5: done - week numbers 1-53 on x axis; years shown as ggtime row labels at the left edge
+  R6: done - title plus a one-sentence caption calculated from the data (a data-source line follows it)
+assumptions:
+  - ISO year and week parsed from Kalenderwoche (YYYY-Www), not from Saison
+  - "winter" for the caption statistic = ISO weeks 40-12; "early-year wave" = mean of weeks 1-10
+  - "Complete" years = years with at least 52 reported weeks (2012 and 2026 are partial)
+limitations:
+  - ggtime 1.1.0 bug: coord_calendar fails on a yearweek axis (looks for a "month" granule); workaround is a Date axis with explicit cal_isoweek granules
+  - Year labels are ggtime row labels pushed into the left margin, not true y-axis labels (the y axis has no meaning in coord_calendar)
+  - Week-axis labels are the break positions (1..53) of the reference row, because ggtime's ISO-week labels show week 1 of the next year in the 53rd slot
+  - Week 52 is low in most years, which probably reflects reporting over the Christmas holidays, not lower illness

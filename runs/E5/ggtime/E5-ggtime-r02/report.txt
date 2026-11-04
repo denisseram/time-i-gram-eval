@@ -1,0 +1,19 @@
+REPORT
+deliverable: plot.R
+requirements:
+  R1: done - daily mean line + daily min–max band of tl for all of 2020–2024
+  R2: done - detail panel shows every 10-min tl reading as a point (48 h window)
+  R3: partial - static output: no interactive brush; selected range is shaded in overview and drawn in detail
+  R4: done - rr as separate bar track, same time axis as the detail tl track
+  R5: done - overview Jan/Apr/Jul/Oct with year; detail HH:MM every 6 h, date at midnight, hourly minor grid
+  R6: done - all 263,088 rows loaded and checked; overview aggregated to daily in-script
+  R7: done - axis units (°C, mm per 10 min, UTC), title, caption with values computed from data
+assumptions:
+  - "Linked" in a static PNG/SVG = one selected range shaded in overview and shown in detail
+  - Selected range = 48 h around the 10-min reading with the highest rr (computed, not hard-coded)
+  - Each time stamp marks the end of its 10-min interval; rr bars are drawn over the preceding 10 min
+  - All time stamps are +00:00 (script stops if not); times parsed as UTC
+limitations:
+  - ggtime has no interactivity; to see another period, change the selection rule in plot.R
+  - x axes use ggplot2 scale_x_datetime; ggtime used for geom_time_line (POSIXct, not mixtime)
+  - Overview shows daily aggregates, not raw 10-min values

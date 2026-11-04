@@ -1,0 +1,20 @@
+REPORT
+deliverable: spec.json
+requirements:
+  R1: done - period ring, ISO week-based year, W1 at 12 o'clock, clockwise; radius = incidence
+  R2: done - one line per ISO year, 15 distinct colours, legend "ISO year"
+  R3: not possible - per-season argmax exists only as a relative-axis anchor; no way to place it at week-of-year in the ring
+  R4: done - linear line chart, calendar axis 2012-W40 to 2026-W44
+  R5: not possible - time-i-gram links only views in the same coordinate system (week-of-year vs calendar); linear view has a brush but it is not linked
+  R6: done - W1…W49 around the ring, years on linear axis, "ARE consultations per 100,000 per week" on both
+  R7: done - title + one-sentence subtitle caption
+assumptions:
+  - "Year" in the ring = ISO week-based year (W01–W52/53), as R1 specifies
+  - Linear domain ends 2026-W44 to cover the latest published week
+  - Caption peak weeks were checked against the raw file outside the deliverable; nothing in the spec is hard-coded
+limitations:
+  - No peak markers; read peaks from where each line reaches its largest radius
+  - The brush in the linear view selects a range but does not highlight weeks in the ring
+  - With 15 overlaid lines the ring is crowded; colours repeat in hue families
+  - 2012 (from W40) and 2026 (to W44) are partial years
+  - Console shows library warnings ("unknown data type", "No dataConfig children"); render status OK

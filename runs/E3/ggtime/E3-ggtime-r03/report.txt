@@ -1,0 +1,20 @@
+REPORT
+deliverable: plot.R
+requirements:
+  R1: done - coord_loop(years(1)) + coord_radial; ISO W01 at 12 o'clock, clockwise; radius = incidence
+  R2: done - one line per ISO year, ordered colour scale with legend "ISO year"
+  R3: done - circle markers at the max week of each complete Saison (also marked and labelled in the linear view)
+  R4: done - linear view 2012-W40 to 2026-W43 on a yearweek calendar axis
+  R5: partial - static output only: a fixed range (last 3 complete seasons, computed from data) is shaded in the linear view and shown in full colour in the circle, rest faded; no interactive brushing (no interactive package allowed, static PNG/SVG)
+  R6: done - W01, W05 … W49 around the circle, years on the linear axis, y = "ARE consultations per 100,000 per week"
+  R7: done - title + caption sentence; the week numbers in the caption are computed from the data
+assumptions:
+  - ISO week dates built from Kalenderwoche (Monday of the ISO week) and converted to mixtime::yearweek
+  - Peaks only for complete seasons (>= 52 weeks); the partial 2026/27 season is not marked
+  - The linked "selection" is the last three complete seasons (2023/24 to 2025/26), derived from the data
+  - "Pre-2020" and "since 2022/23" groupings in the caption are my reading; 2020/21 and 2021/22 (pandemic) are left out of the caption
+limitations:
+  - No real interaction; the selection is fixed in the script
+  - Week-break labels around the circle are set manually: with time_breaks = weeks(4L), ggtime labelled the breaks W01, W02, … instead of the actual week numbers
+  - The 2020/21 peak (W39, at the season's end) reflects pandemic conditions, not a normal winter wave
+  - The 2022/23 peak (W50) is outside the selected range, so it appears faded in the circle

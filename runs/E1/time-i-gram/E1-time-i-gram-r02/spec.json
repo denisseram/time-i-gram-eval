@@ -1,0 +1,177 @@
+{
+  "title": "Birchy Head, Nova Scotia: monthly mean water temperature by sensor depth, Feb 2018 – Dec 2025",
+  "subtitle": "Each summer shallow water warms most and earliest (peak Aug–Sep) while deeper water warms less and later (40 m peaks in Oct); all depths are similarly cold in late winter.",
+  "xDomain": {
+    "interval": [
+      "2018-02",
+      "2025-12"
+    ]
+  },
+  "arrangement": "vertical",
+  "spacing": 0,
+  "views": [
+    {
+      "tracks": [
+        {
+          "id": "legend",
+          "title": "Empty cells = no data for that depth and month. Data: CMAR Coastal Monitoring Program, daily means.",
+          "data": {
+            "type": "csv-time",
+            "url": "https://raw.githubusercontent.com/rfordatascience/tidytuesday/6753376ef104727ef0ca3e3db6f2ca580c0d5a7b/data/2026/2026-03-31/ocean_temperature.csv",
+            "dateFields": [
+              "date"
+            ]
+          },
+          "mark": "rect",
+          "x": {
+            "field": "date",
+            "type": "temporal",
+            "timeUnit": "month",
+            "axis": "none"
+          },
+          "color": {
+            "field": "mean_temperature_degree_c",
+            "type": "quantitative",
+            "aggregate": "mean",
+            "range": "viridis",
+            "legend": true,
+            "title": "°C"
+          },
+          "opacity": {
+            "value": 0
+          },
+          "style": {
+            "outline": "white"
+          },
+          "width": 1250,
+          "height": 110
+        },
+        {
+          "title": "Rows: sensor depth at low tide",
+          "data": {
+            "type": "csv-time",
+            "url": "https://raw.githubusercontent.com/rfordatascience/tidytuesday/6753376ef104727ef0ca3e3db6f2ca580c0d5a7b/data/2026/2026-03-31/ocean_temperature.csv",
+            "dateFields": [
+              "date"
+            ]
+          },
+          "dataTransform": [
+            {
+              "type": "replace",
+              "field": "sensor_depth_at_low_tide_m",
+              "newField": "depth",
+              "replace": [
+                {
+                  "from": "40",
+                  "to": "d"
+                },
+                {
+                  "from": "30",
+                  "to": "c"
+                },
+                {
+                  "from": "20",
+                  "to": "b"
+                },
+                {
+                  "from": "15",
+                  "to": "a"
+                },
+                {
+                  "from": "10",
+                  "to": "z"
+                },
+                {
+                  "from": "5",
+                  "to": "y"
+                },
+                {
+                  "from": "2",
+                  "to": "x"
+                },
+                {
+                  "from": "d",
+                  "to": "40 m"
+                },
+                {
+                  "from": "c",
+                  "to": "30 m"
+                },
+                {
+                  "from": "b",
+                  "to": "20 m"
+                },
+                {
+                  "from": "a",
+                  "to": "15 m"
+                },
+                {
+                  "from": "z",
+                  "to": "10 m"
+                },
+                {
+                  "from": "y",
+                  "to": "5 m"
+                },
+                {
+                  "from": "x",
+                  "to": "2 m"
+                }
+              ]
+            }
+          ],
+          "mark": "rect",
+          "x": {
+            "field": "date",
+            "type": "temporal",
+            "timeUnit": "month",
+            "axis": "bottom"
+          },
+          "row": {
+            "field": "depth",
+            "type": "nominal",
+            "domain": [
+              "2 m",
+              "5 m",
+              "10 m",
+              "15 m",
+              "20 m",
+              "30 m",
+              "40 m"
+            ],
+            "legend": true
+          },
+          "color": {
+            "field": "mean_temperature_degree_c",
+            "type": "quantitative",
+            "aggregate": "mean",
+            "range": "viridis",
+            "legend": false,
+            "title": "Monthly mean (°C)"
+          },
+          "stroke": {
+            "value": "white"
+          },
+          "strokeWidth": {
+            "value": 0.3
+          },
+          "tooltip": [
+            {
+              "field": "depth",
+              "type": "nominal",
+              "alt": "Depth"
+            },
+            {
+              "field": "mean_temperature_degree_c",
+              "type": "quantitative",
+              "alt": "Monthly mean (°C)",
+              "format": ".2f"
+            }
+          ],
+          "width": 1250,
+          "height": 560
+        }
+      ]
+    }
+  ]
+}

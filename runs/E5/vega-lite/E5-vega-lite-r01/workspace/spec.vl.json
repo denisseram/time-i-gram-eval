@@ -1,0 +1,316 @@
+{
+ "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+ "title": {
+  "text": "Wien Hohe Warte, 10-minute air temperature and precipitation, 2020–2024",
+  "subtitle": [
+   "Temperature follows a strong annual cycle, from frequent sub-zero lows in winter to summer highs above 30 °C, while precipitation falls in short, scattered bursts.",
+   "Drag in the overview to choose a period (drag the grey window to move it, scroll to resize); the two lower panels show every 10-minute reading in that period. Data: GeoSphere Austria (klima-v2-10min), CC BY 4.0."
+  ],
+  "anchor": "start",
+  "fontSize": 16,
+  "subtitleFontSize": 12
+ },
+ "data": {
+  "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/geosphere_wien_10min_2020-2024.csv",
+  "format": {
+   "type": "csv",
+   "parse": {
+    "time": "date",
+    "tl": "number",
+    "rr": "number"
+   }
+  }
+ },
+ "config": {
+  "view": {
+   "stroke": null
+  },
+  "axis": {
+   "labelFontSize": 11,
+   "titleFontSize": 12
+  },
+  "style": {
+   "ovx": {
+    "labelExpr": "utcmonth(datum.value) == 0 ? utcFormat(datum.value, '%Y') : utcFormat(datum.value, '%b')",
+    "labelFontWeight": {
+     "signal": "utcmonth(datum.value) == 0 ? 'bold' : 'normal'"
+    }
+   },
+   "detx": {
+    "labelExpr": "utcminutes(datum.value) != 0 || utchours(datum.value) != 0 ? utcFormat(datum.value, '%H:%M') : utcdate(datum.value) != 1 ? utcFormat(datum.value, '%a %d %b') : utcmonth(datum.value) != 0 ? utcFormat(datum.value, '%b %Y') : utcFormat(datum.value, '%Y')"
+   }
+  }
+ },
+ "spacing": 18,
+ "vconcat": [
+  {
+   "width": 1220,
+   "height": 150,
+   "title": {
+    "text": "Overview: daily min–max range (band) and daily mean (line) of air temperature",
+    "anchor": "start",
+    "fontSize": 12
+   },
+   "transform": [
+    {
+     "timeUnit": "utcyearmonthdate",
+     "field": "time",
+     "as": "time"
+    },
+    {
+     "aggregate": [
+      {
+       "op": "mean",
+       "field": "tl",
+       "as": "tl_mean"
+      },
+      {
+       "op": "min",
+       "field": "tl",
+       "as": "tl_min"
+      },
+      {
+       "op": "max",
+       "field": "tl",
+       "as": "tl_max"
+      }
+     ],
+     "groupby": [
+      "time"
+     ]
+    }
+   ],
+   "encoding": {
+    "x": {
+     "field": "time",
+     "type": "temporal",
+     "scale": {
+      "type": "utc"
+     },
+     "axis": {
+      "title": "Date (UTC)",
+      "tickCount": {
+       "interval": "month",
+       "step": 3
+      },
+      "style": "ovx"
+     }
+    }
+   },
+   "layer": [
+    {
+     "mark": {
+      "type": "area",
+      "color": "#f4a582",
+      "opacity": 0.6
+     },
+     "encoding": {
+      "y": {
+       "field": "tl_min",
+       "type": "quantitative",
+       "title": "Air temp. (°C)"
+      },
+      "y2": {
+       "field": "tl_max"
+      }
+     }
+    },
+    {
+     "mark": {
+      "type": "line",
+      "color": "#b2182b",
+      "strokeWidth": 0.8
+     },
+     "encoding": {
+      "y": {
+       "field": "tl_mean",
+       "type": "quantitative"
+      }
+     },
+     "params": [
+      {
+       "name": "brush",
+       "select": {
+        "type": "interval",
+        "encodings": [
+         "x"
+        ]
+       },
+       "value": {
+        "x": [
+         {
+          "year": 2024,
+          "month": 7,
+          "date": 1,
+          "utc": true
+         },
+         {
+          "year": 2024,
+          "month": 7,
+          "date": 8,
+          "utc": true
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "width": 1220,
+   "height": 260,
+   "title": {
+    "text": "Detail: air temperature 2 m above ground, every 10-minute reading in the selected period",
+    "anchor": "start",
+    "fontSize": 12
+   },
+   "transform": [
+    {
+     "filter": {
+      "param": "brush"
+     }
+    }
+   ],
+   "layer": [
+    {
+     "mark": {
+      "type": "line",
+      "color": "#b2182b",
+      "strokeWidth": 1.2,
+      "clip": true
+     }
+    },
+    {
+     "mark": {
+      "type": "point",
+      "color": "#b2182b",
+      "size": 10,
+      "filled": true,
+      "clip": true,
+      "opacity": {
+       "expr": "(brush && brush.time ? (+brush.time[1] - +brush.time[0]) : 1e12) < 3*86400000 ? 1 : 0"
+      }
+     },
+     "encoding": {
+      "tooltip": [
+       {
+        "field": "time",
+        "type": "temporal",
+        "timeUnit": "utcyearmonthdatehoursminutes",
+        "title": "Time (UTC)"
+       },
+       {
+        "field": "tl",
+        "type": "quantitative",
+        "title": "Air temp. (°C)",
+        "format": ".1f"
+       },
+       {
+        "field": "rr",
+        "type": "quantitative",
+        "title": "Precip. (mm/10 min)",
+        "format": ".1f"
+       }
+      ]
+     }
+    }
+   ],
+   "encoding": {
+    "x": {
+     "field": "time",
+     "type": "temporal",
+     "scale": {
+      "type": "utc",
+      "domain": {
+       "param": "brush"
+      }
+     },
+     "axis": {
+      "title": null,
+      "style": "detx"
+     }
+    },
+    "y": {
+     "field": "tl",
+     "type": "quantitative",
+     "title": "Air temp. (°C)",
+     "scale": {
+      "zero": false
+     }
+    }
+   }
+  },
+  {
+   "width": 1220,
+   "height": 120,
+   "title": {
+    "text": "Detail: precipitation per 10-minute interval (bar spans the interval ending at the time stamp)",
+    "anchor": "start",
+    "fontSize": 12
+   },
+   "transform": [
+    {
+     "filter": {
+      "param": "brush"
+     }
+    },
+    {
+     "calculate": "datum.time - 600000",
+     "as": "t_start"
+    }
+   ],
+   "mark": {
+    "type": "rect",
+    "color": "#2166ac",
+    "clip": true
+   },
+   "encoding": {
+    "x": {
+     "field": "t_start",
+     "type": "temporal",
+     "scale": {
+      "type": "utc",
+      "domain": {
+       "param": "brush"
+      }
+     },
+     "axis": {
+      "title": "Time (UTC)",
+      "style": "detx"
+     }
+    },
+    "x2": {
+     "field": "time"
+    },
+    "y": {
+     "field": "rr",
+     "type": "quantitative",
+     "title": "Precip. (mm per 10 min)",
+     "scale": {
+      "domain": {
+       "unionWith": [
+        0,
+        0.5
+       ]
+      }
+     }
+    },
+    "tooltip": [
+     {
+      "field": "time",
+      "type": "temporal",
+      "timeUnit": "utcyearmonthdatehoursminutes",
+      "title": "Interval end (UTC)"
+     },
+     {
+      "field": "rr",
+      "type": "quantitative",
+      "title": "Precip. (mm/10 min)",
+      "format": ".1f"
+     }
+    ]
+   }
+  }
+ ]
+}

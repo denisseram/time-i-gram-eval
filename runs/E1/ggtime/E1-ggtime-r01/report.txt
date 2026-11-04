@@ -1,0 +1,18 @@
+REPORT
+deliverable: plot.R
+requirements:
+  R1: done - mean of daily means per depth × month, 7 depth rows in a heatmap
+  R2: done - Feb 2018 to Dec 2025, one tile per month, ggtime scale_x_mixtime with yearly ticks
+  R3: done - tsibble fill_gaps(.full = TRUE) adds explicit NA months, drawn as blank cells
+  R4: done - y-axis labels "2 m" to "40 m" in depth order, shallowest at top
+  R5: done - colour legend titled "Monthly mean temperature (°C)"
+  R6: done - title plus a one-sentence caption built from data (calendar-month averages at 2 m and 40 m)
+assumptions:
+  - Monthly mean = unweighted mean of the daily means (not weighted by n_obs)
+  - "Missing" = a month with no daily row for that depth; a month with even one day of data is shown
+  - The caption's "winter"/"peak" values are calendar-month averages over all years, as a typical-year summary
+  - Used mixtime::yearmonth for the x variable because scale_x_mixtime fails on tsibble's yearmonth class
+limitations:
+  - Months with only a few days of data look as reliable as full months; data coverage is not shown
+  - The year tick labels sit near the middle of each year, not at the January boundary
+  - A colour heatmap shows small differences between depths less precisely than lines would

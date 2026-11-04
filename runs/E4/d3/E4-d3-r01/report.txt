@@ -1,0 +1,19 @@
+REPORT
+deliverable: index.html
+requirements:
+  R1: done - one labelled row per release (version + codename), ordered by release date within each group
+  R2: done - x axis = years relative to own release date (0 = release), unit in axis title
+  R3: done - dev/standard/extended server/ESM/legacy bars in distinct colours with legend; missing phases skipped
+  R4: done - created = open circle, release = black tick at 0
+  R5: done - separate LTS and interim facets; LTS labels bold
+  R6: done - title plus a one-sentence caption whose numbers are computed from the data (medians)
+assumptions:
+  - Grouped into LTS and interim facets; release-date order is kept inside each facet
+  - ESM starts at eol-server if that is later than eol, otherwise at eol
+  - Years = days / 365.2425; medians are used for the caption figures
+  - Planned phases (after the browser's current date) are drawn hatched
+limitations:
+  - The caption is generated from the data, but its wording assumes the current pattern (interim support shortened at some point; recent LTS releases have legacy dates)
+  - The shared 15-year axis compresses the interim bars (about 0.75 to 1.5 years)
+  - Future dates are plans and may change; the hatching depends on the viewer's clock
+  - The vertical zero line passes through the facet titles

@@ -1,0 +1,19 @@
+REPORT
+deliverable: index.html
+requirements:
+  R1: done - rows are ISO years 2012–2026 from the data, top to bottom
+  R2: done - one cell per ISO week 1–53; the week count per year comes from the ISO week of 28 Dec, so week 53 shows in 2015 and 2020
+  R3: done - sequential YlOrRd colour scale with a gradient legend labelled "ARE consultations per 100,000 population per week"
+  R4: done - weeks before 2012-W40 and after 2026-W43 have no cell; weeks inside that range with no data would show as a grey outline, never as zero
+  R5: done - week ticks (1, 4, 8, …, 52, 53) along the bottom; year labels on the left
+  R6: done - title plus a one-sentence caption whose counts and year are computed from the data
+assumptions:
+  - The year and week are taken from the Kalenderwoche field (YYYY-Www), not from Saison
+  - "Complete years" in the caption means ISO years with every week reported (2013–2025)
+  - The caption counts winter peaks as weeks 40–13 and summer lows as weeks 22–39
+  - The colour scale is linear from 0 to the largest value in the data
+limitations:
+  - The 2022 December peak (about 3,000) stretches the colour scale, so differences between ordinary years look smaller
+  - Rows run January to December, so each winter wave is split across two rows (end of one row, start of the next)
+  - The caption's "lowest average level" year is computed; its words about timing and height varying are fixed text
+  - Tooltips work on hover only; the static image shows no exact values

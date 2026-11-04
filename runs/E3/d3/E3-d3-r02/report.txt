@@ -1,0 +1,19 @@
+REPORT
+deliverable: index.html
+requirements:
+  R1: done - angle=(week-1)/weeksInIsoYear, W1 at 12 o'clock, clockwise; radius = incidence
+  R2: done - one radial line per ISO year, sequential colour + legend (hover isolates a year)
+  R3: done - triangle at max week per Saison in circle (also in linear view and a peak-week strip)
+  R4: done - linear time series 2012–2026 on UTC calendar axis (Monday of ISO week)
+  R5: done - d3.brushX on linear view highlights in-range weeks/peaks in circle, dims rest
+  R6: done - week labels around circle, radial value ticks, dated x-axis, y-axis with unit
+  R7: done - title + one-sentence caption, numbers computed from data
+assumptions:
+  - Week date = Monday of ISO week, computed from ISO year/week in Kalenderwoche
+  - 53-week ISO years are spread over a full turn (angle uses that year's week count)
+  - Season peak = week with max value within Saison; incomplete 2026/27 is marked and flagged "season incomplete"
+  - Caption splits seasons into before/after 2020/21 (COVID onset); only complete seasons (≥52 weeks) are used
+limitations:
+  - 15 year lines overlap in the circle; colours of neighbouring years are hard to tell apart without the hover/brush
+  - Year lines are not joined across W52/53→W1, so there is a small gap at 12 o'clock
+  - Week tick labels are placed for a 52-week year; 53-week years differ by under 1 week

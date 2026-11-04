@@ -1,0 +1,20 @@
+REPORT
+deliverable: index.html
+requirements:
+  R1: done - daily min–max band + daily mean of tl for 2020–2024, computed in the page
+  R2: done - detail shows raw 10-min readings (with dots) when zoomed in; 30 min–7 day bins when zoomed out
+  R3: done - brush in overview sets the detail period; zoom/pan in detail moves the brush back
+  R4: done - rr bar track below tl, same time axis
+  R5: done - overview: months + years; detail: months/days down to HH:MM, chosen by zoom level
+  R6: done - all 263,088 rows fetched and parsed; aggregation happens in the page
+  R7: done - axes labelled °C, mm per 10 min (or per bin), Time (UTC); title + computed caption
+assumptions:
+  - Empty fields would be treated as missing (NaN); none exist in this file (0 missing tl, 0 rr)
+  - When zoomed out, rr is shown as the sum per bin and the axis label changes to "mm per <bin>"
+  - Each 10-min bar is centred on its timestamp; the interval convention was not checked
+  - Start view is 3 days around the wettest 10-min interval, found from the data
+  - Bins are aligned to UTC epoch (whole days/hours)
+limitations:
+  - At the full 5-year detail zoom, bins are 7 days, so short events show only as min/max/sum
+  - A 3-day selection is only about 2 px wide in the overview (outlined to stay visible)
+  - Zooming in stops at about 2 hours across
