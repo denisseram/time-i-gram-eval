@@ -1,0 +1,16 @@
+REPORT
+deliverable: plot.R
+requirements:
+  R1: done - daily means averaged per month and depth (dplyr + tsibble yearmonth), shown as a heatmap of month × depth
+  R2: done - full monthly axis from 2018 Feb to 2025 Dec, made with tsibble fill_gaps(.full = TRUE)
+  R3: done - months with no data are explicit NA and drawn as grey cells, not interpolated
+  R4: done - y axis labelled by depth, 2 m at top through 40 m at bottom
+  R5: done - colour legend "Monthly mean temperature (°C)"
+  R6: done - title plus a one-sentence caption whose seasonal ranges are computed from the data
+assumptions:
+  - "Monthly mean" = unweighted mean of the daily means in that month (not weighted by n_obs)
+  - Any month with at least one day of data gets a value, even if few days are covered
+limitations:
+  - ggtime::scale_x_mixtime fails with geom_tile (vctrs "Can't merge the outer name x" error), so the axis is tsibble::scale_x_yearmonth; ggtime is loaded but draws no layer or scale
+  - Months with only a few days of data look the same as fully covered months
+  - Depth rows are evenly spaced, not to scale in metres

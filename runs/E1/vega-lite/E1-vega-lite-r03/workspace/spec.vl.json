@@ -1,0 +1,147 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "title": {
+    "text": "Monthly mean water temperature by sensor depth, Birchy Head, Nova Scotia (2018–2025)",
+    "subtitle": [
+      "Every depth follows the same yearly cycle, but summer warming is strongest near the surface and weakens with depth, while winters are similarly cold at all depths.",
+      "White cells = no data for that depth in that month."
+    ],
+    "anchor": "start",
+    "fontSize": 18,
+    "subtitleFontSize": 13
+  },
+  "width": 1150,
+  "height": 380,
+  "data": {
+    "url": "https://raw.githubusercontent.com/rfordatascience/tidytuesday/6753376ef104727ef0ca3e3db6f2ca580c0d5a7b/data/2026/2026-03-31/ocean_temperature.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "date": "date",
+        "sensor_depth_at_low_tide_m": "number",
+        "mean_temperature_degree_c": "number"
+      }
+    }
+  },
+  "transform": [
+    {
+      "filter": "isValid(datum.mean_temperature_degree_c) && isFinite(datum.mean_temperature_degree_c)"
+    },
+    {
+      "timeUnit": "yearmonth",
+      "field": "date",
+      "as": "month"
+    },
+    {
+      "aggregate": [
+        {
+          "op": "mean",
+          "field": "mean_temperature_degree_c",
+          "as": "monthly_mean"
+        },
+        {
+          "op": "count",
+          "as": "days"
+        }
+      ],
+      "groupby": [
+        "month",
+        "sensor_depth_at_low_tide_m"
+      ]
+    }
+  ],
+  "mark": {
+    "type": "rect"
+  },
+  "encoding": {
+    "x": {
+      "field": "month",
+      "type": "temporal",
+      "timeUnit": "yearmonth",
+      "title": "Month",
+      "scale": {
+        "domain": [
+          {
+            "year": 2018,
+            "month": 2,
+            "date": 1
+          },
+          {
+            "year": 2026,
+            "month": 1,
+            "date": 1
+          }
+        ]
+      },
+      "axis": {
+        "format": "%Y",
+        "tickCount": {
+          "interval": "year",
+          "step": 1
+        },
+        "grid": false
+      }
+    },
+    "y": {
+      "field": "sensor_depth_at_low_tide_m",
+      "type": "ordinal",
+      "sort": "ascending",
+      "title": "Sensor depth at low tide (m)",
+      "scale": {
+        "domain": [
+          2,
+          5,
+          10,
+          15,
+          20,
+          30,
+          40
+        ]
+      }
+    },
+    "color": {
+      "field": "monthly_mean",
+      "type": "quantitative",
+      "title": "Monthly mean temperature (°C)",
+      "scale": {
+        "scheme": "redyellowblue",
+        "reverse": true
+      },
+      "legend": {
+        "orient": "bottom",
+        "gradientLength": 400,
+        "direction": "horizontal"
+      }
+    },
+    "tooltip": [
+      {
+        "field": "month",
+        "type": "temporal",
+        "timeUnit": "yearmonth",
+        "title": "Month"
+      },
+      {
+        "field": "sensor_depth_at_low_tide_m",
+        "title": "Depth (m)"
+      },
+      {
+        "field": "monthly_mean",
+        "format": ".2f",
+        "title": "Mean temp (°C)"
+      },
+      {
+        "field": "days",
+        "title": "Days with data"
+      }
+    ]
+  },
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelFontSize": 12,
+      "titleFontSize": 13
+    }
+  }
+}

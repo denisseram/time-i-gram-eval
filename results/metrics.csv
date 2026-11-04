@@ -1,0 +1,9 @@
+run_id,example,tool,status,reason,started,wall_seconds,turns,tool_calls,render_calls,input_tokens,output_tokens,cache_read_tokens,cache_creation_tokens,cost_usd_reported,deliverable_present,render_ok,model,claude_code_version,credential
+E1-d3-r03,E1,d3,done,finished,2026-11-04T10:04:37+00:00,74,7,6,2,14,6368,147149,14821,0.2754138,True,True,claude-opus-5-5,2.1.318,CLAUDE_CODE_OAUTH_TOKEN
+E1-ggtime-r03,E1,ggtime,done,finished,2026-11-04T10:05:59+00:00,61,8,7,3,16,3509,164992,13775,0.21344240000000003,True,True,claude-opus-5-5,2.1.318,CLAUDE_CODE_OAUTH_TOKEN
+E1-time-i-gram-r03,E1,time-i-gram,done,finished,2026-11-04T10:07:08+00:00,177,24,23,4,48,7039,793387,35186,0.5811374,True,True,claude-opus-5-5,2.1.318,CLAUDE_CODE_OAUTH_TOKEN
+E1-vega-lite-r03,E1,vega-lite,done,finished,2026-11-04T10:03:44+00:00,47,6,5,3,12,3139,113784,10104,0.1664168,True,True,claude-opus-5-5,2.1.318,CLAUDE_CODE_OAUTH_TOKEN
+E3-d3-r01,E3,d3,done,finished,2026-11-04T10:01:14+00:00,143,13,12,4,24,13972,333002,26148,0.5553203999999999,True,True,claude-opus-5-5,2.1.318,CLAUDE_CODE_OAUTH_TOKEN
+E3-ggtime-r01,E3,ggtime,done,finished,2026-11-04T09:48:43+00:00,219,26,22,4,42,12179,568115,38242,0.663307,True,True,claude-opus-5-5,2.1.318,CLAUDE_CODE_OAUTH_TOKEN
+E3-time-i-gram-r01,E3,time-i-gram,done,finished,2026-11-04T09:52:31+00:00,369,35,34,5,68,21494,1743597,74452,1.3744874,True,True,claude-opus-5-5,2.1.318,CLAUDE_CODE_OAUTH_TOKEN
+E3-vega-lite-r01,E3,vega-lite,done,finished,2026-11-04T09:58:51+00:00,137,12,11,6,22,9786,287606,22538,0.43363320000000005,True,True,claude-opus-5-5,2.1.318,CLAUDE_CODE_OAUTH_TOKEN

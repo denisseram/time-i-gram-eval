@@ -1,0 +1,20 @@
+REPORT
+deliverable: plot.R
+requirements:
+  R1: done - coord_loop(years(1)) + coord_radial; ISO W01 at 12 o'clock, clockwise, radius = incidence
+  R2: done - lines coloured by ISO year (continuous colour scale + legend)
+  R3: done - circled point at each season's max week (computed with slice_max per Saison)
+  R4: done - linear view, date axis 2012-2026
+  R5: partial - static link only: one range is set in the script, shaded in the linear view and highlighted in the cyclic view; no interactive brushing (ggtime/ggplot2 output is static)
+  R6: done - ISO week labels around the circle, years on the linear axis, y = "ARE consultations per 100,000 per week"
+  R7: done - title + one-sentence caption, with its numbers computed from the data
+assumptions:
+  - Selected range defaults to the latest complete season (derived from data); it is a parameter, not a data value
+  - ISO year taken from Kalenderwoche; lines are joined across year boundaries; ISO week 53 is included in the loop
+  - Caption splits pre/post at 2020-03-01 (COVID-19 onset) to state the pattern
+limitations:
+  - No interactivity; the "brush" is a fixed range in the script
+  - Season 2026/27 is incomplete (to W43); its marked "peak" is just the latest week so far, and it is left out of the caption
+  - Week labels come from regex-trimming mixtime's formatted break labels, because the default time_breaks labels were wrong
+  - The 2022/23 peak (~3,200) lies just outside the outer 3,000 grid ring
+  - 15 years on one colour scale: neighbouring years have similar colours

@@ -1,0 +1,17 @@
+REPORT
+deliverable: index.html
+requirements:
+  R1: done - monthly mean of daily means via d3.rollup, per depth and month
+  R2: done - one column per month, Feb 2018 to Dec 2025, taken from the data's date range
+  R3: done - depth-months with no daily rows are hatched grey and listed as "No data" in the legend
+  R4: done - rows labelled 2 m to 40 m, in depth order
+  R5: done - colour legend titled "Monthly mean water temperature (°C)", ticks in °C
+  R6: done - title plus a one-sentence caption whose numbers and peak months come from the data
+assumptions:
+  - Monthly mean = unweighted mean of the daily means in that month (not weighted by n_obs)
+  - Missing means a month with zero daily rows; months with only some days of data still get a cell
+  - Months are calendar months in UTC
+limitations:
+  - A cell can be based on only a few days in a month; the hover tooltip shows the day count
+  - The caption's fixed wording ("weakens and lags") rests on the computed 2 m vs 40 m ranges and peak months; it does not re-check intermediate depths
+  - The colour scale uses 0–20 °C (data extent rounded); the red-yellow-blue colours are not tested for every type of colour blindness

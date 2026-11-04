@@ -1,0 +1,802 @@
+{
+ "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+ "title": {
+  "text": "Does the acute respiratory illness (ARE) peak arrive at the same time every year? Germany, 2012–2026",
+  "subtitle": [
+   "Before 2020 every season peaked in ISO weeks 5–12 (Feb–Mar); the pandemic broke the rhythm (2021 peak in September, 2022/23 and 2023/24 in December),",
+   "and 2024/25 and 2025/26 returned to February.  ◆ = highest week of each season (2026/27 is incomplete).  Radius = ARE consultations per 100,000 per week.",
+   "Source: Robert Koch-Institut, ARE-Praxis-Sentinel (CC BY 4.0), all ages, Bundesweit."
+  ],
+  "fontSize": 17,
+  "subtitleFontSize": 12,
+  "anchor": "start"
+ },
+ "data": {
+  "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+  "format": {
+   "type": "tsv",
+   "parse": {
+    "ARE_Konsultationsinzidenz": "number",
+    "Bundesland_ID": "number"
+   }
+  },
+  "name": "are"
+ },
+ "transform": [
+  {
+   "filter": "datum.Bundesland==='Bundesweit' && datum.Altersgruppe==='00+'"
+  },
+  {
+   "calculate": "toNumber(datum.ARE_Konsultationsinzidenz)",
+   "as": "v"
+  },
+  {
+   "calculate": "toNumber(substring(datum.Kalenderwoche,0,4))",
+   "as": "isoYear"
+  },
+  {
+   "calculate": "toNumber(substring(datum.Kalenderwoche,6,8))",
+   "as": "isoWeek"
+  },
+  {
+   "calculate": "datetime(datum.isoYear,0,4,12) - ((day(datetime(datum.isoYear,0,4,12))+6)%7)*864e5 + (datum.isoWeek-1)*7*864e5",
+   "as": "date"
+  },
+  {
+   "calculate": "(day(datetime(datum.isoYear,0,1))==4 || (day(datetime(datum.isoYear,0,1))==3 && ((datum.isoYear%4==0 && datum.isoYear%100!=0) || datum.isoYear%400==0))) ? 53 : 52",
+   "as": "nWeeks"
+  },
+  {
+   "calculate": "2*PI*(datum.isoWeek-1)/datum.nWeeks",
+   "as": "theta"
+  },
+  {
+   "joinaggregate": [
+    {
+     "op": "max",
+     "field": "v",
+     "as": "vmax"
+    }
+   ]
+  },
+  {
+   "calculate": "ceil(datum.vmax/500)*500",
+   "as": "rmax"
+  },
+  {
+   "calculate": "datum.v/datum.rmax*sin(datum.theta)",
+   "as": "cx"
+  },
+  {
+   "calculate": "datum.v/datum.rmax*cos(datum.theta)",
+   "as": "cy"
+  },
+  {
+   "calculate": "'W'+pad(datum.isoWeek,2)",
+   "as": "wk"
+  }
+ ],
+ "hconcat": [
+  {
+   "width": 560,
+   "height": 560,
+   "title": {
+    "text": "Cyclic view: one turn per ISO year (W1 at top, clockwise)",
+    "fontSize": 13
+   },
+   "layer": [
+    {
+     "transform": [
+      {
+       "aggregate": [
+        {
+         "op": "max",
+         "field": "rmax",
+         "as": "rmax"
+        }
+       ]
+      },
+      {
+       "calculate": "sequence(1000,datum.rmax+1,1000)",
+       "as": "ring"
+      },
+      {
+       "flatten": [
+        "ring"
+       ]
+      },
+      {
+       "calculate": "sequence(0,73)",
+       "as": "k"
+      },
+      {
+       "flatten": [
+        "k"
+       ]
+      },
+      {
+       "calculate": "datum.ring/datum.rmax*sin(2*PI*datum.k/72)",
+       "as": "cx"
+      },
+      {
+       "calculate": "datum.ring/datum.rmax*cos(2*PI*datum.k/72)",
+       "as": "cy"
+      }
+     ],
+     "mark": {
+      "type": "line",
+      "color": "#ddd",
+      "strokeWidth": 1,
+      "interpolate": "linear"
+     },
+     "encoding": {
+      "x": {
+       "field": "cx",
+       "type": "quantitative",
+       "scale": {
+        "domain": [
+         -1.12,
+         1.12
+        ],
+        "nice": false
+       },
+       "axis": null
+      },
+      "y": {
+       "field": "cy",
+       "type": "quantitative",
+       "scale": {
+        "domain": [
+         -1.12,
+         1.12
+        ],
+        "nice": false
+       },
+       "axis": null
+      },
+      "detail": {
+       "field": "ring"
+      },
+      "order": {
+       "field": "k"
+      }
+     }
+    },
+    {
+     "transform": [
+      {
+       "aggregate": [
+        {
+         "op": "max",
+         "field": "rmax",
+         "as": "rmax"
+        }
+       ]
+      },
+      {
+       "calculate": "sequence(1000,datum.rmax+1,1000)",
+       "as": "ring"
+      },
+      {
+       "flatten": [
+        "ring"
+       ]
+      },
+      {
+       "calculate": "0.02",
+       "as": "cx"
+      },
+      {
+       "calculate": "datum.ring/datum.rmax",
+       "as": "cy"
+      }
+     ],
+     "mark": {
+      "type": "text",
+      "align": "left",
+      "baseline": "bottom",
+      "dy": -1,
+      "fontSize": 10,
+      "color": "#777"
+     },
+     "encoding": {
+      "x": {
+       "field": "cx",
+       "type": "quantitative",
+       "scale": {
+        "domain": [
+         -1.12,
+         1.12
+        ],
+        "nice": false
+       },
+       "axis": null
+      },
+      "y": {
+       "field": "cy",
+       "type": "quantitative",
+       "scale": {
+        "domain": [
+         -1.12,
+         1.12
+        ],
+        "nice": false
+       },
+       "axis": null
+      },
+      "text": {
+       "field": "ring",
+       "format": ","
+      }
+     }
+    },
+    {
+     "transform": [
+      {
+       "aggregate": [
+        {
+         "op": "count",
+         "as": "n"
+        }
+       ]
+      },
+      {
+       "calculate": "sequence(1,53,4)",
+       "as": "w"
+      },
+      {
+       "flatten": [
+        "w"
+       ]
+      },
+      {
+       "calculate": "2*PI*(datum.w-1)/52",
+       "as": "t"
+      },
+      {
+       "calculate": "[0,1]",
+       "as": "e"
+      },
+      {
+       "flatten": [
+        "e"
+       ]
+      },
+      {
+       "calculate": "datum.e*sin(datum.t)",
+       "as": "cx"
+      },
+      {
+       "calculate": "datum.e*cos(datum.t)",
+       "as": "cy"
+      }
+     ],
+     "mark": {
+      "type": "line",
+      "color": "#eee",
+      "strokeWidth": 1
+     },
+     "encoding": {
+      "x": {
+       "field": "cx",
+       "type": "quantitative",
+       "scale": {
+        "domain": [
+         -1.12,
+         1.12
+        ],
+        "nice": false
+       },
+       "axis": null
+      },
+      "y": {
+       "field": "cy",
+       "type": "quantitative",
+       "scale": {
+        "domain": [
+         -1.12,
+         1.12
+        ],
+        "nice": false
+       },
+       "axis": null
+      },
+      "detail": {
+       "field": "w"
+      },
+      "order": {
+       "field": "e"
+      }
+     }
+    },
+    {
+     "transform": [
+      {
+       "aggregate": [
+        {
+         "op": "count",
+         "as": "n"
+        }
+       ]
+      },
+      {
+       "calculate": "sequence(1,53,4)",
+       "as": "w"
+      },
+      {
+       "flatten": [
+        "w"
+       ]
+      },
+      {
+       "calculate": "2*PI*(datum.w-1)/52",
+       "as": "t"
+      },
+      {
+       "calculate": "1.06*sin(datum.t)",
+       "as": "cx"
+      },
+      {
+       "calculate": "1.06*cos(datum.t)",
+       "as": "cy"
+      },
+      {
+       "calculate": "'W'+datum.w",
+       "as": "lab"
+      }
+     ],
+     "mark": {
+      "type": "text",
+      "fontSize": 11,
+      "color": "#444"
+     },
+     "encoding": {
+      "x": {
+       "field": "cx",
+       "type": "quantitative",
+       "scale": {
+        "domain": [
+         -1.12,
+         1.12
+        ],
+        "nice": false
+       },
+       "axis": null
+      },
+      "y": {
+       "field": "cy",
+       "type": "quantitative",
+       "scale": {
+        "domain": [
+         -1.12,
+         1.12
+        ],
+        "nice": false
+       },
+       "axis": null
+      },
+      "text": {
+       "field": "lab"
+      }
+     }
+    },
+    {
+     "mark": {
+      "type": "line",
+      "strokeWidth": 1,
+      "opacity": 0.15
+     },
+     "encoding": {
+      "x": {
+       "field": "cx",
+       "type": "quantitative",
+       "scale": {
+        "domain": [
+         -1.12,
+         1.12
+        ],
+        "nice": false
+       },
+       "axis": null
+      },
+      "y": {
+       "field": "cy",
+       "type": "quantitative",
+       "scale": {
+        "domain": [
+         -1.12,
+         1.12
+        ],
+        "nice": false
+       },
+       "axis": null
+      },
+      "color": {
+       "field": "isoYear",
+       "type": "ordinal",
+       "title": "ISO year",
+       "scale": {
+        "scheme": {
+         "name": "viridis",
+         "extent": [
+          0,
+          0.88
+         ]
+        }
+       },
+       "legend": {
+        "columns": 2,
+        "symbolType": "stroke",
+        "symbolOpacity": 1,
+        "symbolStrokeWidth": 3
+       }
+      },
+      "order": {
+       "field": "isoWeek"
+      }
+     }
+    },
+    {
+     "transform": [
+      {
+       "filter": {
+        "param": "brush"
+       }
+      }
+     ],
+     "mark": {
+      "type": "line",
+      "strokeWidth": 1.6,
+      "opacity": 0.9
+     },
+     "encoding": {
+      "x": {
+       "field": "cx",
+       "type": "quantitative",
+       "scale": {
+        "domain": [
+         -1.12,
+         1.12
+        ],
+        "nice": false
+       },
+       "axis": null
+      },
+      "y": {
+       "field": "cy",
+       "type": "quantitative",
+       "scale": {
+        "domain": [
+         -1.12,
+         1.12
+        ],
+        "nice": false
+       },
+       "axis": null
+      },
+      "color": {
+       "field": "isoYear",
+       "type": "ordinal",
+       "title": "ISO year",
+       "scale": {
+        "scheme": {
+         "name": "viridis",
+         "extent": [
+          0,
+          0.88
+         ]
+        }
+       },
+       "legend": {
+        "columns": 2,
+        "symbolType": "stroke",
+        "symbolOpacity": 1,
+        "symbolStrokeWidth": 3
+       }
+      },
+      "order": {
+       "field": "isoWeek"
+      },
+      "tooltip": [
+       {
+        "field": "Kalenderwoche",
+        "title": "ISO week"
+       },
+       {
+        "field": "Saison",
+        "title": "Season"
+       },
+       {
+        "field": "v",
+        "title": "ARE per 100,000",
+        "format": ","
+       }
+      ]
+     }
+    },
+    {
+     "transform": [
+      {
+       "window": [
+        {
+         "op": "row_number",
+         "as": "rk"
+        }
+       ],
+       "groupby": [
+        "Saison"
+       ],
+       "sort": [
+        {
+         "field": "v",
+         "order": "descending"
+        }
+       ]
+      },
+      {
+       "filter": "datum.rk==1"
+      },
+      {
+       "filter": {
+        "param": "brush"
+       }
+      }
+     ],
+     "mark": {
+      "type": "point",
+      "filled": true,
+      "size": 110,
+      "stroke": "black",
+      "strokeWidth": 1.2,
+      "shape": "diamond"
+     },
+     "encoding": {
+      "x": {
+       "field": "cx",
+       "type": "quantitative",
+       "scale": {
+        "domain": [
+         -1.12,
+         1.12
+        ],
+        "nice": false
+       },
+       "axis": null
+      },
+      "y": {
+       "field": "cy",
+       "type": "quantitative",
+       "scale": {
+        "domain": [
+         -1.12,
+         1.12
+        ],
+        "nice": false
+       },
+       "axis": null
+      },
+      "color": {
+       "field": "isoYear",
+       "type": "ordinal"
+      },
+      "tooltip": [
+       {
+        "field": "Saison",
+        "title": "Season peak"
+       },
+       {
+        "field": "Kalenderwoche",
+        "title": "ISO week"
+       },
+       {
+        "field": "Saison",
+        "title": "Season"
+       },
+       {
+        "field": "v",
+        "title": "ARE per 100,000",
+        "format": ","
+       }
+      ]
+     }
+    },
+    {
+     "transform": [
+      {
+       "window": [
+        {
+         "op": "row_number",
+         "as": "rk"
+        }
+       ],
+       "groupby": [
+        "Saison"
+       ],
+       "sort": [
+        {
+         "field": "v",
+         "order": "descending"
+        }
+       ]
+      },
+      {
+       "filter": "datum.rk==1"
+      },
+      {
+       "filter": {
+        "param": "brush"
+       }
+      }
+     ],
+     "mark": {
+      "type": "text",
+      "fontSize": 9,
+      "dx": 0,
+      "dy": -10,
+      "color": "#222"
+     },
+     "encoding": {
+      "x": {
+       "field": "cx",
+       "type": "quantitative",
+       "scale": {
+        "domain": [
+         -1.12,
+         1.12
+        ],
+        "nice": false
+       },
+       "axis": null
+      },
+      "y": {
+       "field": "cy",
+       "type": "quantitative",
+       "scale": {
+        "domain": [
+         -1.12,
+         1.12
+        ],
+        "nice": false
+       },
+       "axis": null
+      },
+      "text": {
+       "field": "Saison"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "width": 640,
+   "height": 440,
+   "title": {
+    "text": "Linear view: whole series (drag to select a time range)",
+    "fontSize": 13
+   },
+   "encoding": {
+    "x": {
+     "field": "date",
+     "type": "temporal",
+     "title": "Date (Monday of ISO week)",
+     "axis": {
+      "format": "%Y",
+      "tickCount": {
+       "interval": "year",
+       "step": 1
+      }
+     }
+    },
+    "y": {
+     "field": "v",
+     "type": "quantitative",
+     "title": "ARE consultations per 100,000 per week"
+    }
+   },
+   "layer": [
+    {
+     "params": [
+      {
+       "name": "brush",
+       "select": {
+        "type": "interval",
+        "encodings": [
+         "x"
+        ]
+       }
+      }
+     ],
+     "mark": {
+      "type": "line",
+      "strokeWidth": 1.2,
+      "color": "#4a4a4a"
+     },
+     "encoding": {
+      "tooltip": [
+       {
+        "field": "Kalenderwoche",
+        "title": "ISO week"
+       },
+       {
+        "field": "Saison",
+        "title": "Season"
+       },
+       {
+        "field": "v",
+        "title": "ARE per 100,000",
+        "format": ","
+       }
+      ]
+     }
+    },
+    {
+     "transform": [
+      {
+       "window": [
+        {
+         "op": "row_number",
+         "as": "rk"
+        }
+       ],
+       "groupby": [
+        "Saison"
+       ],
+       "sort": [
+        {
+         "field": "v",
+         "order": "descending"
+        }
+       ]
+      },
+      {
+       "filter": "datum.rk==1"
+      }
+     ],
+     "mark": {
+      "type": "point",
+      "filled": true,
+      "size": 70,
+      "stroke": "black",
+      "strokeWidth": 1,
+      "shape": "diamond"
+     },
+     "encoding": {
+      "color": {
+       "field": "isoYear",
+       "type": "ordinal"
+      },
+      "tooltip": [
+       {
+        "field": "Saison",
+        "title": "Season peak"
+       },
+       {
+        "field": "Kalenderwoche",
+        "title": "ISO week"
+       },
+       {
+        "field": "Saison",
+        "title": "Season"
+       },
+       {
+        "field": "v",
+        "title": "ARE per 100,000",
+        "format": ","
+       }
+      ]
+     }
+    }
+   ]
+  }
+ ],
+ "resolve": {
+  "scale": {
+   "color": "shared"
+  }
+ },
+ "config": {
+  "view": {
+   "stroke": null
+  }
+ }
+}

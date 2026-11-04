@@ -1,0 +1,21 @@
+REPORT
+deliverable: index.html
+requirements:
+  R1: done - angle = ISO week (W1 at top, clockwise, 53 slots), radius = consultations per 100,000
+  R2: done - one line per ISO year, colour scale by year with legend (2012–2026)
+  R3: done - triangle at max week per Saison, computed in JS; also shown in linear view with week label
+  R4: done - full weekly series 2012-W40 to 2026-W43 on a UTC calendar axis
+  R5: done - brush on linear view highlights selected weeks/peaks in both views, rest dimmed
+  R6: done - week + month labels around circle, value rings labelled, year axis, y-axis with unit
+  R7: done - title + data-computed caption (most peaks Feb–Mar, two in December, 2020/21 no winter peak)
+assumptions:
+  - Each ISO week is plotted at its Monday date on the linear axis.
+  - Circle uses 53 equal week slots, so W53 has its own position and in 52-week years the circle stays open at W53.
+  - A season is "complete" only if it contains week 39 of its second year; the running 2026/27 season is still marked (semi-transparent) but left out of the caption counts.
+  - "Late winter" = ISO weeks 1–13 and "December" = weeks ≥48 for the caption's classification.
+  - The initial brush selects the 2022/23–2023/24 seasons to show the linking; the user can change it.
+limitations:
+  - 15 sequential year colours are hard to tell apart; the legend, tooltips and peak week labels help.
+  - Year lines in the circle are not joined across the turn of the year (each ISO year is its own line).
+  - Month labels around the circle are approximate (mid-month position in a typical year).
+  - In the circle, peaks near each other overlap.

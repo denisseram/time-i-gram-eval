@@ -1,0 +1,20 @@
+REPORT
+deliverable: spec.json
+requirements:
+  R1: done - period axis (ISO-week-based year), week 1 at 12 o'clock, clockwise; radius = ARE value
+  R2: done - one line per ISO year, colour by year with legend
+  R3: not possible - season argmax exists only as a relative-axis anchor; it can't be placed on the period ring; peaks not marked
+  R4: done - full series on a calendar date axis, Oct 2012 to Dec 2026
+  R5: not possible - time-i-gram refuses links between period and absolute views; only a shared year colour connects the views
+  R6: done - week labels (W1, W9, ...) around ring, dates on linear axis, y titled "ARE consultations per 100,000 per week"
+  R7: done - title plus one-sentence caption (subtitle) with the main pattern
+assumptions:
+  - Rings are ISO week-based years (2012 has only W40-W52, 2026 ends at W43); seasons follow the Saison column
+  - Shared radius/y domain 0-3400 chosen as a fixed scale above the data maximum
+  - Sequential (viridis-like) year colours, so years read in order
+limitations:
+  - No peak markers; read peaks from the ring's outermost points
+  - Views are not interactively linked
+  - Linear view colours use the calendar year (timeUnit), so the few days of ISO week 1 that fall in late December take the previous year's colour
+  - 15 overlapping lines are dense; individual years are hard to follow in the ring
+  - Caption numbers were checked against the data outside the spec; the figure does not compute them

@@ -1,0 +1,18 @@
+REPORT
+deliverable: spec.json
+requirements:
+  R1: done - rect heatmap; x timeUnit "month" with color aggregate "mean", grouped by row = depth
+  R2: done - xDomain 2018-02 to 2025-12, one cell per month
+  R3: done - months without rows produce no rect, so they show as white cells
+  R4: done - row labels 2…40 m in depth order (explicit row domain); track title names the rows
+  R5: done - colour legend titled "Temp. (°C)"
+  R6: done - title plus a one-sentence caption (subtitle) stating the main pattern
+assumptions:
+  - "Monthly mean" = mean of the daily means in a month (not weighted by n_obs)
+  - A colour heatmap is a clear enough answer to "change month by month at each depth"
+  - Typing the depth order (2,5,…,40) as the row domain counts as category ordering, not hard-coded data values
+limitations:
+  - Colour legend is in an invisible-mark strip above the heatmap (the library always draws it inside the track's top-right corner)
+  - Legend title shortened to "Temp. (°C)" because the legend is a fixed 80 px wide
+  - Partial months are averaged from the days present; months are UTC calendar months
+  - Caption pattern was read from the rendered figure, not checked numerically

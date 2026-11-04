@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Birchy Head water temperature by depth, 2018–2025</title>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<style>
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: #222; background: #fff; }
+  #wrap { padding: 22px 28px; }
+  h1 { font-size: 22px; margin: 0 0 6px; font-weight: 600; }
+  #caption { font-size: 15px; color: #444; margin: 0 0 14px; max-width: 1300px; }
+  .axis text { font-size: 12px; fill: #333; }
+  .axis path, .axis line { stroke: #999; }
+  .ylab { font-size: 13px; fill: #333; }
+  .src { font-size: 11px; fill: #777; }
+  #tip { position: absolute; pointer-events: none; background: rgba(255,255,255,.96); border: 1px solid #bbb;
+         padding: 5px 8px; font-size: 12px; border-radius: 3px; display: none; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <h1>Monthly mean water temperature by sensor depth at Birchy Head, Nova Scotia (Feb 2018 – Dec 2025)</h1>
+  <p id="caption">Loading…</p>
+  <svg id="chart"></svg>
+</div>
+<div id="tip"></div>
+<script>
+const URL = "https://raw.githubusercontent.com/rfordatascience/tidytuesday/6753376ef104727ef0ca3e3db6f2ca580c0d5a7b/data/2026/2026-03-31/ocean_temperature.csv";
+const DEPTHS = [2, 5, 10, 15, 20, 30, 40];
+
+d3.csv(URL, d => ({
+  date: d3.utcParse("%Y-%m-%d")(d.date),
+  depth: +d.sensor_depth_at_low_tide_m,
+  t: d.mean_temperature_degree_c === "" || d.mean_temperature_degree_c == null ? NaN : +d.mean_temperature_degree_c
+})).then(raw => {
+  const rows = raw.filter(d => d.date && Number.isFinite(d.t) && Number.isFinite(d.depth));
+
+  // Monthly mean of daily means, per depth
+  const monthly = d3.rollup(rows, v => ({ mean: d3.mean(v, d => d.t), n: v.length }),
+    d => d.depth, d => +d3.utcMonth.floor(d.date));
+
+  const depths = DEPTHS.filter(dp => monthly.has(dp))
+    .concat([...monthly.keys()].filter(k => !DEPTHS.includes(k)).sort(d3.ascending));
+
+  const [dmin, dmax] = d3.extent(rows, d => d.date);
+  const months = d3.utcMonth.range(d3.utcMonth.floor(dmin), d3.utcMonth.offset(d3.utcMonth.floor(dmax), 1));
+
+  const cells = [];
+  for (const dp of depths) for (const m of months) {
+    const r = monthly.get(dp)?.get(+m);
+    cells.push({ depth: dp, month: m, mean: r ? r.mean : null, n: r ? r.n : 0 });
+  }
+
+  // ---- layout
+  const W = 1344, margin = { top: 34, right: 20, bottom: 110, left: 70 };
+  const cellH = 64;
+  const innerW = W - margin.left - margin.right, innerH = cellH * depths.length;
+  const H = margin.top + innerH + margin.bottom;
+  const svg = d3.select("#chart").attr("width", W).attr("height", H);
+
+  const x = d3.scaleBand().domain(months.map(d => +d)).range([0, innerW]).paddingInner(0.08);
+  const y = d3.scaleBand().domain(depths).range([0, innerH]).paddingInner(0.1);
+
+  const vals = cells.filter(c => c.mean != null).map(c => c.mean);
+  const [tmin, tmax] = d3.extent(vals);
+  const color = d3.scaleSequential(t => d3.interpolateRdYlBu(1 - t)).domain([Math.floor(tmin), Math.ceil(tmax)]);
+
+  const defs = svg.append("defs");
+  const pat = defs.append("pattern").attr("id", "hatch").attr("patternUnits", "userSpaceOnUse")
+    .attr("width", 5).attr("height", 5).attr("patternTransform", "rotate(45)");
+  pat.append("rect").attr("width", 5).attr("height", 5).attr("fill", "#f3f3f3");
+  pat.append("line").attr("x1", 0).attr("y1", 0).attr("x2", 0).attr("y2", 5).attr("stroke", "#c4c4c4").attr("stroke-width", 1.4);
+
+  const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+  const tip = d3.select("#tip");
+  const fmtM = d3.utcFormat("%b %Y");
+
+  g.selectAll("rect.cell").data(cells).join("rect")
+    .attr("class", "cell")
+    .attr("x", d => x(+d.month)).attr("y", d => y(d.depth))
+    .attr("width", x.bandwidth()).attr("height", y.bandwidth())
+    .attr("fill", d => d.mean == null ? "url(#hatch)" : color(d.mean))
+    .on("mousemove", (ev, d) => {
+      tip.style("display", "block").style("left", (ev.pageX + 12) + "px").style("top", (ev.pageY - 10) + "px")
+        .html(`<b>${d.depth} m · ${fmtM(d.month)}</b><br>` +
+          (d.mean == null ? "no data" : `${d.mean.toFixed(2)} °C (${d.n} days)`));
+    })
+    .on("mouseleave", () => tip.style("display", "none"));
+
+  // year separators
+  const years = months.filter(m => m.getUTCMonth() === 0);
+  g.selectAll("line.yr").data(years).join("line")
+    .attr("x1", d => x(+d) - x.step() * x.paddingInner() / 2).attr("x2", d => x(+d) - x.step() * x.paddingInner() / 2)
+    .attr("y1", -6).attr("y2", innerH).attr("stroke", "#555").attr("stroke-width", 1);
+
+  // x axis: year labels centred on year spans, month ticks
+  const xa = g.append("g").attr("class", "axis").attr("transform", `translate(0,${innerH})`);
+  xa.selectAll("line.mt").data(months).join("line")
+    .attr("x1", d => x(+d) + x.bandwidth() / 2).attr("x2", d => x(+d) + x.bandwidth() / 2)
+    .attr("y1", 2).attr("y2", d => d.getUTCMonth() % 3 === 0 ? 7 : 4).attr("stroke", "#999");
+  const yearGroups = d3.groups(months, m => m.getUTCFullYear());
+  xa.selectAll("text.yr").data(yearGroups).join("text")
+    .attr("x", ([, ms]) => (x(+ms[0]) + x(+ms[ms.length - 1]) + x.bandwidth()) / 2)
+    .attr("y", 22).attr("text-anchor", "middle").style("font-size", "13px").style("font-weight", 600)
+    .text(([yr]) => yr);
+  xa.selectAll("text.jl").data(months.filter(m => m.getUTCMonth() === 6)).join("text")
+    .attr("x", d => x(+d) + x.bandwidth() / 2).attr("y", 36).attr("text-anchor", "middle")
+    .style("font-size", "10px").style("fill", "#777").text("Jul");
+
+  // y axis
+  const ya = g.append("g").attr("class", "axis").call(d3.axisLeft(y).tickFormat(d => `${d} m`).tickSize(0).tickPadding(8));
+  ya.select(".domain").remove();
+  ya.selectAll("text").style("font-size", "13px");
+  g.append("text").attr("class", "ylab").attr("transform", `translate(${-56},${innerH / 2}) rotate(-90)`)
+    .attr("text-anchor", "middle").text("Sensor depth at low tide");
+  g.append("text").attr("id", "note").attr("x", 0).attr("y", -12).style("font-size", "12px").style("fill", "#555")
+    .text("Each cell = mean of daily mean temperatures in that month; hatched = no data for that depth and month");
+
+  // colour legend
+  const lw = 340, lh = 12, lx = 0, ly = innerH + 58;
+  const lg = g.append("g").attr("transform", `translate(${lx},${ly})`);
+  const grad = defs.append("linearGradient").attr("id", "grad");
+  d3.range(0, 1.0001, 0.05).forEach(t => grad.append("stop").attr("offset", t)
+    .attr("stop-color", color(color.domain()[0] + t * (color.domain()[1] - color.domain()[0]))));
+  lg.append("text").attr("y", -6).style("font-size", "12px").style("font-weight", 600).text("Monthly mean water temperature (°C)");
+  lg.append("rect").attr("width", lw).attr("height", lh).attr("fill", "url(#grad)");
+  const ls = d3.scaleLinear().domain(color.domain()).range([0, lw]);
+  lg.append("g").attr("class", "axis").attr("transform", `translate(0,${lh})`)
+    .call(d3.axisBottom(ls).ticks(5).tickFormat(d => `${d}°C`).tickSize(4)).select(".domain").remove();
+  const mg = lg.append("g").attr("transform", `translate(${lw + 40},0)`);
+  mg.append("rect").attr("width", 22).attr("height", lh).attr("fill", "url(#hatch)").attr("stroke", "#bbb");
+  mg.append("text").attr("x", 28).attr("y", lh - 1).style("font-size", "12px").text("No data (sensor out of water)");
+
+  g.append("text").attr("class", "src").attr("x", innerW).attr("y", ly + 30).attr("text-anchor", "end")
+    .text("Data: CMAR Coastal Monitoring Program, Birchy Head station (daily means), via TidyTuesday 2026-03-31 · Open Government Licence – Nova Scotia");
+
+  // ---- data-driven caption
+  const stat = dp => {
+    const v = cells.filter(c => c.depth === dp && c.mean != null);
+    return { lo: d3.min(v, c => c.mean), hi: d3.max(v, c => c.mean) };
+  };
+  const top = depths[0], bot = depths[depths.length - 1];
+  const s0 = stat(top), s1 = stat(bot);
+  // month-of-year with the warmest average at each end
+  const peakMonth = dp => {
+    const byM = d3.rollup(cells.filter(c => c.depth === dp && c.mean != null), v => d3.mean(v, c => c.mean), c => c.month.getUTCMonth());
+    return d3.greatest(byM, ([, v]) => v)[0];
+  };
+  const mn = m => d3.utcFormat("%B")(new Date(Date.UTC(2000, m, 1)));
+  const missing = cells.filter(c => c.mean == null).length;
+  d3.select("#caption").text(
+    `Every depth follows a yearly cycle, but it weakens and lags with depth: at ${top} m monthly means swing from ` +
+    `${s0.lo.toFixed(1)} to ${s0.hi.toFixed(1)} °C (warmest on average in ${mn(peakMonth(top))}), while at ${bot} m they stay between ` +
+    `${s1.lo.toFixed(1)} and ${s1.hi.toFixed(1)} °C (warmest in ${mn(peakMonth(bot))}).`
+  );
+  d3.select("#note").text(`Each cell = mean of daily mean temperatures in that month; hatched = no data for that depth and month (${missing} of ${cells.length} depth-months)`);
+}).catch(err => {
+  d3.select("#caption").text("Failed to load data: " + err.message);
+  console.error(err);
+});
+</script>
+</body>
+</html>

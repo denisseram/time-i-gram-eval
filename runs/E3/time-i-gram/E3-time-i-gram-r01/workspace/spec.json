@@ -1,0 +1,215 @@
+{
+ "title": "Does the yearly ARE peak happen at the same time each year?",
+ "subtitle": "Until 2019 the peak fell in Feb–Mar (ISO weeks 5–12) every year; since 2020 it has shifted (December in 2022 and 2023). Source: RKI ARE-Praxis-Sentinel, CC BY 4.0",
+ "arrangement": "vertical",
+ "views": [
+  {
+   "layout": "circular",
+   "centerRadius": 0.25,
+   "tracks": [
+    {
+     "alignment": "overlay",
+     "data": {
+      "type": "csv-time",
+      "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+      "separator": "\t",
+      "dateFields": [
+       "Kalenderwoche"
+      ]
+     },
+     "dataTransform": [
+      {
+       "type": "filter",
+       "field": "Bundesland",
+       "oneOf": [
+        "Bundesweit"
+       ]
+      },
+      {
+       "type": "filter",
+       "field": "Altersgruppe",
+       "oneOf": [
+        "00+"
+       ]
+      }
+     ],
+     "x": {
+      "field": "Kalenderwoche",
+      "type": "temporal",
+      "period": {
+       "unit": "year",
+       "weekBased": true,
+       "newField": "year"
+      },
+      "axis": "top"
+     },
+     "y": {
+      "field": "ARE_Konsultationsinzidenz",
+      "type": "quantitative",
+      "domain": [
+       0,
+       3400
+      ],
+      "axis": "left",
+      "title": "ARE consultations per 100,000 per week"
+     },
+     "tracks": [
+      {
+       "mark": "line",
+       "color": {
+        "field": "year",
+        "type": "nominal",
+        "domain": [
+         "2012",
+         "2013",
+         "2014",
+         "2015",
+         "2016",
+         "2017",
+         "2018",
+         "2019",
+         "2020",
+         "2021",
+         "2022",
+         "2023",
+         "2024",
+         "2025",
+         "2026"
+        ],
+        "range": [
+         "#440154",
+         "#481a6c",
+         "#472f7d",
+         "#414487",
+         "#39568c",
+         "#31688e",
+         "#2a788e",
+         "#23888e",
+         "#1f988b",
+         "#22a884",
+         "#35b779",
+         "#54c568",
+         "#7ad151",
+         "#a5db36",
+         "#d2e21b"
+        ],
+        "legend": true,
+        "title": "ISO year"
+       },
+       "size": {
+        "value": 1.5
+       }
+      }
+     ],
+     "width": 560,
+     "height": 200
+    }
+   ]
+  },
+  {
+   "tracks": [
+    {
+     "title": "All weeks, 2012 to 2026",
+     "data": {
+      "type": "csv-time",
+      "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+      "separator": "\t",
+      "dateFields": [
+       "Kalenderwoche"
+      ]
+     },
+     "dataTransform": [
+      {
+       "type": "filter",
+       "field": "Bundesland",
+       "oneOf": [
+        "Bundesweit"
+       ]
+      },
+      {
+       "type": "filter",
+       "field": "Altersgruppe",
+       "oneOf": [
+        "00+"
+       ]
+      },
+      {
+       "type": "timeUnit",
+       "field": "Kalenderwoche",
+       "unit": "year",
+       "newField": "ys",
+       "labelField": "year"
+      }
+     ],
+     "mark": "line",
+     "x": {
+      "field": "Kalenderwoche",
+      "type": "temporal",
+      "axis": "bottom",
+      "domain": {
+       "interval": [
+        "2012-10",
+        "2026-12"
+       ]
+      }
+     },
+     "y": {
+      "field": "ARE_Konsultationsinzidenz",
+      "type": "quantitative",
+      "domain": [
+       0,
+       3400
+      ],
+      "axis": "left",
+      "title": "ARE consultations per 100,000 per week"
+     },
+     "color": {
+      "field": "year",
+      "type": "nominal",
+      "domain": [
+       "2012",
+       "2013",
+       "2014",
+       "2015",
+       "2016",
+       "2017",
+       "2018",
+       "2019",
+       "2020",
+       "2021",
+       "2022",
+       "2023",
+       "2024",
+       "2025",
+       "2026"
+      ],
+      "range": [
+       "#440154",
+       "#481a6c",
+       "#472f7d",
+       "#414487",
+       "#39568c",
+       "#31688e",
+       "#2a788e",
+       "#23888e",
+       "#1f988b",
+       "#22a884",
+       "#35b779",
+       "#54c568",
+       "#7ad151",
+       "#a5db36",
+       "#d2e21b"
+      ],
+      "legend": false,
+      "title": "ISO year"
+     },
+     "size": {
+      "value": 1.5
+     },
+     "width": 1300,
+     "height": 160
+    }
+   ]
+  }
+ ]
+}

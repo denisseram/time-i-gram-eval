@@ -1,0 +1,20 @@
+REPORT
+deliverable: spec.vl.json
+requirements:
+  R1: done - x/y computed from angle=2π(week-1)/weeksInIsoYear, W1 at top, clockwise; radius = value
+  R2: done - one line per ISO year, viridis colour by year with legend
+  R3: done - highest week per Saison (window row_number) marked with a diamond and season label
+  R4: done - linear line chart 2012-W40 to 2026-W43 on a temporal axis (Monday of each ISO week)
+  R5: done - x-interval brush in linear view filters the coloured lines/peaks in the circle; other weeks stay faint
+  R6: done - week labels W1, W5, …, W49 around circle, ring values labelled, year axis, y title with unit; subtitle states radius unit
+  R7: done - title plus caption sentence (subtitle) on the shift of peak timing after 2020
+assumptions:
+  - ISO-week dates are computed in the expression language (Monday of week, from Jan 4); 53-week years are found from Jan 1 weekday and leap year
+  - If two weeks tie for a season's maximum, only one is marked
+  - Ring spacing is 1000 and outer radius is max rounded up to 500; these are layout constants, not data values
+  - The caption's numbers (weeks/months) were checked against the data; the caption text itself is static
+limitations:
+  - Season 2026/27 is incomplete (to 2026-W43); its "peak" is the maximum so far
+  - Each ISO year is a separate line, so there is a gap between week 52/53 and week 1 of the next year
+  - Peak labels overlap where several seasons peaked in similar weeks (Feb); the tooltip gives the exact values
+  - The brush starts empty (everything highlighted); you drag on the linear view to select a range
