@@ -1,0 +1,325 @@
+evaluator,phase,item,example,requirement,score,note,updated
+judge-claude-opus-5-5,blind,E1-01,E1,R1,2,"The heatmap shows monthly means for all 7 depths (2, 5, 10, 15, 20, 30 and 40 m).",2026-11-05T10:33:25
+judge-claude-opus-5-5,blind,E1-01,E1,R2,2,Evenly spaced monthly columns run from 2018-02 to 2025-12.,2026-11-05T10:33:25
+judge-claude-opus-5-5,blind,E1-01,E1,R3,2,"Months with no data are grey cells, and they match the ground truth for 2 m, 5 m and 40 m.",2026-11-05T10:33:25
+judge-claude-opus-5-5,blind,E1-01,E1,R4,2,Depths are labelled on the y-axis in numeric order from 2 m to 40 m.,2026-11-05T10:33:25
+judge-claude-opus-5-5,blind,E1-01,E1,R5,2,The colour legend reads 'Monthly mean temperature (°C)'.,2026-11-05T10:33:25
+judge-claude-opus-5-5,blind,E1-01,E1,R6,2,"It has a title and a one-sentence caption on the strong summer warming of shallow water and the smaller seasonal swing at depth, which fits the data.",2026-11-05T10:33:25
+judge-claude-opus-5-5,blind,E1-02,E1,R1,2,"The heatmap has seven rows (2, 5, 10, 15, 20, 30 and 40 m), and each cell is a monthly mean of the daily means.",2026-11-05T10:34:06
+judge-claude-opus-5-5,blind,E1-02,E1,R2,2,The month columns run evenly from early 2018 to the end of 2025.,2026-11-05T10:34:06
+judge-claude-opus-5-5,blind,E1-02,E1,R3,2,"Months with no data are blank cells, and they match the ground truth: 2 m in 2019 and 2024, 5 m in 2023, 2024-10 and 2025-12, and 40 m from 2022-12 to 2023-04.",2026-11-05T10:34:06
+judge-claude-opus-5-5,blind,E1-02,E1,R4,2,Rows are labelled directly and run in depth order from 2 m to 40 m.,2026-11-05T10:34:06
+judge-claude-opus-5-5,blind,E1-02,E1,R5,2,The colour legend is titled 'Monthly mean temperature (°C)'.,2026-11-05T10:34:06
+judge-claude-opus-5-5,blind,E1-02,E1,R6,1,"There is a title and a one-sentence caption, but the caption gives the 40 m range as 2–9 °C while the data peak at 10.9 °C.",2026-11-05T10:34:06
+judge-claude-opus-5-5,blind,E1-03,E1,R1,2,"The heatmap has 7 rows (2, 5, 10, 15, 20, 30, 40 m), and the title says each cell is a monthly mean.",2026-11-05T10:34:15
+judge-claude-opus-5-5,blind,E1-03,E1,R2,2,"The evenly spaced monthly columns run from early 2018 to the 2026 tick, which matches 2018-02 to 2025-12.",2026-11-05T10:34:15
+judge-claude-opus-5-5,blind,E1-03,E1,R3,2,"Blank cells appear where the ground truth expects no data: 2 m in 2019 and 2024, 5 m in 2023, 2024-10 and 2025-12, and 40 m from late 2022 to early 2023.",2026-11-05T10:34:15
+judge-claude-opus-5-5,blind,E1-03,E1,R4,2,"Each row has a direct depth label, and the rows run in numeric order from 2 m to 40 m.",2026-11-05T10:34:15
+judge-claude-opus-5-5,blind,E1-03,E1,R5,2,The colour legend is titled 'Temp. (°C)'.,2026-11-05T10:34:15
+judge-claude-opus-5-5,blind,E1-03,E1,R6,2,"There is a title, and the one-sentence caption on summer stratification and winter mixing matches the data.",2026-11-05T10:34:15
+judge-claude-opus-5-5,blind,E1-04,E1,R1,2,"Heatmap shows monthly means for all 7 depths (2, 5, 10, 15, 20, 30, 40 m), labelled as means of daily means.",2026-11-05T10:34:24
+judge-claude-opus-5-5,blind,E1-04,E1,R2,2,Evenly spaced monthly cells run from Feb 2018 to Dec 2025; 665 depth-months = 7 × 95 months.,2026-11-05T10:34:24
+judge-claude-opus-5-5,blind,E1-04,E1,R3,2,"Hatched empty cells match the ground-truth gaps at 2 m, 5 m and 40 m, 18 cells in total.",2026-11-05T10:34:24
+judge-claude-opus-5-5,blind,E1-04,E1,R4,2,Rows are labelled directly and run in depth order from 2 m down to 40 m.,2026-11-05T10:34:24
+judge-claude-opus-5-5,blind,E1-04,E1,R5,2,The colour legend is titled 'Monthly mean water temperature (°C)' and its ticks are in °C.,2026-11-05T10:34:24
+judge-claude-opus-5-5,blind,E1-04,E1,R6,2,"The title has a one-sentence caption about the seasonal cycle weakening with depth, and its values (1.3–19.3 °C at 2 m, 0.7–10.9 °C at 40 m) are consistent with the ground-truth maxima.",2026-11-05T10:34:24
+judge-claude-opus-5-5,blind,E1-05,E1,R1,2,"The heatmap has one row for each of the 7 depths (2, 5, 10, 15, 20, 30 and 40 m), and the subtitle says the cells are monthly means of daily values.",2026-11-05T10:34:39
+judge-claude-opus-5-5,blind,E1-05,E1,R2,2,"The month columns are evenly spaced and run from early 2018 to the end of 2025, which matches February 2018 to December 2025.",2026-11-05T10:34:39
+judge-claude-opus-5-5,blind,E1-05,E1,R3,2,"Grey cells mark every no-data month in the ground truth: 2 m in 2019-08 to 10 and 2024-06 to 10, 5 m in 2023-08 to 10, 2024-10 and 2025-12, and 40 m from 2022-12 to 2023-04.",2026-11-05T10:34:39
+judge-claude-opus-5-5,blind,E1-05,E1,R4,2,"Each row has a depth label on the y-axis, and the rows run in numeric order from 2 m to 40 m.",2026-11-05T10:34:39
+judge-claude-opus-5-5,blind,E1-05,E1,R5,2,The colour legend is titled 'Mean temperature (°C)'.,2026-11-05T10:34:39
+judge-claude-opus-5-5,blind,E1-05,E1,R6,2,"There is a title, and the one-sentence caption about strong summer warming near the surface and cooler deep water that peaks later matches the data.",2026-11-05T10:34:39
+judge-claude-opus-5-5,blind,E1-06,E1,R1,2,"The heatmap has 7 rows (2, 5, 10, 15, 20, 30 and 40 m), and the note says each cell is the mean of the daily means for that month.",2026-11-05T10:34:54
+judge-claude-opus-5-5,blind,E1-06,E1,R2,2,The axis has one evenly spaced cell per month from February 2018 to December 2025.,2026-11-05T10:34:54
+judge-claude-opus-5-5,blind,E1-06,E1,R3,2,"Months with no data are hatched, matching the ground truth, e.g. 2 m Aug–Oct 2019 and Jun–Oct 2024, 5 m Aug–Oct 2023, and 40 m Dec 2022–Apr 2023.",2026-11-05T10:34:54
+judge-claude-opus-5-5,blind,E1-06,E1,R4,2,"Each row has a direct label, and rows run in numeric order from 2 m to 40 m.",2026-11-05T10:34:54
+judge-claude-opus-5-5,blind,E1-06,E1,R5,2,The colour legend reads 'Monthly mean temperature (°C)' and its ticks are in °C.,2026-11-05T10:34:54
+judge-claude-opus-5-5,blind,E1-06,E1,R6,2,"There is a title and a one-sentence caption, and the caption's figures match the data (2 m peak 19.3 °C in Sep 2025, 40 m maximum 10.9 °C).",2026-11-05T10:34:54
+judge-claude-opus-5-5,blind,E1-07,E1,R1,2,"Heatmap shows monthly means for all 7 depths (2, 5, 10, 15, 20, 30, 40 m) as rows.",2026-11-05T10:35:05
+judge-claude-opus-5-5,blind,E1-07,E1,R2,2,Evenly spaced monthly cells run from early 2018 to the end of 2025.,2026-11-05T10:35:05
+judge-claude-opus-5-5,blind,E1-07,E1,R3,2,"Empty white cells match the ground-truth gaps at 2 m, 5 m and 40 m (2019, 2023, 2024, 2025-12, 2022-12 to 2023-04).",2026-11-05T10:35:05
+judge-claude-opus-5-5,blind,E1-07,E1,R4,2,Rows have direct depth labels in numeric order from 2 m to 40 m.,2026-11-05T10:35:05
+judge-claude-opus-5-5,blind,E1-07,E1,R5,2,The colour legend is labelled °C.,2026-11-05T10:35:05
+judge-claude-opus-5-5,blind,E1-07,E1,R6,2,"The title and one-sentence caption describe surface warming in Aug–Sep, the later 40 m peak in October and similar cold at all depths in winter, which matches the data.",2026-11-05T10:35:05
+judge-claude-opus-5-5,blind,E1-08,E1,R1,2,"The heatmap has 7 rows (2, 5, 10, 15, 20, 30, 40 m), and the legend labels the colour as monthly mean temperature.",2026-11-05T10:35:14
+judge-claude-opus-5-5,blind,E1-08,E1,R2,2,The columns are evenly spaced by month and run from early 2018 to the end of 2025.,2026-11-05T10:35:14
+judge-claude-opus-5-5,blind,E1-08,E1,R3,2,"White cells match the ground-truth missing months: 2 m in 2019 and 2024, 5 m in 2023, 2024-10 and 2025-12, and 40 m in 2022-12 to 2023-04.",2026-11-05T10:35:14
+judge-claude-opus-5-5,blind,E1-08,E1,R4,2,"Rows have direct depth labels, ordered from 2 m at the top to 40 m at the bottom.",2026-11-05T10:35:14
+judge-claude-opus-5-5,blind,E1-08,E1,R5,2,The colour legend is labelled °C.,2026-11-05T10:35:14
+judge-claude-opus-5-5,blind,E1-08,E1,R6,2,"There is a title and a one-sentence caption on seasonal warming and the larger swings in shallow water, and both match the data.",2026-11-05T10:35:14
+judge-claude-opus-5-5,blind,E1-09,E1,R1,2,"The heatmap has one row for each of the 7 depths (2, 5, 10, 15, 20, 30, 40 m), and each cell is a monthly mean of the daily values.",2026-11-05T10:35:24
+judge-claude-opus-5-5,blind,E1-09,E1,R2,2,"The time axis runs from February 2018 to December 2025, with one evenly spaced column per month.",2026-11-05T10:35:24
+judge-claude-opus-5-5,blind,E1-09,E1,R3,2,"The months with no data (2 m in 2019-08 to 10 and 2024-06 to 10; 5 m in 2023-08 to 10, 2024-10 and 2025-12; 40 m from 2022-12 to 2023-04) are hatched and labelled 'No data'.",2026-11-05T10:35:24
+judge-claude-opus-5-5,blind,E1-09,E1,R4,2,"Each row has a direct depth label, and the rows run in numeric order from 2 m down to 40 m.",2026-11-05T10:35:24
+judge-claude-opus-5-5,blind,E1-09,E1,R5,2,The colour legend is labelled 'Monthly mean water temperature (°C)'.,2026-11-05T10:35:24
+judge-claude-opus-5-5,blind,E1-09,E1,R6,2,"There is a clear title and a one-sentence caption, and its claim that the yearly cycle weakens with depth, peaking in September at 2 m and in October at 40 m, matches the data.",2026-11-05T10:35:24
+judge-claude-opus-5-5,blind,E1-10,E1,R1,2,"The heatmap has 7 rows (2, 5, 10, 15, 20, 30, 40 m), and its colour legend says the cells are monthly means.",2026-11-05T10:35:36
+judge-claude-opus-5-5,blind,E1-10,E1,R2,2,"There is one column per month, evenly spaced, from early 2018 to December 2025.",2026-11-05T10:35:36
+judge-claude-opus-5-5,blind,E1-10,E1,R3,2,"Months with no data are blank white cells, and the axis label says so; the 2 m, 5 m and 40 m gaps match the ground truth.",2026-11-05T10:35:36
+judge-claude-opus-5-5,blind,E1-10,E1,R4,2,Depth rows are labelled on the y-axis and run in numeric order from 2 m down to 40 m.,2026-11-05T10:35:36
+judge-claude-opus-5-5,blind,E1-10,E1,R5,2,The colour legend is titled 'Monthly mean temperature (°C)'.,2026-11-05T10:35:36
+judge-claude-opus-5-5,blind,E1-10,E1,R6,2,"There is a title and a one-sentence caption describing summer stratification and winter convergence, which matches the data (its 16–18 °C peak is a bit below the 19.3 °C maximum).",2026-11-05T10:35:36
+judge-claude-opus-5-5,blind,E1-11,E1,R1,2,"The heatmap has 7 depth rows (2, 5, 10, 15, 20, 30, 40 m), and the colour legend says monthly mean temperature.",2026-11-05T10:35:54
+judge-claude-opus-5-5,blind,E1-11,E1,R2,2,"The columns run from early 2018 to the end of 2025, one evenly spaced cell per month.",2026-11-05T10:35:54
+judge-claude-opus-5-5,blind,E1-11,E1,R3,2,"Months without data show as white cells, and they match the ground truth: 2 m in 2019 and 2024, 5 m in 2023-08 to 10, 2024-10 and 2025-12, and 40 m from 2022-12 to 2023-04.",2026-11-05T10:35:54
+judge-claude-opus-5-5,blind,E1-11,E1,R4,2,"Each row is labelled with its depth on the y-axis, in numeric order from 2 m down to 40 m.",2026-11-05T10:35:54
+judge-claude-opus-5-5,blind,E1-11,E1,R5,2,The colour legend reads 'Monthly mean temperature (°C)'.,2026-11-05T10:35:54
+judge-claude-opus-5-5,blind,E1-11,E1,R6,2,"There is a title, and the one-sentence caption (summer warming strongest near the surface, all depths cold in winter) matches the data.",2026-11-05T10:35:54
+judge-claude-opus-5-5,blind,E1-12,E1,R1,2,"The heatmap has 7 rows (2, 5, 10, 15, 20, 30 and 40 m), and the legend says they are monthly means of the daily values.",2026-11-05T10:36:04
+judge-claude-opus-5-5,blind,E1-12,E1,R2,2,"Evenly spaced monthly columns run from Feb 2018 to Dec 2025, which matches the title.",2026-11-05T10:36:04
+judge-claude-opus-5-5,blind,E1-12,E1,R3,2,"Missing months appear as light grey cells (18 in total), and they line up with the ground-truth gaps at 2 m, 5 m and 40 m.",2026-11-05T10:36:04
+judge-claude-opus-5-5,blind,E1-12,E1,R4,2,"The y-axis labels each depth row, and the rows run in numeric order from 2 m to 40 m.",2026-11-05T10:36:04
+judge-claude-opus-5-5,blind,E1-12,E1,R5,2,The colour legend is titled 'Monthly mean temperature (°C)'.,2026-11-05T10:36:04
+judge-claude-opus-5-5,blind,E1-12,E1,R6,2,"There is a title, and the one-sentence caption says the seasonal range shrinks with depth, with peaks in September at 2 m and October at 40 m, which matches the data.",2026-11-05T10:36:04
+judge-claude-opus-5-5,blind,E2-01,E2,R1,2,"15 ISO-year rows, 2012 to 2026, in chronological order from top to bottom.",2026-11-05T10:36:11
+judge-claude-opus-5-5,blind,E2-01,E2,R2,2,"One cell per ISO week, week 1 on the left; week 53 appears only in 2015 and 2020.",2026-11-05T10:36:11
+judge-claude-opus-5-5,blind,E2-01,E2,R3,2,"Sequential yellow-to-red scale with a legend reading 'ARE consultations per 100,000 per week'.",2026-11-05T10:36:11
+judge-claude-opus-5-5,blind,E2-01,E2,R4,2,2012 W01–W39 and 2026 W44–W53 are left empty.,2026-11-05T10:36:11
+judge-claude-opus-5-5,blind,E2-01,E2,R5,2,Week numbers are labelled along the top x-axis and years along the y-axis.,2026-11-05T10:36:11
+judge-claude-opus-5-5,blind,E2-01,E2,R6,2,"Title plus a caption on the repeating winter cycle and the 2020–2022 break, which matches the data.",2026-11-05T10:36:11
+judge-claude-opus-5-5,blind,E2-02,E2,R1,2,"15 ISO-year rows, 2012 to 2026, in chronological order from top to bottom.",2026-11-05T10:36:18
+judge-claude-opus-5-5,blind,E2-02,E2,R2,2,"One cell per ISO week from 1 to 53, and week 53 appears only in 2015 and 2020.",2026-11-05T10:36:18
+judge-claude-opus-5-5,blind,E2-02,E2,R3,2,"Sequential magma-style scale, with a legend reading 'ARE consultations per 100,000 population per week'.",2026-11-05T10:36:18
+judge-claude-opus-5-5,blind,E2-02,E2,R4,2,"2012 W1–W39 and 2026 W44–W53 are left blank, not filled as zero.",2026-11-05T10:36:18
+judge-claude-opus-5-5,blind,E2-02,E2,R5,2,Week numbers are labelled on the x-axis and years on the y-axis.,2026-11-05T10:36:18
+judge-claude-opus-5-5,blind,E2-02,E2,R6,2,"The title is present, and the caption (winter peak, summer low, Christmas-week dip, 2020–21 break, 2022 surge) matches the data.",2026-11-05T10:36:18
+judge-claude-opus-5-5,blind,E2-03,E2,R1,2,"There are 15 ISO-year rows, 2012 to 2026, in chronological order from top to bottom.",2026-11-05T10:36:25
+judge-claude-opus-5-5,blind,E2-03,E2,R2,2,"There is one cell per ISO week, starting at week 1 on the left, and week 53 appears only in 2015 and 2020.",2026-11-05T10:36:25
+judge-claude-opus-5-5,blind,E2-03,E2,R3,2,"Colour uses a sequential yellow-to-red scale, and the legend says 'ARE consultations per 100,000 population per week'.",2026-11-05T10:36:25
+judge-claude-opus-5-5,blind,E2-03,E2,R4,2,"2012 W01–W39 and 2026 W44–W53 are empty outlined cells, and a legend entry explains them as no data.",2026-11-05T10:36:25
+judge-claude-opus-5-5,blind,E2-03,E2,R5,2,The x-axis is labelled with ISO calendar week numbers and the y-axis with ISO years.,2026-11-05T10:36:25
+judge-claude-opus-5-5,blind,E2-03,E2,R6,2,"There is a title, and the caption states the winter-high/summer-low pattern in a way that matches the data.",2026-11-05T10:36:25
+judge-claude-opus-5-5,blind,E2-04,E2,R1,2,There are 15 rows from 2012 to 2026 in chronological order from top to bottom.,2026-11-05T10:36:35
+judge-claude-opus-5-5,blind,E2-04,E2,R2,2,"Each row has one cell per ISO week starting at W1, with a week 53 cell only in 2015 and 2020, 2012 starting at W40 and 2026 ending at W43.",2026-11-05T10:36:35
+judge-claude-opus-5-5,blind,E2-04,E2,R3,2,"The sequential viridis scale has a legend stating 'per 100,000 per week'.",2026-11-05T10:36:35
+judge-claude-opus-5-5,blind,E2-04,E2,R4,2,"2012 W1–W39 and 2026 after W43 are left blank, not filled as zero.",2026-11-05T10:36:35
+judge-claude-opus-5-5,blind,E2-04,E2,R5,2,"Week labels (W1, W9, …) are on the x-axis and year labels are on the y-axis.",2026-11-05T10:36:35
+judge-claude-opus-5-5,blind,E2-04,E2,R6,2,"There is a title, and the caption (shared winter cycle, 2020-21 disruption, early December 2022 peak) matches the data.",2026-11-05T10:36:35
+judge-claude-opus-5-5,blind,E2-05,E2,R1,2,"There are 15 ISO-year rows, 2012 to 2026, in chronological order from top to bottom.",2026-11-05T10:36:43
+judge-claude-opus-5-5,blind,E2-05,E2,R2,2,"Each row has one cell per ISO week, and only 2015 and 2020 have an extra W53 cell.",2026-11-05T10:36:43
+judge-claude-opus-5-5,blind,E2-05,E2,R3,2,"The colour scale is sequential (viridis), and the legend and note state 'ARE consultations per 100,000 population per week'.",2026-11-05T10:36:43
+judge-claude-opus-5-5,blind,E2-05,E2,R4,2,2012 starts at about W40 and 2026 ends at about W43; the weeks outside the data are left blank.,2026-11-05T10:36:43
+judge-claude-opus-5-5,blind,E2-05,E2,R5,2,"Week labels (W1, W9, …, W49) are on the x-axis and year labels are on the y-axis, although the year labels overlap the first cells.",2026-11-05T10:36:43
+judge-claude-opus-5-5,blind,E2-05,E2,R6,2,"The figure has a title and a one-sentence caption (winter peaks, summer lows, 2020–21 break the cycle) that matches the data.",2026-11-05T10:36:43
+judge-claude-opus-5-5,blind,E2-06,E2,R1,2,"15 rows labelled 2012 to 2026 under an 'ISO year' axis title, in chronological order from top to bottom.",2026-11-05T10:36:54
+judge-claude-opus-5-5,blind,E2-06,E2,R2,2,"Weeks 1–53 run left to right, and week 53 has a cell only in 2015 and 2020.",2026-11-05T10:36:54
+judge-claude-opus-5-5,blind,E2-06,E2,R3,2,"Sequential yellow-to-red scale with a legend titled 'ARE consultations per 100,000 per week'.",2026-11-05T10:36:54
+judge-claude-opus-5-5,blind,E2-06,E2,R4,2,"2012 W01–W39 and 2026 W44–W53 are blank, not shown as zero.",2026-11-05T10:36:54
+judge-claude-opus-5-5,blind,E2-06,E2,R5,2,Week numbers are labelled along the top x-axis and years along the y-axis.,2026-11-05T10:36:54
+judge-claude-opus-5-5,blind,E2-06,E2,R6,2,"Title plus a one-sentence caption describing the winter/summer cycle, the week-52 dip, the missing 2021 winter wave and the early 2022 peak, which matches the data.",2026-11-05T10:36:54
+judge-claude-opus-5-5,blind,E2-07,E2,R1,2,"The figure has 15 ISO-year rows, 2012 to 2026, in chronological order from top to bottom.",2026-11-05T10:37:06
+judge-claude-opus-5-5,blind,E2-07,E2,R2,2,"Each row has one cell per ISO week starting at week 1, and a week 53 cell appears only in 2015 and 2020.",2026-11-05T10:37:06
+judge-claude-opus-5-5,blind,E2-07,E2,R3,2,"The sequential yellow-to-red scale has a legend reading 'ARE consultations per 100,000 population per week'.",2026-11-05T10:37:06
+judge-claude-opus-5-5,blind,E2-07,E2,R4,2,"2012 W01–W39 and 2026 W44 onward are blank, not filled as zero.",2026-11-05T10:37:06
+judge-claude-opus-5-5,blind,E2-07,E2,R5,2,ISO week numbers are labelled on the x-axis and ISO years on the y-axis.,2026-11-05T10:37:06
+judge-claude-opus-5-5,blind,E2-07,E2,R6,2,"There is a title, and the caption (high in winter, low in summer, pandemic-era 2021 lowest) matches the colours shown.",2026-11-05T10:37:06
+judge-claude-opus-5-5,blind,E2-08,E2,R1,1,"All 15 ISO years appear, but 2012 is at the bottom instead of the top, so the rows are not in chronological order.",2026-11-05T10:37:17
+judge-claude-opus-5-5,blind,E2-08,E2,R2,2,"There is one cell per ISO week, and week 53 appears only in the 2015 and 2020 rows.",2026-11-05T10:37:17
+judge-claude-opus-5-5,blind,E2-08,E2,R3,2,"The colour scale is sequential (viridis), and the legend states 'per 100k/wk' and 'ARE consultations per 100,000 population per week'.",2026-11-05T10:37:17
+judge-claude-opus-5-5,blind,E2-08,E2,R4,2,"The 2012 row is empty before W40 and the 2026 row is empty after about W43, so missing weeks are not shown as zero.",2026-11-05T10:37:17
+judge-claude-opus-5-5,blind,E2-08,E2,R5,2,"Week labels (W1, W9, …) are on the x-axis and year labels are on the rows.",2026-11-05T10:37:17
+judge-claude-opus-5-5,blind,E2-08,E2,R6,2,"There is a title, and the one-sentence caption about a winter-high, summer-low cycle broken in 2020–21 matches the data.",2026-11-05T10:37:17
+judge-claude-opus-5-5,blind,E2-09,E2,R1,2,"There are 15 ISO-year rows, 2012 to 2026, in chronological order from top to bottom.",2026-11-05T10:37:26
+judge-claude-opus-5-5,blind,E2-09,E2,R2,2,"Each row has one cell per ISO week starting at week 1, and week 53 appears only in 2015 and 2020.",2026-11-05T10:37:26
+judge-claude-opus-5-5,blind,E2-09,E2,R3,2,"The yellow-to-dark-red scale is sequential, and the legend states 'ARE consultations per 100,000 population per week'.",2026-11-05T10:37:26
+judge-claude-opus-5-5,blind,E2-09,E2,R4,2,"2012 W1–W39 and 2026 W44 onward are blank outlined cells labelled 'no data', not zeros.",2026-11-05T10:37:26
+judge-claude-opus-5-5,blind,E2-09,E2,R5,2,Week numbers label the x-axis and ISO years label the y-axis.,2026-11-05T10:37:26
+judge-claude-opus-5-5,blind,E2-09,E2,R6,2,"There is a title and a caption about the summer-low/winter-high cycle and the shifting peak timing, which fits the visible data (for example, the 2022-W50 maximum).",2026-11-05T10:37:26
+judge-claude-opus-5-5,blind,E2-10,E2,R1,2,"15 rows labelled by ISO year, 2012 to 2026, in chronological order from top to bottom.",2026-11-05T10:37:34
+judge-claude-opus-5-5,blind,E2-10,E2,R2,2,"One cell per ISO week (1–53), with week 53 shown only in 2015 and 2020.",2026-11-05T10:37:34
+judge-claude-opus-5-5,blind,E2-10,E2,R3,2,"Sequential viridis scale with a legend titled 'ARE consultations per 100,000 population per week'.",2026-11-05T10:37:34
+judge-claude-opus-5-5,blind,E2-10,E2,R4,2,"2012 W01–W39 and 2026 W44–W53 are empty grey cells, and every row is present.",2026-11-05T10:37:34
+judge-claude-opus-5-5,blind,E2-10,E2,R5,2,ISO week numbers label the x-axis and years label the y-axis.,2026-11-05T10:37:34
+judge-claude-opus-5-5,blind,E2-10,E2,R6,2,"Has a title and a caption on the winter-high/summer-low cycle with the 3,215 peak in 2022-W50, which matches the data.",2026-11-05T10:37:34
+judge-claude-opus-5-5,blind,E2-11,E2,R1,2,"There are 15 ISO-year rows, 2012 to 2026, in chronological order from top to bottom.",2026-11-05T10:37:41
+judge-claude-opus-5-5,blind,E2-11,E2,R2,2,"Each row has one cell per ISO week from 1 to 53, and week 53 appears only in 2015 and 2020.",2026-11-05T10:37:41
+judge-claude-opus-5-5,blind,E2-11,E2,R3,2,"The sequential magma-like scale has a legend reading 'ARE consultations per 100,000 per week'.",2026-11-05T10:37:41
+judge-claude-opus-5-5,blind,E2-11,E2,R4,2,"2012 starts at W40 and 2026 ends at W43, with the other weeks left blank as the caption says.",2026-11-05T10:37:41
+judge-claude-opus-5-5,blind,E2-11,E2,R5,2,"Week numbers 1–53 are labelled on x and ISO years on y, and both axes have titles.",2026-11-05T10:37:41
+judge-claude-opus-5-5,blind,E2-11,E2,R6,2,"There is a title and a caption about the shared late-winter peak and summer low, with exceptions, that matches the visible data.",2026-11-05T10:37:41
+judge-claude-opus-5-5,blind,E2-12,E2,R1,2,"15 rows labelled ISO year, 2012 to 2026, in chronological order from top to bottom.",2026-11-05T10:37:49
+judge-claude-opus-5-5,blind,E2-12,E2,R2,2,"One cell per ISO week, with week 53 shown only for 2015 and 2020.",2026-11-05T10:37:49
+judge-claude-opus-5-5,blind,E2-12,E2,R3,2,"Sequential yellow-to-red scale with a legend stating 'ARE consultations per 100,000 per week'.",2026-11-05T10:37:49
+judge-claude-opus-5-5,blind,E2-12,E2,R4,2,"2012 W01–W39 and 2026 W44 onward are blank, and the caption says empty cells are outside the reported period.",2026-11-05T10:37:49
+judge-claude-opus-5-5,blind,E2-12,E2,R5,2,Week numbers 1–53 label the top x-axis and years label the y-axis.,2026-11-05T10:37:49
+judge-claude-opus-5-5,blind,E2-12,E2,R6,2,"Title plus a caption on the autumn rise, summer low, shifting peak and missing 2020/21 winter wave, which matches the data.",2026-11-05T10:37:49
+judge-claude-opus-5-5,blind,E3-01,E3,R1,2,"The circular view has W1 at 12 o'clock and W9 to the right, so weeks run clockwise; there is one ring per ISO year, and the radius encodes the consultation rate.",2026-11-05T10:37:59
+judge-claude-opus-5-5,blind,E3-01,E3,R2,2,"Each ISO year is its own coloured line with a legend for 2012–2026, though neighbouring viridis shades are hard to tell apart.",2026-11-05T10:37:59
+judge-claude-opus-5-5,blind,E3-01,E3,R3,0,"The circular view has no markers for the peak weeks, per season or otherwise.",2026-11-05T10:37:59
+judge-claude-opus-5-5,blind,E3-01,E3,R4,2,The linear panel shows the whole series from late 2012 to 2026 on a calendar date axis.,2026-11-05T10:37:59
+judge-claude-opus-5-5,blind,E3-01,E3,R6,2,"Week labels sit around the circle, the linear view has a year axis, and the value unit 'ARE consultations per 100,000 per week' is given.",2026-11-05T10:37:59
+judge-claude-opus-5-5,blind,E3-01,E3,R7,2,"There is a title, and the caption matches the data: Feb–Mar peaks through 2019 and December peaks in 2022 and 2023, though 'since 2020' slightly overstates the shift.",2026-11-05T10:37:59
+judge-claude-opus-5-5,blind,E3-02,E3,R1,2,"Polar layout with W1 at 12 o'clock, weeks running clockwise (W9, W17, W25, W33, W41, W49), one ring per ISO year, and the value on the radius.",2026-11-05T10:38:10
+judge-claude-opus-5-5,blind,E3-02,E3,R2,2,"Each ISO year from 2012 to 2026 is a separately coloured line, and a legend identifies the years.",2026-11-05T10:38:10
+judge-claude-opus-5-5,blind,E3-02,E3,R3,0,The circular view has no markers for season peak weeks.,2026-11-05T10:38:10
+judge-claude-opus-5-5,blind,E3-02,E3,R4,2,The linear view shows the whole series from late 2012 to 2026 on a date axis with year ticks.,2026-11-05T10:38:10
+judge-claude-opus-5-5,blind,E3-02,E3,R6,2,"Week labels run around the circle, the linear axis shows years, and the value unit (ARE consultations per 100,000 per week) is labelled in both views.",2026-11-05T10:38:10
+judge-claude-opus-5-5,blind,E3-02,E3,R7,2,"There is a title and a one-sentence caption, and the caption's claim of February peaks until 2019 followed by shifts (March, autumn, December) matches the data.",2026-11-05T10:38:10
+judge-claude-opus-5-5,blind,E3-03,E3,R1,2,"The polar layout puts W1 at 12 o'clock with weeks running clockwise (W5, W9, …), one ring per ISO year, and the value on the radius.",2026-11-05T10:38:21
+judge-claude-opus-5-5,blind,E3-03,E3,R2,2,"Each ISO year is its own line, coloured on a viridis scale with an ISO-year legend, though neighbouring years look similar.",2026-11-05T10:38:21
+judge-claude-opus-5-5,blind,E3-03,E3,R3,2,"There is one labelled marker per season at its peak week, including 2022/23 and 2023/24 near W50, 2020/21 in autumn, and the partial 2026/27 season as a diamond.",2026-11-05T10:38:21
+judge-claude-opus-5-5,blind,E3-03,E3,R4,2,The linear view shows the whole series from late 2012 to 2026 on a date axis (Monday of ISO week).,2026-11-05T10:38:21
+judge-claude-opus-5-5,blind,E3-03,E3,R6,2,"Week labels run around the circle, the linear view has a date axis, and the value unit (consultations per 100,000 per week) is given on both views.",2026-11-05T10:38:21
+judge-claude-opus-5-5,blind,E3-03,E3,R7,2,"There is a title and a caption saying peak timing varies since 2020, with December peaks in 2022 and 2023, which matches the data.",2026-11-05T10:38:21
+judge-claude-opus-5-5,blind,E3-04,E3,R1,2,"Polar layout with W01 at 12 o'clock, weeks running clockwise, one ring per ISO year, and the value on the radius.",2026-11-05T10:38:34
+judge-claude-opus-5-5,blind,E3-04,E3,R2,2,"Each ISO year has its own coloured ring with a legend, though neighbouring rainbow colours are hard to tell apart.",2026-11-05T10:38:34
+judge-claude-opus-5-5,blind,E3-04,E3,R3,1,"Each season has a peak marker, but 2020/21 is labelled W39 while the data peak is 2020-W44, so one marker contradicts the ground truth.",2026-11-05T10:38:34
+judge-claude-opus-5-5,blind,E3-04,E3,R4,2,The linear view covers 2012 to 2026 on a calendar time axis.,2026-11-05T10:38:34
+judge-claude-opus-5-5,blind,E3-04,E3,R6,2,"Week labels run around the circle, years label the linear axis, and the value unit 'per 100,000 per week' is given.",2026-11-05T10:38:34
+judge-claude-opus-5-5,blind,E3-04,E3,R7,2,"There is a title and a caption; the caption's claim that the peak week shifts (W50, W50, W07, W06) matches the data.",2026-11-05T10:38:34
+judge-claude-opus-5-5,blind,E3-05,E3,R1,2,"The polar view puts W1 at the top, runs clockwise (W9 to the right, W41 to the left), makes one turn per ISO year, and encodes the value on the radius.",2026-11-05T10:38:43
+judge-claude-opus-5-5,blind,E3-05,E3,R2,2,"Each ISO year is a separate line with its own viridis colour, and there is an ISO year legend, though neighbouring years look alike.",2026-11-05T10:38:43
+judge-claude-opus-5-5,blind,E3-05,E3,R3,0,No per-season peak markers are visible in the circular view.,2026-11-05T10:38:43
+judge-claude-opus-5-5,blind,E3-05,E3,R4,2,The linear overview covers the whole series from 2012 to 2026 on a calendar year axis.,2026-11-05T10:38:43
+judge-claude-opus-5-5,blind,E3-05,E3,R6,2,"Week labels (W1–W49) sit around the circle, the linear views have date axes, and the value is labelled 'ARE consultations per 100,000 per week'.",2026-11-05T10:38:43
+judge-claude-opus-5-5,blind,E3-05,E3,R7,2,"The title is present, and the caption (peaks in weeks 5–12 before 2020, December peaks in 2022 and 2023) matches the ground truth.",2026-11-05T10:38:43
+judge-claude-opus-5-5,blind,E3-06,E3,R1,2,"The polar view has ISO week 1 at the top, runs clockwise, makes one turn per ISO year and puts the value on the radius.",2026-11-05T10:38:55
+judge-claude-opus-5-5,blind,E3-06,E3,R2,2,"Each ISO year is a separate line coloured by year, with a colour-bar legend, though neighbouring years look alike and many lines are faint.",2026-11-05T10:38:55
+judge-claude-opus-5-5,blind,E3-06,E3,R3,1,"Peaks are marked per season and match most of the ground truth, but 2020/21 is marked at W39 (2021) instead of 2020-W44, which contradicts the check.",2026-11-05T10:38:55
+judge-claude-opus-5-5,blind,E3-06,E3,R4,2,The linear view covers 2012 to 2026-W43 on a calendar date axis.,2026-11-05T10:38:55
+judge-claude-opus-5-5,blind,E3-06,E3,R6,2,"Week labels run around the circle, the linear view has a date axis, and the value axis says 'ARE consultations per 100,000 per week'.",2026-11-05T10:38:55
+judge-claude-opus-5-5,blind,E3-06,E3,R7,1,"There is a title and a 'No' caption, but the caption lists W39 for 2020/21, which contradicts the ground truth, and the caption is cut off at the right edge.",2026-11-05T10:38:55
+judge-claude-opus-5-5,blind,E3-07,E3,R1,2,"The circular view puts W1 at 12 o'clock, runs clockwise (W5 to the right of the top), makes one ring per ISO year, and encodes the value on the radius.",2026-11-05T10:39:07
+judge-claude-opus-5-5,blind,E3-07,E3,R2,2,"Each ISO year is a separate coloured ring, and the legend lists the years 2012–2026.",2026-11-05T10:39:07
+judge-claude-opus-5-5,blind,E3-07,E3,R3,2,"Each season has one labelled marker at its peak week, for example 2022/23 and 2023/24 near W50, 2020/21 in autumn, and a triangle for the 2026/27 season in progress.",2026-11-05T10:39:07
+judge-claude-opus-5-5,blind,E3-07,E3,R4,2,The linear view shows the whole series from 2012 to 2026 on a date axis (Monday of the ISO week).,2026-11-05T10:39:07
+judge-claude-opus-5-5,blind,E3-07,E3,R6,2,"Week labels run around the circle, the linear view has a date axis, and the unit 'ARE consultations per 100,000 per week' is labelled.",2026-11-05T10:39:07
+judge-claude-opus-5-5,blind,E3-07,E3,R7,2,"There is a question-style title and a caption saying peaks fell in February before 2020 and have moved around since (December to March), which matches the data, although it leaves out the 2020/21 autumn peak.",2026-11-05T10:39:07
+judge-claude-opus-5-5,blind,E3-08,E3,R1,2,"The circular view puts W1 at 12 o'clock and runs clockwise, with one turn per ISO year and the ARE incidence on the radius.",2026-11-05T10:39:21
+judge-claude-opus-5-5,blind,E3-08,E3,R2,2,"Each ISO year (2012–2026) has its own coloured ring, and a legend identifies the years.",2026-11-05T10:39:21
+judge-claude-opus-5-5,blind,E3-08,E3,R3,1,"Peaks are marked per season with triangles, but 2020/21 is marked at 2021-W39 instead of the ground-truth peak at 2020-W44.",2026-11-05T10:39:21
+judge-claude-opus-5-5,blind,E3-08,E3,R4,2,The linear view shows the whole series from late 2012 to 2026-W43 on a calendar date axis.,2026-11-05T10:39:21
+judge-claude-opus-5-5,blind,E3-08,E3,R6,2,"Week labels run around the circle, the linear view has a date axis, and the value unit (ARE consultations per 100,000 population per week) is given.",2026-11-05T10:39:21
+judge-claude-opus-5-5,blind,E3-08,E3,R7,1,"There is a title and a caption with the correct overall pattern, but the caption gives the 2020/21 peak as W39, which contradicts the ground truth (W44).",2026-11-05T10:39:21
+judge-claude-opus-5-5,blind,E3-09,E3,R1,2,"The circular view puts W1 at the top, runs clockwise with one turn per ISO year, and shows the value on the radius.",2026-11-05T10:39:32
+judge-claude-opus-5-5,blind,E3-09,E3,R2,2,"Each ISO year is its own coloured line, with a legend listing 2012–2026, though neighbouring hues are similar.",2026-11-05T10:39:32
+judge-claude-opus-5-5,blind,E3-09,E3,R3,1,"Peaks are marked per season, but 2020/21 is marked at 2021-W39, which contradicts the ground-truth peak of 2020-W44.",2026-11-05T10:39:32
+judge-claude-opus-5-5,blind,E3-09,E3,R4,2,The linear view shows the whole series from 2012 to 2026 on a date axis.,2026-11-05T10:39:32
+judge-claude-opus-5-5,blind,E3-09,E3,R6,2,"The circle has week labels, the linear view has a date axis, and the value unit (consultations per 100,000 per week) is stated.",2026-11-05T10:39:32
+judge-claude-opus-5-5,blind,E3-09,E3,R7,1,"There is a title and a caption, but the caption's claim that peaks ranged 'from W50 to W39' relies on the wrong 2020/21 peak (true peak: W44).",2026-11-05T10:39:32
+judge-claude-opus-5-5,blind,E3-10,E3,R1,2,"The circular view puts W1 at the top, runs clockwise with one turn per ISO year, and uses the radius for ARE consultations.",2026-11-05T10:39:52
+judge-claude-opus-5-5,blind,E3-10,E3,R2,2,"Each ISO year has its own coloured line with an ISO-year legend, though the similar greens and blues are hard to tell apart.",2026-11-05T10:39:52
+judge-claude-opus-5-5,blind,E3-10,E3,R3,1,"Each season has a labelled marker and most match, but the 2020/21 marker sits around week 38–39 (September 2021) instead of the true peak in 2020-W44.",2026-11-05T10:39:52
+judge-claude-opus-5-5,blind,E3-10,E3,R4,2,The linear view covers late 2012 to late 2026 on a date axis (Monday of each ISO week).,2026-11-05T10:39:52
+judge-claude-opus-5-5,blind,E3-10,E3,R6,2,"Week labels run around the circle, the linear view has a date axis, and the value unit 'ARE consultations per 100,000 per week' is given.",2026-11-05T10:39:52
+judge-claude-opus-5-5,blind,E3-10,E3,R7,1,"There is a title and a caption with the right main pattern, but the caption says the 2021 peak came in September, while the data puts the 2020/21 peak in 2020-W44.",2026-11-05T10:39:52
+judge-claude-opus-5-5,blind,E3-11,E3,R1,2,"The polar layout puts ISO week 1 at the top and runs clockwise, one turn per ISO year, with the value on the radius.",2026-11-05T10:40:05
+judge-claude-opus-5-5,blind,E3-11,E3,R2,2,"Each ISO year has its own coloured line, and a legend lists the years 2012–2026.",2026-11-05T10:40:05
+judge-claude-opus-5-5,blind,E3-11,E3,R3,1,"There is one marker per season, but 2020/21 is marked at week 39 (2021) instead of the true peak, 2020-W44.",2026-11-05T10:40:05
+judge-claude-opus-5-5,blind,E3-11,E3,R4,2,The linear view shows the whole series from 2012 to 2026 on a calendar date axis.,2026-11-05T10:40:05
+judge-claude-opus-5-5,blind,E3-11,E3,R6,2,"Week and month labels go around the circle, the linear axis has dates, and the value unit is given.",2026-11-05T10:40:05
+judge-claude-opus-5-5,blind,E3-11,E3,R7,1,"There is a title and a caption, but the caption says 2020/21 peaked in week 39, which contradicts the ground truth (2020-W44).",2026-11-05T10:40:05
+judge-claude-opus-5-5,blind,E3-12,E3,R1,2,"The circular view is polar, with week 1 between W49 and W09 at the top, weeks running clockwise, one turn per ISO year, and the value on the radius.",2026-11-05T10:40:19
+judge-claude-opus-5-5,blind,E3-12,E3,R2,2,"Each ISO year is its own coloured line, with a legend; neighbouring years have similar colours, but the legend makes them identifiable.",2026-11-05T10:40:19
+judge-claude-opus-5-5,blind,E3-12,E3,R3,1,"There is one circle per season, but the 2020/21 peak is labelled W39, which contradicts the ground-truth 2020-W44.",2026-11-05T10:40:19
+judge-claude-opus-5-5,blind,E3-12,E3,R4,2,The linear view shows the whole 2012–2026 series on a calendar date axis.,2026-11-05T10:40:19
+judge-claude-opus-5-5,blind,E3-12,E3,R6,2,"The circle has week labels (W09…W49), the linear view has a date axis, and the value is labelled as consultations per 100,000 per week.",2026-11-05T10:40:19
+judge-claude-opus-5-5,blind,E3-12,E3,R7,2,"There is a title and a one-sentence caption saying the peak was in late winter before 2020 and has shifted since, which broadly matches the data.",2026-11-05T10:40:19
+judge-claude-opus-5-5,blind,E4-01,E4,R1,2,"All 46 releases (11 LTS and 35 interim) have their own version-labelled rows in release-date order within each group, though the interim labels are crowded and 27.04 is cut off at the bottom.",2026-11-05T10:40:32
+judge-claude-opus-5-5,blind,E4-01,E4,R2,2,"The x-axis title is 'years from each release date', with 0 at release and ticks running from −2 y to +16 y.",2026-11-05T10:40:32
+judge-claude-opus-5-5,blind,E4-01,E4,R3,2,"Development, standard, extended server, ESM and legacy each have their own colour and a legend; extended server appears only for 6.06, 8.04 and 10.04, and no phase is drawn from an empty field.",2026-11-05T10:40:32
+judge-claude-opus-5-5,blind,E4-01,E4,R4,2,Every row has a black dot for created and a red dot for release.,2026-11-05T10:40:32
+judge-claude-opus-5-5,blind,E4-01,E4,R5,2,"LTS and interim releases are in separate panels, and the LTS rows carry an 'LTS' label.",2026-11-05T10:40:32
+judge-claude-opus-5-5,blind,E4-01,E4,R6,2,"The title is present, and the caption's templates (interim 18 then 9 months; LTS 3–5 years, 7 for 12.04, 15 from 14.04) match the data.",2026-11-05T10:40:32
+judge-claude-opus-5-5,blind,E4-02,E4,R1,2,"All 46 rows (35 interim, 11 LTS) are labelled with their version and sorted chronologically within each facet, e.g. 4.10 to 27.04.",2026-11-05T10:40:41
+judge-claude-opus-5-5,blind,E4-02,E4,R2,2,The x-axis is 'Time relative to release date (years)' with 0 at release.,2026-11-05T10:40:41
+judge-claude-opus-5-5,blind,E4-02,E4,R3,2,"Development, standard, extended server (only 6.06/8.04/10.04), ESM and legacy are drawn as coloured bars with a legend, and missing phases are not drawn.",2026-11-05T10:40:41
+judge-claude-opus-5-5,blind,E4-02,E4,R4,2,"Each row marks created with a circle and release with a diamond, both in the legend.",2026-11-05T10:40:41
+judge-claude-opus-5-5,blind,E4-02,E4,R5,2,"Interim and LTS releases are in separate labelled facets, and LTS rows carry an 'LTS' suffix.",2026-11-05T10:40:41
+judge-claude-opus-5-5,blind,E4-02,E4,R6,2,"The title is present, and the caption (interim 9-19 months, LTS median 5 years, ESM/legacy to 15 years) matches the data.",2026-11-05T10:40:41
+judge-claude-opus-5-5,blind,E4-03,E4,R1,2,"There are 46 version-labelled rows (11 LTS, 35 interim), each group in release-date order from 4.10 to 27.04, not lexical order.",2026-11-05T10:40:54
+judge-claude-opus-5-5,blind,E4-03,E4,R2,2,"The x-axis is years since each release's own release date, 0 = release, and the axis title gives the unit.",2026-11-05T10:40:54
+judge-claude-opus-5-5,blind,E4-03,E4,R3,2,"Development, standard, extended server, ESM and legacy are separate coloured bars with a legend; extended server appears only for 6.06, 8.04 and 10.04, and absent phases are not drawn.",2026-11-05T10:40:54
+judge-claude-opus-5-5,blind,E4-03,E4,R4,2,Every row marks created with an open circle and release with a diamond at 0.,2026-11-05T10:40:54
+judge-claude-opus-5-5,blind,E4-03,E4,R5,2,"LTS and interim releases are in separate labelled groups, and LTS rows carry an 'LTS' suffix.",2026-11-05T10:40:54
+judge-claude-opus-5-5,blind,E4-03,E4,R6,2,"The title and caption state the two-shape pattern (interim 9–19 months, LTS 3.0–5.1 years plus ESM/legacy up to 15 years), which matches the data.",2026-11-05T10:40:54
+judge-claude-opus-5-5,blind,E4-04,E4,R1,2,All 46 rows (11 LTS + 35 interim) are labelled with their version and ordered by release date within each group.,2026-11-05T10:41:03
+judge-claude-opus-5-5,blind,E4-04,E4,R2,2,"The x-axis shows time relative to each release's own release date, with 0 = release and the unit (years) in the title.",2026-11-05T10:41:03
+judge-claude-opus-5-5,blind,E4-04,E4,R3,2,"Development, standard, extended server, ESM and legacy each have their own coloured bars and legend entries; extended server bars appear only for 6.06, 8.04 and 10.04, and absent phases are not drawn.",2026-11-05T10:41:03
+judge-claude-opus-5-5,blind,E4-04,E4,R4,2,"Each row marks created with a circle, and release is marked by the vertical line at 0 that every row shares.",2026-11-05T10:41:03
+judge-claude-opus-5-5,blind,E4-04,E4,R5,2,"LTS and interim releases are split into separate labelled groups, and the LTS rows carry an 'LTS' label.",2026-11-05T10:41:03
+judge-claude-opus-5-5,blind,E4-04,E4,R6,2,"The title and caption state the two-template pattern, which matches the data (interim ~9–18 months, LTS ~5 years extended to 10 and 15).",2026-11-05T10:41:03
+judge-claude-opus-5-5,blind,E4-05,E4,R1,2,"All 46 releases have version labels (11 LTS, 35 interim) and are ordered by release date within each group, although the last label, 27.04, is slightly clipped.",2026-11-05T10:41:14
+judge-claude-opus-5-5,blind,E4-05,E4,R2,2,"The x-axis shows years from each release's own date, with 0 = release and the unit stated in the axis title.",2026-11-05T10:41:14
+judge-claude-opus-5-5,blind,E4-05,E4,R3,2,"Development, standard, extended server, ESM and legacy each have their own colour and a legend; extended server bars appear only for 6.06, 8.04 and 10.04, and absent phases are not drawn.",2026-11-05T10:41:14
+judge-claude-opus-5-5,blind,E4-05,E4,R4,2,Each row marks created with a red dot and release with a black dot.,2026-11-05T10:41:14
+judge-claude-opus-5-5,blind,E4-05,E4,R5,2,"LTS and interim releases are in separate panels, and LTS rows carry an 'LTS' label.",2026-11-05T10:41:14
+judge-claude-opus-5-5,blind,E4-05,E4,R6,2,"The title and one-sentence caption state that cycles match within each type, which agrees with the data (interim support of 9–18 months, recent LTS at 5+5+5 years).",2026-11-05T10:41:14
+judge-claude-opus-5-5,blind,E4-06,E4,R1,2,"There are 46 rows (11 LTS and 35 interim), each labelled with its version and ordered by release date within its group.",2026-11-05T10:41:26
+judge-claude-opus-5-5,blind,E4-06,E4,R2,2,"The x-axis shows years relative to each release's own date, with 0 = release and the unit given in the axis title.",2026-11-05T10:41:26
+judge-claude-opus-5-5,blind,E4-06,E4,R3,2,"Development, standard, extended server, ESM and legacy phases appear as separately coloured bars with a legend; extended server bars appear only for 6.06, 8.04 and 10.04, and no phase is drawn from an empty field.",2026-11-05T10:41:26
+judge-claude-opus-5-5,blind,E4-06,E4,R4,2,Each row marks created with a circle and release with a diamond.,2026-11-05T10:41:26
+judge-claude-opus-5-5,blind,E4-06,E4,R5,2,"LTS and interim releases are in separate facets, and LTS rows carry an 'LTS' label.",2026-11-05T10:41:26
+judge-claude-opus-5-5,blind,E4-06,E4,R6,2,"The figure has a title and a caption whose pattern (about 9 months for interim, about 5 years for LTS, ESM and legacy support to 15 years) matches the data.",2026-11-05T10:41:26
+judge-claude-opus-5-5,blind,E4-07,E4,R1,2,"All 46 rows (11 LTS, 35 interim) carry version labels and are ordered by release date within each panel.",2026-11-05T10:41:37
+judge-claude-opus-5-5,blind,E4-07,E4,R2,2,The x-axis title reads 'Years relative to the release date (0 = release)'.,2026-11-05T10:41:37
+judge-claude-opus-5-5,blind,E4-07,E4,R3,2,"Development, standard, extended server (only 6.06, 8.04 and 10.04), ESM and legacy each have their own colour in the legend, and absent phases are not drawn.",2026-11-05T10:41:37
+judge-claude-opus-5-5,blind,E4-07,E4,R4,2,Each row marks created with a circle and release with a diamond.,2026-11-05T10:41:37
+judge-claude-opus-5-5,blind,E4-07,E4,R5,2,LTS and interim releases sit in separate labelled panels.,2026-11-05T10:41:37
+judge-claude-opus-5-5,blind,E4-07,E4,R6,2,"The title and caption describe two templates that match the data: interim about 9 months, LTS 5 years plus ESM to 10 and legacy to 15.",2026-11-05T10:41:37
+judge-claude-opus-5-5,blind,E4-08,E4,R1,2,"There are 46 rows labelled with version and ordered by release date within the LTS (11) and interim (35) panels, not in lexical order.",2026-11-05T10:41:52
+judge-claude-opus-5-5,blind,E4-08,E4,R2,2,"The x-axis is years relative to each release's own date, with 0 = release and the unit in the title.",2026-11-05T10:41:52
+judge-claude-opus-5-5,blind,E4-08,E4,R3,2,"Development, standard, extended server (only 6.06/8.04/10.04), ESM and legacy are drawn as coloured bars with a legend, and absent phases are not drawn; planned shading looks a little like extended server.",2026-11-05T10:41:52
+judge-claude-opus-5-5,blind,E4-08,E4,R4,2,Every row marks created with a circle and release with a triangle.,2026-11-05T10:41:52
+judge-claude-opus-5-5,blind,E4-08,E4,R5,2,LTS and interim releases are in separate labelled panels.,2026-11-05T10:41:52
+judge-claude-opus-5-5,blind,E4-08,E4,R6,2,"There is a title, and the caption states the within-type similarity, which matches the data (interim ~0.75 y, LTS ~5 y, ESM/legacy to 15 y).",2026-11-05T10:41:52
+judge-claude-opus-5-5,blind,E4-09,E4,R1,2,"46 version-labelled rows (11 LTS + 35 interim) shown, ordered chronologically by release within each group.",2026-11-05T10:42:01
+judge-claude-opus-5-5,blind,E4-09,E4,R2,2,"The x-axis shows years relative to each release's own date, with 0 = release and the unit in the axis title.",2026-11-05T10:42:01
+judge-claude-opus-5-5,blind,E4-09,E4,R3,2,"Development, standard, extended server (only 6.06/8.04/10.04), ESM and legacy each have a coloured bar and a legend entry; absent phases are not drawn.",2026-11-05T10:42:01
+judge-claude-opus-5-5,blind,E4-09,E4,R4,2,Each row marks created with a dot and release with a diamond.,2026-11-05T10:42:01
+judge-claude-opus-5-5,blind,E4-09,E4,R5,2,"LTS and interim releases are in separate labelled panels, and LTS rows carry an 'LTS' suffix.",2026-11-05T10:42:01
+judge-claude-opus-5-5,blind,E4-09,E4,R6,2,"The title and a one-sentence caption describe the two shared shapes (short interim; LTS with 5-year standard support, ESM to 10, Legacy to 15), which matches the data.",2026-11-05T10:42:01
+judge-claude-opus-5-5,blind,E4-10,E4,R1,2,"All 46 releases have version-labelled rows (11 LTS, 35 interim), sorted by release date within each group; the last interim label (27.04) is slightly clipped.",2026-11-05T10:42:15
+judge-claude-opus-5-5,blind,E4-10,E4,R2,2,"The x-axis shows years from each release's own date, with 0 = release and the unit in the title 'years from the release'.",2026-11-05T10:42:15
+judge-claude-opus-5-5,blind,E4-10,E4,R3,2,"Development, standard, extended server, ESM and legacy each have their own coloured bar and a legend entry; extended server appears only for 6.06/8.04/10.04, and absent phases are not drawn.",2026-11-05T10:42:15
+judge-claude-opus-5-5,blind,E4-10,E4,R4,2,Each row marks created with a triangle and release with a black dot.,2026-11-05T10:42:15
+judge-claude-opus-5-5,blind,E4-10,E4,R5,2,"LTS and interim releases are in separate labelled panels, and LTS rows carry an 'LTS' label.",2026-11-05T10:42:15
+judge-claude-opus-5-5,blind,E4-10,E4,R6,2,"The title asks the question, and the one-sentence caption about the 9-month interim and 15-year LTS cycles matches the data.",2026-11-05T10:42:15
+judge-claude-opus-5-5,blind,E4-11,E4,R1,2,"All 46 releases appear as labelled rows (11 LTS, 35 interim), ordered by release date within the LTS and interim panels.",2026-11-05T10:42:27
+judge-claude-opus-5-5,blind,E4-11,E4,R2,2,"The x-axis shows years relative to each release's own date, with 0 = release and the unit in the axis title.",2026-11-05T10:42:27
+judge-claude-opus-5-5,blind,E4-11,E4,R3,2,"Development, standard, extended server, ESM and legacy phases are separately coloured bars with a legend; extended server appears only for 6.06, 8.04 and 10.04, and no bars come from empty fields.",2026-11-05T10:42:27
+judge-claude-opus-5-5,blind,E4-11,E4,R4,2,Each row marks the created date with a dot and the release with a tick at 0.,2026-11-05T10:42:27
+judge-claude-opus-5-5,blind,E4-11,E4,R5,2,LTS and interim releases are in separate labelled panels.,2026-11-05T10:42:27
+judge-claude-opus-5-5,blind,E4-11,E4,R6,2,"The title and caption state the interim versus LTS pattern, and the caption matches the data (about 6 months of development, 18 then 9 months for interim releases, and 5+5+5 years for LTS).",2026-11-05T10:42:27
+judge-claude-opus-5-5,blind,E4-12,E4,R1,2,"All 46 releases have their own labelled row and are ordered by release date, split into LTS (11) and interim (35) groups.",2026-11-05T10:42:38
+judge-claude-opus-5-5,blind,E4-12,E4,R2,2,"The x-axis shows years relative to each release's own release date, with 0 = release and the unit stated in the axis title.",2026-11-05T10:42:38
+judge-claude-opus-5-5,blind,E4-12,E4,R3,2,"Development, standard, extended server, ESM and legacy each have their own coloured bar and a legend entry; extended server appears only for 6.06, 8.04 and 10.04, and missing phases are not drawn.",2026-11-05T10:42:38
+judge-claude-opus-5-5,blind,E4-12,E4,R4,2,"Each row has a circle for `created`, and `release` is marked by the vertical line at 0, which the legend explains.",2026-11-05T10:42:38
+judge-claude-opus-5-5,blind,E4-12,E4,R5,2,"LTS and interim releases are in separate labelled groups, and LTS labels carry 'LTS' in bold.",2026-11-05T10:42:38
+judge-claude-opus-5-5,blind,E4-12,E4,R6,2,"There is a title, and the caption's pattern (about 9 months for interim, 60 months for LTS, extended to about 15 years by ESM and legacy) matches the data.",2026-11-05T10:42:38
+judge-claude-opus-5-5,blind,E5-01,E5,R1,2,The overview shows daily mean tl from 2020 to the start of 2025 in one continuous panel with no visible gaps.,2026-11-05T10:42:49
+judge-claude-opus-5-5,blind,E5-01,E5,R4,2,"The detail view gives rr its own track and axis (mm per 10 min, UTC), on the same Jul 15–18 2024 time axis as the tl detail.",2026-11-05T10:42:49
+judge-claude-opus-5-5,blind,E5-01,E5,R7,2,"The panels state °C, mm per 10 min and UTC, and there is a title and a caption describing the annual and daily cycles and short rain bursts.",2026-11-05T10:42:49
+judge-claude-opus-5-5,blind,E5-02,E5,R1,2,"The overview shows the daily mean and min–max band of tl for all of January 2020 to December 2024, with no visible gaps.",2026-11-05T10:42:59
+judge-claude-opus-5-5,blind,E5-02,E5,R4,2,"Precipitation has its own panel, labelled in mm per 10 min, that uses the same 8–15 July 2024 time axis as the tl detail.",2026-11-05T10:42:59
+judge-claude-opus-5-5,blind,E5-02,E5,R7,2,"The axes show °C, mm per 10 min and UTC, and the figure has a title plus a one-sentence caption on the annual cycle and short rain bursts.",2026-11-05T10:42:59
+judge-claude-opus-5-5,blind,E5-03,E5,R1,2,The overview shows `tl` (daily mean line plus min–max band) for all of Jan 2020 to Jan 2025 with no visible gaps.,2026-11-05T10:43:08
+judge-claude-opus-5-5,blind,E5-03,E5,R4,2,"Precipitation has its own bar track with its own axis, sharing the UTC time axis with the detail temperature track.",2026-11-05T10:43:08
+judge-claude-opus-5-5,blind,E5-03,E5,R7,2,"Axes give units (°C, mm per 10 min, UTC), and there is a title and a one-sentence caption stating the annual cycle and the storm-linked temperature drop.",2026-11-05T10:43:08
+judge-claude-opus-5-5,blind,E5-04,E5,R1,2,Panel A shows daily mean and min–max of tl for all of 2020–2024 with no visible gaps.,2026-11-05T10:43:14
+judge-claude-opus-5-5,blind,E5-04,E5,R4,2,"Panels B and C show rr in its own track, in mm/10 min, on the same UTC time axis as tl.",2026-11-05T10:43:14
+judge-claude-opus-5-5,blind,E5-04,E5,R7,2,"Axes give °C, mm/10 min and Time (UTC); there is a title and a one-sentence caption on the annual cycle and the 14:40 UTC rain burst on 17 Aug 2024.",2026-11-05T10:43:14
+judge-claude-opus-5-5,blind,E5-05,E5,R1,2,"The overview panel shows daily min–max bands and daily means for all of Jan 2020 to Jan 2025 at once, with no visible gaps.",2026-11-05T10:43:22
+judge-claude-opus-5-5,blind,E5-05,E5,R4,2,"Precipitation appears as its own bar track below the temperature line, sharing the same UTC time axis; it shows the 26.7 mm peak on 2024-08-17 at 14:40 UTC.",2026-11-05T10:43:22
+judge-claude-opus-5-5,blind,E5-05,E5,R7,2,"Axes carry units (°C, mm per 10 min, Time (UTC)), and the figure has a title and a caption sentence stating the main pattern; the extremes and the rain peak match the ground truth.",2026-11-05T10:43:22
+judge-claude-opus-5-5,blind,E5-06,E5,R1,2,The top panel shows the daily mean and min–max of tl for all of 2020–2024 without visible gaps.,2026-11-05T10:43:29
+judge-claude-opus-5-5,blind,E5-06,E5,R4,2,"rr has its own bar track under the detail temperature panel and shares its UTC time axis, with the 26.7 mm peak at about 14:40 on 17 Aug 2024.",2026-11-05T10:43:29
+judge-claude-opus-5-5,blind,E5-06,E5,R7,2,"Axes carry units (°C, mm per 10 min, UTC), and the figure has a title and a caption stating the main pattern.",2026-11-05T10:43:29
+judge-claude-opus-5-5,blind,E5-07,E5,R1,2,"The overview shows daily min–max bands and the daily mean of tl for all of 2020–2024 at once, with no visible gaps.",2026-11-05T10:43:37
+judge-claude-opus-5-5,blind,E5-07,E5,R4,2,"Precipitation has its own bar track and axis below the temperature detail, on the same 17–31 Dec 2024 time range and tick positions.",2026-11-05T10:43:37
+judge-claude-opus-5-5,blind,E5-07,E5,R7,2,"The axes show Air temp. (°C), Precip. (mm / 10 min) and Time (UTC); the figure has a title and a caption that states the seasonal cycle, the daily swing and short rain bursts, with extremes that match the ground truth.",2026-11-05T10:43:37
+judge-claude-opus-5-5,blind,E5-08,E5,R1,2,"The overview shows daily mean and min–max temperature for all of Jan 2020 to Dec 2024 at once, with no visible gaps.",2026-11-05T10:43:45
+judge-claude-opus-5-5,blind,E5-08,E5,R4,2,"Precipitation has its own track with its own axis, below the temperature detail and on the same time axis (Mon 08 to Mon 15).",2026-11-05T10:43:45
+judge-claude-opus-5-5,blind,E5-08,E5,R7,2,"Axes are labelled in °C, mm per 10 min and UTC, and the figure has a title and a one-sentence caption describing the annual cycle, the day–night swing and short rain bursts.",2026-11-05T10:43:45
+judge-claude-opus-5-5,blind,E5-09,E5,R1,2,"The overview shows daily `tl` for all of 2020 through 2024, with no visible gaps.",2026-11-05T10:43:52
+judge-claude-opus-5-5,blind,E5-09,E5,R4,2,"Precipitation has its own panel in mm per 10 min, sharing the detail view's UTC time axis with the temperature track.",2026-11-05T10:43:52
+judge-claude-opus-5-5,blind,E5-09,E5,R7,2,"Axes show °C, mm per 10 min and Time (UTC); the figure has a title and a caption stating the annual and daily pattern; the values match the ground truth.",2026-11-05T10:43:52
+judge-claude-opus-5-5,blind,E5-10,E5,R1,2,"The overview shows daily tl min, mean and max for all of 2020–2024 with no visible gaps.",2026-11-05T10:44:00
+judge-claude-opus-5-5,blind,E5-10,E5,R4,2,"rr has its own track in mm per 10 min, sharing a time axis with the tl detail (2024 Jul 1–7).",2026-11-05T10:44:00
+judge-claude-opus-5-5,blind,E5-10,E5,R7,2,"Axes give °C, mm per 10 min and time (UTC), and the figure has a title and a one-sentence caption stating the annual-cycle pattern.",2026-11-05T10:44:00
+judge-claude-opus-5-5,blind,E5-11,E5,R1,2,"The overview plots the daily mean of tl from 2020 through the end of 2024 in one panel, with no visible gaps.",2026-11-05T10:44:09
+judge-claude-opus-5-5,blind,E5-11,E5,R4,2,"rr has its own panel labelled 'mm per 10 min', sharing the Jul 8–15 2024 time axis with the tl detail panel.",2026-11-05T10:44:09
+judge-claude-opus-5-5,blind,E5-11,E5,R7,2,"The axes give °C, mm per 10 min and UTC, and the figure has a title and a one-sentence caption stating the annual cycle, day–night cycle and bursty rain.",2026-11-05T10:44:09
+judge-claude-opus-5-5,blind,E5-12,E5,R1,2,The overview shows daily min–max bands and daily means for tl across all of 2020–2024 with no visible gaps.,2026-11-05T10:44:19
+judge-claude-opus-5-5,blind,E5-12,E5,R4,2,"Precipitation has its own bar track under the detail temperature panel, on the same time axis (1–8 Jul 2024).",2026-11-05T10:44:19
+judge-claude-opus-5-5,blind,E5-12,E5,R7,2,"Axes show °C, mm per 10 min and UTC, and the figure has a title and a one-sentence caption naming the annual cycle and short rain bursts.",2026-11-05T10:44:19

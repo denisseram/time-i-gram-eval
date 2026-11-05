@@ -1,0 +1,94 @@
+{
+  "code": "E2-11",
+  "model": "claude-opus-5-5",
+  "prompt": "You are an evaluator in a study of visualization tools. The file `screenshot.png` in this folder is a\nscreenshot (1400 x 900 pixels) of a figure that someone made to answer a question with a public dataset.\nOpen it with the Read tool and look at it carefully. Do not use any other tool, and do not look for anything\nelse: score only what you can see in the screenshot.\n\nQuestion the figure should answer: Do the years follow the same cycle?\n\nScore each requirement below with 2 (met), 1 (partial) or 0 (not met), using its rubric. If the figure shows\nsomething that contradicts a ground-truth check, give that requirement at most 1. If there is no figure at\nall, every requirement scores 0.\n\nR1. One row per **ISO year** that appears in the data, in chronological order from top to bottom.\n   2 when: 15 rows, 2012 to 2026, chronological top to bottom\n   1 if: calendar years instead of ISO years; wrong order\n\nR2. Within each row, one cell per **ISO week** (week 1 on the left). Some ISO years have 53 weeks; week 53 must appear where it exists.\n   2 when: one cell per ISO week, week 53 present in 2015 and 2020\n   1 if: week 53 dropped or merged; weeks placed by date not ISO week (shifted cells around New Year)\n\nR3. Cell colour encodes `ARE_Konsultationsinzidenz` with a sequential colour scale and a legend that states the unit (consultations per 100,000 per week).\n   2 when: sequential colour + legend with unit\n   1 if: unit missing; diverging or categorical scale\n\nR4. Weeks outside the data (before the first and after the last reported week) are left empty, not shown as zero.\n   2 when: 2012-W01\u2026W39 and 2026-W44\u2026W53 empty\n   1 if: filled as 0 or omitted rows\n\nR5. Week numbers are labelled along the horizontal axis and years along the vertical axis.\n   2 when: week labels on x, year labels on y\n   1 if: one of them missing\n\nR6. The figure has a title and a one-sentence caption stating the main pattern you see.\n   2 when: title + caption that matches the data\n   1 if: caption contradicts data\n\nGround-truth checks (computed from the data):\n\n- Filter: `Bundesland == \"Bundesweit\"`, `Altersgruppe == \"00+\"` gives **734 weeks**, 2012-W40 to 2026-W43, no gaps.\n  Forgetting the filter mixes 17 regions \u00d7 6 age groups (24,756 rows) into each cell.\n- Weeks per row: 2012 \u2192 13 (W40\u2013W52), 2015 \u2192 53, 2020 \u2192 53, 2026 \u2192 43, all others 52.\n- Maximum: 3,215 in 2022-W50.\n- Visible patterns: low summer (about 300\u20131,000), high Dec\u2013Mar; a sharp dip in week 52 every year\n  (for example 2018: W51 = 1,344, W52 = 463, W01 = 901); pandemic-shaped 2020\u20132021.\n- Parsing: `Kalenderwoche` is `YYYY-Www`. Week 1 of an ISO year can start in late December (e.g. 2020-W01\n  starts 2019-12-30); placing cells by calendar date instead of ISO week misplaces such weeks.\n\nAnswer with ONLY a JSON object, no other text, in this form:\n{\"R1\": {\"score\": 2, \"reason\": \"one short sentence\"}, \"R2\": {\"score\": 2, \"reason\": \"one short sentence\"}, \"R3\": {\"score\": 2, \"reason\": \"one short sentence\"}, \"R4\": {\"score\": 2, \"reason\": \"one short sentence\"}, \"R5\": {\"score\": 2, \"reason\": \"one short sentence\"}, \"R6\": {\"score\": 2, \"reason\": \"one short sentence\"}}\n",
+  "answer": {
+    "duration_api_ms": 5292,
+    "stop_reason": "end_turn",
+    "session_id": "f9fbe048-0ee1-4cf0-83d8-e698357dffef",
+    "total_cost_usd": 0.0296432,
+    "usage": {
+      "input_tokens": 4,
+      "cache_creation_input_tokens": 1725,
+      "cache_read_input_tokens": 29636,
+      "output_tokens": 495,
+      "output_tokens_details": {
+        "thinking_tokens": 118
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1725,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "global",
+      "iterations": [],
+      "speed": "standard",
+      "fallback_credit": null
+    },
+    "modelUsage": {
+      "claude-opus-5-5": {
+        "inputTokens": 4,
+        "outputTokens": 495,
+        "cacheReadInputTokens": 29636,
+        "cacheCreationInputTokens": 1725,
+        "webSearchRequests": 0,
+        "costUSD": 0.0296432,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 118,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 1725,
+        "canonicalModel": "claude-opus-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "safety_stops": 0,
+    "is_error": false,
+    "num_turns": 2,
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "{\"R1\": {\"score\": 2, \"reason\": \"There are 15 ISO-year rows, 2012 to 2026, in chronological order from top to bottom.\"}, \"R2\": {\"score\": 2, \"reason\": \"Each row has one cell per ISO week from 1 to 53, and week 53 appears only in 2015 and 2020.\"}, \"R3\": {\"score\": 2, \"reason\": \"The sequential magma-like scale has a legend reading 'ARE consultations per 100,000 per week'.\"}, \"R4\": {\"score\": 2, \"reason\": \"2012 starts at W40 and 2026 ends at W43, with the other weeks left blank as the caption says.\"}, \"R5\": {\"score\": 2, \"reason\": \"Week numbers 1\u201353 are labelled on x and ISO years on y, and both axes have titles.\"}, \"R6\": {\"score\": 2, \"reason\": \"There is a title and a caption about the shared late-winter peak and summer low, with exceptions, that matches the visible data.\"}}",
+    "ttft_ms": 1264,
+    "type": "result",
+    "duration_ms": 5440,
+    "uuid": "2e753760-0bf8-4502-b6db-19f851e8ee74",
+    "ttft_stream_ms": 687,
+    "time_to_request_ms": 106,
+    "first_content_frame_ms": 688,
+    "queued_turn_count": 0,
+    "result_index": 0
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "code": "E1-12",
+  "model": "claude-opus-5-5",
+  "prompt": "You are an evaluator in a study of visualization tools. The file `screenshot.png` in this folder is a\nscreenshot (1400 x 900 pixels) of a figure that someone made to answer a question with a public dataset.\nOpen it with the Read tool and look at it carefully. Do not use any other tool, and do not look for anything\nelse: score only what you can see in the screenshot.\n\nQuestion the figure should answer: How did each category change month by month?\n\nScore each requirement below with 2 (met), 1 (partial) or 0 (not met), using its rubric. If the figure shows\nsomething that contradicts a ground-truth check, give that requirement at most 1. If there is no figure at\nall, every requirement scores 0.\n\nR1. Show the **monthly mean** water temperature for **each of the 7 depths**, computed from the daily rows.\n   2 when: 7 series (2, 5, 10, 15, 20, 30, 40 m) of monthly means\n   1 if: daily values shown instead of monthly means; a depth missing\n\nR2. The time axis covers the whole record (February 2018 to December 2025) at monthly resolution.\n   2 when: 2018-02 to 2025-12, one position per month\n   1 if: range cut; uneven month spacing\n\nR3. A month in which a depth has no data at all is shown as **missing** (a visible gap or empty cell), not interpolated or drawn as zero.\n   2 when: months without data are gaps/empty\n   1 if: gaps bridged by a line, or drawn as 0\n\nR4. The reader can tell which depth each mark belongs to (legend or direct labels), and depths appear in depth order (2 m to 40 m).\n   2 when: depth identifiable, ordered 2 \u2192 40 m\n   1 if: legend in arbitrary (e.g. lexical 10, 15, 2, \u2026) order\n\nR5. The temperature axis or colour scale is labelled with its unit (\u00b0C).\n   2 when: \u00b0C on axis or colour legend\n   1 if: unit missing\n\nR6. The figure has a title and a one-sentence caption stating the main pattern you see.\n   2 when: title + one-sentence caption that matches the data\n   1 if: caption claims something the data does not show\n\nGround-truth checks (computed from the data):\n\n- Months with **no data** (must be gaps):\n  - 2 m: 2019-08, 2019-09, 2019-10, 2024-06 \u2026 2024-10\n  - 5 m: 2023-08, 2023-09, 2023-10, 2024-10, 2025-12\n  - 40 m: 2022-12 \u2026 2023-04\n  - 10, 15, 20, 30 m: none\n- Highest monthly mean: 2 m 19.3 \u00b0C (2025-09); 10 m 18.6 \u00b0C (2025-09); 40 m 10.9 \u00b0C (2022-10).\n- Pattern: summer stratification (surface far warmer than 40 m, Aug\u2013Oct), winter mixing (all depths 2\u20134 \u00b0C, Feb\u2013Mar).\n- Lexical sort trap: depth is an integer; a string sort gives 10, 15, 2, 20, \u2026\n\nAnswer with ONLY a JSON object, no other text, in this form:\n{\"R1\": {\"score\": 2, \"reason\": \"one short sentence\"}, \"R2\": {\"score\": 2, \"reason\": \"one short sentence\"}, \"R3\": {\"score\": 2, \"reason\": \"one short sentence\"}, \"R4\": {\"score\": 2, \"reason\": \"one short sentence\"}, \"R5\": {\"score\": 2, \"reason\": \"one short sentence\"}, \"R6\": {\"score\": 2, \"reason\": \"one short sentence\"}}\n",
+  "answer": {
+    "duration_api_ms": 6049,
+    "stop_reason": "end_turn",
+    "session_id": "b7dc6ef0-6d9b-4703-8bba-5e5a25fc461c",
+    "total_cost_usd": 0.031006399999999996,
+    "usage": {
+      "input_tokens": 4,
+      "cache_creation_input_tokens": 1725,
+      "cache_read_input_tokens": 29452,
+      "output_tokens": 565,
+      "output_tokens_details": {
+        "thinking_tokens": 151
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1725,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "global",
+      "iterations": [],
+      "speed": "standard",
+      "fallback_credit": null
+    },
+    "modelUsage": {
+      "claude-opus-5-5": {
+        "inputTokens": 4,
+        "outputTokens": 565,
+        "cacheReadInputTokens": 29452,
+        "cacheCreationInputTokens": 1725,
+        "webSearchRequests": 0,
+        "costUSD": 0.031006399999999996,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 151,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 1725,
+        "canonicalModel": "claude-opus-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "safety_stops": 0,
+    "is_error": false,
+    "num_turns": 2,
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "{\"R1\": {\"score\": 2, \"reason\": \"The heatmap has 7 rows (2, 5, 10, 15, 20, 30 and 40 m), and the legend says they are monthly means of the daily values.\"}, \"R2\": {\"score\": 2, \"reason\": \"Evenly spaced monthly columns run from Feb 2018 to Dec 2025, which matches the title.\"}, \"R3\": {\"score\": 2, \"reason\": \"Missing months appear as light grey cells (18 in total), and they line up with the ground-truth gaps at 2 m, 5 m and 40 m.\"}, \"R4\": {\"score\": 2, \"reason\": \"The y-axis labels each depth row, and the rows run in numeric order from 2 m to 40 m.\"}, \"R5\": {\"score\": 2, \"reason\": \"The colour legend is titled 'Monthly mean temperature (\u00b0C)'.\"}, \"R6\": {\"score\": 2, \"reason\": \"There is a title, and the one-sentence caption says the seasonal range shrinks with depth, with peaks in September at 2 m and October at 40 m, which matches the data.\"}}",
+    "ttft_ms": 1295,
+    "type": "result",
+    "duration_ms": 6229,
+    "uuid": "605e71ce-03ba-4908-8b1e-ac7835178b45",
+    "ttft_stream_ms": 727,
+    "time_to_request_ms": 148,
+    "first_content_frame_ms": 727,
+    "queued_turn_count": 0,
+    "result_index": 0
+  }
+}
