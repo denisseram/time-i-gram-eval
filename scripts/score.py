@@ -16,6 +16,8 @@ Scores are saved at every click in results/scores-<evaluator>.csv (long format, 
 import argparse
 import base64
 import csv
+import io
+import subprocess
 import datetime as dt
 import json
 import math
@@ -378,6 +380,16 @@ def cmd_summary(args):
     human_name = args.evaluator
     human = {(r["phase"], r["item"], r["requirement"]): r for r in read_scores(RESULTS / f"scores-{human_name}.csv")}
     judge = {(r["item"], r["requirement"]): r for r in read_scores(RESULTS / "scores-judge.csv")}
+    # Agreement must use the human's scores from BEFORE seeing the judge: a git commit of the scores file.
+    initial, initial_ref = None, args.initial
+    if initial_ref:
+        shown = subprocess.run(["git", "-C", str(ROOT), "show", f"{initial_ref}:results/scores-{human_name}.csv"],
+                               capture_output=True, text=True)
+        if shown.returncode != 0:
+            sys.exit(f"Cannot read results/scores-{human_name}.csv at {initial_ref}: {shown.stderr.strip()}")
+        rows0 = [{k: (v or "") for k, v in r.items() if k} for r in csv.DictReader(io.StringIO(shown.stdout))]
+        initial = {(r["phase"], r["item"], r["requirement"]): r for r in rows0 if valid(r)}
+    agree_with = initial if initial is not None else human
     code_of = {k["run_id"]: c for c, k in key.items()}
 
     # agreement on the blind (static) requirements
@@ -386,7 +398,7 @@ def cmd_summary(args):
         for req, _ in requirements(k["example"]):
             if mode(k["example"], req) != "static":
                 continue
-            h, j = human.get(("blind", code, req), {}).get("score", ""), judge.get((code, req), {}).get("score", "")
+            h, j = agree_with.get(("blind", code, req), {}).get("score", ""), judge.get((code, req), {}).get("score", "")
             if h != "" and j != "":
                 pairs.append((int(h), int(j)))
                 per_example.setdefault(k["example"], []).append((int(h), int(j)))
@@ -458,27 +470,40 @@ def cmd_summary(args):
                 vals = [r[req] for r in rows if r["example"] == example and r["tool"] == tool and r.get(req, "") != ""]
                 cells.append(f"{sum(v == '2' for v in vals)}/{len(vals)}" if vals else "–")
             out.append(f"| {example} | {req} ({mode(example, req)}) | " + " | ".join(cells) + " |")
-    out += ["", "## Effort per run (median over all examples)", "",
+    out += ["", "## Effort per run (median over all examples, except where a total is stated)", "",
             "| Measure | " + " | ".join(tools) + " |", "|---|" + "---|" * len(tools)]
     for label, col, scale in [("Wall time (min)", "wall_seconds", 60), ("Turns", "agent_turns", 1),
                               ("Tool calls", "tool_calls", 1), ("Self-checks with render", "self_renders", 1),
-                              ("Output tokens", "output_tokens", 1), ("Deliverable lines", "deliverable_lines", 1),
-                              ("Renders without edits", "renders_without_edits", None),
-                              ("REPORT claims not met", "report_mismatches", 1)]:
+                              ("Output tokens", "output_tokens", 1),
+                              ("Deliverable size (characters, no comments or extra whitespace)", "deliverable_chars", 1),
+                              ("Renders without edits (count)", "renders_without_edits", None),
+                              ("REPORT claims 'done' that scored below 2 (total)", "report_mismatches", "sum")]:
         cells = []
         for tool in tools:
             vals = [r[col] for r in rows if r["tool"] == tool and r[col] != ""]
             if scale is None:
                 cells.append(f"{sum(v == 'yes' for v in vals)}/{len(vals)}")
+            elif scale == "sum":
+                cells.append(f"{sum(int(v) for v in vals)} (in {sum(int(v) > 0 for v in vals)} of {len(vals)} runs)")
             elif vals:
                 cells.append(fmt(statistics.median(float(v) / scale for v in vals), 1 if scale == 60 else 0))
             else:
                 cells.append("–")
         out.append(f"| {label} | " + " | ".join(cells) + " |")
     exact = sum(a == b for a, b in pairs) / len(pairs) if pairs else float("nan")
-    out += ["", "## Agreement with the automatic judge (blind, static requirements)", "",
+    if initial is not None:
+        changed = [k for k, r in human.items() if k[2] != "_note" and initial.get(k, {}).get("score", "") != r["score"]]
+        changed_blind = [k for k in changed if k[0] == "blind"]
+        basis = (f"Computed with the human's **initial** scores (git `{initial_ref}`, before seeing the judge). After "
+                 f"reviewing the disagreements, the human changed {len(changed_blind)} blind scores "
+                 f"({len(changed) - len(changed_blind)} live/code scores changed as well); the final scores are used everywhere else.")
+    else:
+        basis = ("**Computed with the human's final scores.** If any score was changed after seeing the judge, this "
+                 "overstates agreement: run `summary --initial <commit>` with the commit of the scores before the judge ran.")
+    out += ["", "## Agreement with the automatic judge (blind, static requirements)", "", basis, "",
             f"{len(pairs)} paired scores; exact agreement {fmt(exact * 100, 0)} %; quadratic-weighted Cohen's kappa "
-            f"{fmt(weighted_kappa(pairs), 2)}. Disagreements: `results/disagreements.csv` ({len(disagreements)}).", "",
+            f"{fmt(weighted_kappa(pairs), 2)} (– when both raters used a single score). Disagreements: "
+            f"`results/disagreements.csv` ({len(disagreements)}).", "",
             "| Example | pairs | exact agreement | weighted kappa |", "|---|---|---|---|"]
     for example in RCFG["examples"]:
         p = per_example.get(example, [])
@@ -511,6 +536,8 @@ def main():
     s.set_defaults(func=cmd_progress)
     s = sub.add_parser("summary")
     s.add_argument("--evaluator", default=SCFG["human_evaluator"])
+    s.add_argument("--initial", metavar="GIT_REF",
+                   help="commit with the human's scores before seeing the judge (agreement is computed with these)")
     s.set_defaults(func=cmd_summary)
     args = p.parse_args()
     args.func(args)
