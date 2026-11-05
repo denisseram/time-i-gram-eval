@@ -375,20 +375,56 @@ def fmt(x, d=1):
     return "–" if x is None or (isinstance(x, float) and math.isnan(x)) else f"{x:.{d}f}"
 
 
+def load_initial(ref, human_name):
+    """The human's scores before seeing the judge: a file (e.g. a backup) or a git commit of the scores file."""
+    if Path(ref).is_file():
+        text = Path(ref).read_text()
+    else:
+        shown = subprocess.run(["git", "-C", str(ROOT), "show", f"{ref}:results/scores-{human_name}.csv"],
+                               capture_output=True, text=True)
+        if shown.returncode != 0:
+            sys.exit(f"{ref} is neither a file nor a commit with results/scores-{human_name}.csv: {shown.stderr.strip()}")
+        text = shown.stdout
+    rows = [{k: (v or "") for k, v in r.items() if k} for r in csv.DictReader(io.StringIO(text))]
+    return {(r["phase"], r["item"], r["requirement"]): r for r in rows if valid(r)}
+
+
+def cmd_changes(args):
+    """Every score that differs between the initial file/commit and now, with the judge's score and reason."""
+    key = read_key()
+    initial = load_initial(args.initial, args.evaluator)
+    final = {(r["phase"], r["item"], r["requirement"]): r for r in read_scores(RESULTS / f"scores-{args.evaluator}.csv")}
+    judge = {(r["item"], r["requirement"]): r for r in read_scores(RESULTS / "scores-judge.csv")}
+    rows = []
+    for k in sorted(set(initial) | set(final)):
+        if k[2] == "_note":
+            continue
+        a, b = initial.get(k, {}).get("score", ""), final.get(k, {}).get("score", "")
+        if a != b:
+            run_id = key[k[1]]["run_id"] if k[0] == "blind" and k[1] in key else k[1]
+            j = judge.get((k[1], k[2]), {})
+            rows.append({"phase": k[0], "item": k[1], "run_id": run_id, "requirement": k[2], "initial": a,
+                         "final": b, "judge": j.get("score", ""), "judge_reason": j.get("note", "")})
+    out = RESULTS / "changed_after_review.csv"
+    with out.open("w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=["phase", "item", "run_id", "requirement", "initial", "final", "judge",
+                                          "judge_reason"], lineterminator="\n")
+        w.writeheader()
+        w.writerows(rows)
+    print(f"{len(rows)} scores changed since {args.initial} -> {out.relative_to(ROOT)}")
+    for r in rows:
+        print(f"  {r['item']:<10} {r['run_id']:<22} {r['requirement']}: {r['initial'] or '-'} -> {r['final'] or '-'}"
+              f"  (judge {r['judge'] or '-'}: {r['judge_reason'][:70]})")
+
+
 def cmd_summary(args):
     key = read_key()
     human_name = args.evaluator
     human = {(r["phase"], r["item"], r["requirement"]): r for r in read_scores(RESULTS / f"scores-{human_name}.csv")}
     judge = {(r["item"], r["requirement"]): r for r in read_scores(RESULTS / "scores-judge.csv")}
     # Agreement must use the human's scores from BEFORE seeing the judge: a git commit of the scores file.
-    initial, initial_ref = None, args.initial
-    if initial_ref:
-        shown = subprocess.run(["git", "-C", str(ROOT), "show", f"{initial_ref}:results/scores-{human_name}.csv"],
-                               capture_output=True, text=True)
-        if shown.returncode != 0:
-            sys.exit(f"Cannot read results/scores-{human_name}.csv at {initial_ref}: {shown.stderr.strip()}")
-        rows0 = [{k: (v or "") for k, v in r.items() if k} for r in csv.DictReader(io.StringIO(shown.stdout))]
-        initial = {(r["phase"], r["item"], r["requirement"]): r for r in rows0 if valid(r)}
+    initial_ref = args.initial
+    initial = load_initial(initial_ref, human_name) if initial_ref else None
     agree_with = initial if initial is not None else human
     code_of = {k["run_id"]: c for c, k in key.items()}
 
@@ -494,7 +530,7 @@ def cmd_summary(args):
     if initial is not None:
         changed = [k for k, r in human.items() if k[2] != "_note" and initial.get(k, {}).get("score", "") != r["score"]]
         changed_blind = [k for k in changed if k[0] == "blind"]
-        basis = (f"Computed with the human's **initial** scores (git `{initial_ref}`, before seeing the judge). After "
+        basis = (f"Computed with the human's **initial** scores (`{Path(initial_ref).name}`, before seeing the judge). After "
                  f"reviewing the disagreements, the human changed {len(changed_blind)} blind scores "
                  f"({len(changed) - len(changed_blind)} live/code scores changed as well); the final scores are used everywhere else.")
     else:
@@ -536,9 +572,13 @@ def main():
     s.set_defaults(func=cmd_progress)
     s = sub.add_parser("summary")
     s.add_argument("--evaluator", default=SCFG["human_evaluator"])
-    s.add_argument("--initial", metavar="GIT_REF",
-                   help="commit with the human's scores before seeing the judge (agreement is computed with these)")
+    s.add_argument("--initial", metavar="FILE_OR_COMMIT",
+                   help="the human's scores before seeing the judge: a backup file or a git commit (agreement uses these)")
     s.set_defaults(func=cmd_summary)
+    s = sub.add_parser("changes", help="list the scores changed since the initial scores")
+    s.add_argument("initial", metavar="FILE_OR_COMMIT")
+    s.add_argument("--evaluator", default=SCFG["human_evaluator"])
+    s.set_defaults(func=cmd_changes)
     args = p.parse_args()
     args.func(args)
 
