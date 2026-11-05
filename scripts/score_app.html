@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Scoring · time-i-gram evaluation</title>
+<style>
+  :root { --line: #d9d9de; --muted: #66666e; --ink: #1b1b1f; --accent: #2457c5; --bg: #f6f6f8; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.45 system-ui, -apple-system, Segoe UI, sans-serif; color: var(--ink); background: var(--bg); }
+  header { display: flex; gap: 16px; align-items: center; padding: 10px 16px; background: #fff; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 2; }
+  header h1 { font-size: 15px; margin: 0; }
+  .tabs button { border: 1px solid var(--line); background: #fff; padding: 6px 12px; cursor: pointer; border-radius: 6px; }
+  .tabs button.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .grow { flex: 1; }
+  .muted { color: var(--muted); }
+  main { display: grid; grid-template-columns: 190px minmax(0, 1fr) 420px; gap: 0; height: calc(100vh - 51px); }
+  nav { overflow: auto; border-right: 1px solid var(--line); background: #fff; padding: 8px 0; }
+  nav .group { font-weight: 600; padding: 8px 12px 4px; color: var(--muted); font-size: 12px; }
+  nav a { display: flex; justify-content: space-between; padding: 3px 12px; color: var(--ink); text-decoration: none; font-variant-numeric: tabular-nums; }
+  nav a.cur { background: #e9eefb; }
+  nav a .st { color: var(--muted); font-size: 12px; }
+  nav a.complete .st { color: #1d7a3a; }
+  .view { overflow: auto; padding: 14px; }
+  .view img.shot { max-width: 100%; border: 1px solid var(--line); background: #fff; cursor: zoom-in; }
+  .view img.shot.full { max-width: none; cursor: zoom-out; }
+  .frame { overflow: auto; border: 1px solid var(--line); background: #fff; max-height: 70vh; }
+  .frame iframe { width: 1400px; height: 900px; border: 0; display: block; }
+  .panel { overflow: auto; border-left: 1px solid var(--line); background: #fff; padding: 14px; }
+  .panel h2 { font-size: 16px; margin: 0 0 4px; }
+  .req { border: 1px solid var(--line); border-radius: 8px; padding: 10px; margin: 10px 0; }
+  .req.scored { border-color: #9cc7a8; }
+  .req .id { font-weight: 700; }
+  .req .mode { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin-left: 6px; }
+  .rub { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+  .rub b { color: var(--ink); font-weight: 600; }
+  .btns { display: flex; gap: 6px; margin-top: 8px; }
+  .btns button { flex: 1; padding: 7px 0; border: 1px solid var(--line); border-radius: 6px; background: #fff; cursor: pointer; font-size: 15px; font-weight: 600; }
+  .btns button.on[data-s="0"] { background: #b3261e; color: #fff; border-color: #b3261e; }
+  .btns button.on[data-s="1"] { background: #b26a00; color: #fff; border-color: #b26a00; }
+  .btns button.on[data-s="2"] { background: #1d7a3a; color: #fff; border-color: #1d7a3a; }
+  textarea { width: 100%; min-height: 60px; font: inherit; padding: 6px; border: 1px solid var(--line); border-radius: 6px; }
+  details { margin-top: 10px; }
+  details pre { white-space: pre-wrap; font-size: 12px; background: var(--bg); padding: 8px; border-radius: 6px; }
+  .navbtns { display: flex; gap: 8px; margin-top: 12px; }
+  .navbtns button { flex: 1; padding: 8px; border-radius: 6px; border: 1px solid var(--line); background: #fff; cursor: pointer; }
+  .evidence { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+  .drop { border: 2px dashed var(--line); border-radius: 8px; padding: 10px; text-align: center; min-height: 90px; background: #fff; outline: none; }
+  .drop:focus { border-color: var(--accent); }
+  .drop img { max-width: 100%; max-height: 160px; display: block; margin: 6px auto 0; }
+  .hint { font-size: 12.5px; color: var(--muted); }
+  .saved { font-size: 12px; color: #1d7a3a; height: 16px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Scoring</h1>
+  <div class="tabs"><button data-phase="blind">1 · Blind (screenshots)</button> <button data-phase="live">2 · Live &amp; code</button></div>
+  <div class="grow"></div>
+  <div class="muted">evaluator <b>__EVALUATOR__</b> · <span id="progress"></span></div>
+</header>
+<main>
+  <nav id="list"></nav>
+  <section class="view" id="view"></section>
+  <aside class="panel" id="panel"></aside>
+</main>
+<script>
+const EVALUATOR = "__EVALUATOR__";
+let phase = localStorage.getItem("phase") || "blind", data = [], cur = 0;
+
+function esc(s) { return String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); }
+function md(s) { return esc(s).replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>"); }
+
+async function load(keep) {
+  document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.phase === phase));
+  data = await (await fetch(`/api/items?phase=${phase}`)).json();
+  const saved = +localStorage.getItem("cur-" + phase) || 0;
+  cur = keep ? cur : Math.min(saved, data.length - 1);
+  render();
+}
+
+function itemDone(it) { return it.reqs.filter(r => r.score !== "").length; }
+
+function render() {
+  const total = data.reduce((n, it) => n + it.reqs.length, 0), done = data.reduce((n, it) => n + itemDone(it), 0);
+  document.getElementById("progress").textContent = `${done}/${total} scores in this phase`;
+  let html = "", last = "";
+  data.forEach((it, i) => {
+    if (it.example !== last) { html += `<div class="group">${it.example}</div>`; last = it.example; }
+    const d = itemDone(it);
+    html += `<a href="#" data-i="${i}" class="${i === cur ? "cur" : ""} ${d === it.reqs.length ? "complete" : ""}">
+      <span>${esc(phase === "blind" ? it.title : it.title.replace(it.example + "-", ""))}</span><span class="st">${d}/${it.reqs.length}</span></a>`;
+  });
+  const list = document.getElementById("list");
+  list.innerHTML = html;
+  list.querySelectorAll("a").forEach(a => a.onclick = e => { e.preventDefault(); go(+a.dataset.i); });
+  if (!data.length) { document.getElementById("view").innerHTML = "<p>Nothing to score in this phase.</p>"; document.getElementById("panel").innerHTML = ""; return; }
+  const it = data[cur];
+  localStorage.setItem("cur-" + phase, cur);
+  // view
+  let view = "";
+  if (phase === "blind") {
+    view = `<p class="muted">${esc(it.title)} · question: ${esc(it.question)} · click the image to see it at full size</p>
+      <img class="shot" src="/img/${encodeURIComponent(it.item)}.png" alt="screenshot ${esc(it.item)}" onerror="this.replaceWith(Object.assign(document.createElement('p'),{textContent:'No screenshot: the run did not produce an image.'}))">`;
+  } else {
+    view = `<p class="muted">${esc(it.title)} · tool <b>${esc(it.tool)}</b> · ${esc(it.question)}
+      · <a href="/live/${encodeURIComponent(it.item)}" target="_blank">open live render in a new tab</a>
+      · <a href="/code/${encodeURIComponent(it.item)}" target="_blank">open code</a></p>
+      <div class="frame"><iframe src="/live/${encodeURIComponent(it.item)}"></iframe></div>
+      ${it.reqs.some(r => r.mode === "live") ? `
+      <p class="hint" style="margin-top:12px"><b>Evidence:</b> take a screenshot <b>before</b> and <b>after</b> the interaction
+      (Cmd+Ctrl+Shift+4 copies a region to the clipboard). Click a box below and press Cmd+V, or click "choose file".</p>
+      <div class="evidence">${["before", "after"].map(w => `
+        <div class="drop" tabindex="0" data-which="${w}"><b>${w}</b><br><span class="hint">click here, then Cmd+V</span>
+          · <label class="hint" style="text-decoration:underline;cursor:pointer">choose file<input type="file" accept="image/png" hidden></label>
+          ${it.evidence.includes(`interaction-${w}.png`) ? `<img src="/runfile/${encodeURIComponent(it.item)}/interaction-${w}.png?${Date.now()}">` : ""}
+        </div>`).join("")}</div>` : ""}`;
+  }
+  document.getElementById("view").innerHTML = view;
+  const shot = document.querySelector("img.shot");
+  if (shot) shot.onclick = () => shot.classList.toggle("full");
+  document.querySelectorAll(".drop").forEach(zone => {
+    const send = file => {
+      if (!file || file.type !== "image/png") return alert("Please use a PNG screenshot.");
+      const reader = new FileReader();
+      reader.onload = async () => {
+        const r = await fetch("/api/evidence", { method: "POST", body: JSON.stringify({ item: it.item, which: zone.dataset.which, dataurl: reader.result }) });
+        if (!r.ok) return alert("Could not save the screenshot.");
+        if (!it.evidence.includes(`interaction-${zone.dataset.which}.png`)) it.evidence.push(`interaction-${zone.dataset.which}.png`);
+        render();
+      };
+      reader.readAsDataURL(file);
+    };
+    zone.addEventListener("paste", e => { const f = [...e.clipboardData.files][0]; if (f) { e.preventDefault(); send(f); } });
+    zone.querySelector("input").onchange = e => send(e.target.files[0]);
+  });
+  // panel
+  document.getElementById("panel").innerHTML = `
+    <h2>${esc(it.title)}</h2>
+    <div class="hint">Score what you see. 2 = met, 1 = partial, 0 = not met. If a ground-truth check below fails, at most 1.</div>
+    ${it.reqs.map(r => `
+      <div class="req ${r.score !== "" ? "scored" : ""}" data-req="${r.id}">
+        <span class="id">${r.id}</span><span class="mode">${r.mode}</span>
+        <div>${md(r.text)}</div>
+        <div class="rub"><b>2 when:</b> ${md(r.met)}<br><b>1 if:</b> ${md(r.partial)}</div>
+        <div class="btns">${[0, 1, 2].map(s => `<button data-s="${s}" class="${String(s) === r.score ? "on" : ""}">${s}</button>`).join("")}</div>
+      </div>`).join("")}
+    <label class="hint">Note for this ${phase === "blind" ? "screenshot" : "run"} (optional, saved when you leave the box)</label>
+    <textarea id="note">${esc(it.note)}</textarea>
+    <div class="saved" id="saved"></div>
+    <div class="navbtns"><button id="prev">← previous</button><button id="next">next →</button></div>
+    <details><summary>Ground-truth checks for ${it.example}</summary><pre>${esc(it.groundTruth)}</pre></details>`;
+  document.querySelectorAll(".req").forEach(card => card.querySelectorAll("button").forEach(b => b.onclick = async () => {
+    const r = it.reqs.find(x => x.id === card.dataset.req);
+    const score = r.score === b.dataset.s ? "" : b.dataset.s; // click again to clear
+    await save({ requirement: r.id, score });
+    r.score = score;
+    render();
+  }));
+  document.getElementById("note").onblur = async e => { if (e.target.value !== it.note) { await save({ requirement: "_note", score: "", note: e.target.value }); it.note = e.target.value; } };
+  document.getElementById("prev").onclick = () => go(cur - 1);
+  document.getElementById("next").onclick = () => go(cur + 1);
+}
+
+async function save(fields) {
+  const it = data[cur];
+  const r = await fetch("/api/score", { method: "POST", body: JSON.stringify({ phase, item: it.item, example: it.example, ...fields }) });
+  const el = document.getElementById("saved");
+  if (el) el.textContent = r.ok ? "saved" : "NOT saved - is the app still running?";
+}
+
+function go(i) { if (i >= 0 && i < data.length) { cur = i; render(); document.getElementById("view").scrollTop = 0; } }
+document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => { phase = b.dataset.phase; localStorage.setItem("phase", phase); load(); });
+document.addEventListener("keydown", e => {
+  if (e.target.tagName === "TEXTAREA") return;
+  if (e.key === "ArrowRight") go(cur + 1);
+  if (e.key === "ArrowLeft") go(cur - 1);
+});
+load();
+</script>
+</body>
+</html>

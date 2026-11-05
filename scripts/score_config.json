@@ -1,0 +1,13 @@
+{
+  "_comment": "How each requirement is scored. static: on the anonymized screenshot (blind; also scored by the automatic judge). live: by trying the interaction in the live render (tool visible; save before/after screenshots). code: by reading the deliverable (tool visible). Requirements not listed under live or code are static.",
+  "blind_seed": 5110,
+  "human_evaluator": "denisse",
+  "judge_model": "claude-opus-5-5",
+  "examples": {
+    "E1": {"live": [], "code": []},
+    "E2": {"live": [], "code": []},
+    "E3": {"live": ["R5"], "code": []},
+    "E4": {"live": [], "code": []},
+    "E5": {"live": ["R2", "R3", "R5"], "code": ["R6"]}
+  }
+}

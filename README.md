@@ -18,12 +18,13 @@ documentation, never see the evaluation datasets, prompts or rubrics.
 | `datasets/manifest.json` | Pinned URL, size, sha256, license and citation of each dataset | evaluators |
 | `datasets/eval-datasets.md` | How the datasets were chosen and checked; rejected candidates | evaluators |
 | `rubrics/` | Scoring per requirement + ground-truth values from the data | evaluators only |
+| `EVALUATION.md` | How the runs are scored: blind app, live phase, automatic judge, summary | evaluators |
 | `PROTOCOL.md` | How to run and score, settings to keep fixed | evaluators |
 | `runs/<E>/<tool>/<run_id>/` | One folder per run: prompt copy, transcript, deliverable, screenshots, `run.md` | evaluators |
 | `templates/run.md` | Template for `run.md` | evaluators |
 | `gallery/` | Observable Framework site: every run's output rendered live, with its code, REPORT and scores | evaluators |
 | `env/` | Docker image of the run environment and the `render` command; setup in `env/README.md` | evaluators |
-| `scripts/` | `runner.py` (runs the agents in batches), `build_prompts.py [--check]`, `verify_data.py`, `pin_data_repo.py`, `measure.py`, `build_gallery.py`, `new_run.py` (manual runs); `tests/` | evaluators |
+| `scripts/` | `runner.py` (runs the agents in batches), `score.py` (scoring app and summary), `judge.py` (automatic judge), `build_prompts.py [--check]`, `verify_data.py`, `pin_data_repo.py`, `measure.py`, `build_gallery.py`, `new_run.py` (manual runs); `tests/` | evaluators |
 | `results/` | `schedule.csv` (order of runs), `metrics.csv` (from the runner), `scores.csv` (from the evaluators) | evaluators |
 
 ## Examples
@@ -61,7 +62,7 @@ the computer awake while a batch runs. Commit `runs/` and `results/` after each 
 Each finished run folder holds the exact prompt, the full transcript, the agent's whole working folder,
 the deliverable, the official render (`render.png`, `console.txt`), the agent's REPORT and `meta.json`
 (versions, times, turns, tool calls, `render` self-checks, tokens). `results/metrics.csv` collects
-`meta.json` of all runs. Scores go into `results/scores.csv` (see `rubrics/`).
+`meta.json` of all runs. Scoring: see [`EVALUATION.md`](EVALUATION.md).
 
 After editing anything in `tasks/`, `tools/` or `datasets/manifest.json` (before the freeze only), run
 `python3 scripts/build_prompts.py` and commit the regenerated `prompts/`.

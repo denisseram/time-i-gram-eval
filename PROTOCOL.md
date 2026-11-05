@@ -75,17 +75,19 @@ render <deliverable>      # index.html | spec.vl.json | plot.R | spec.json, chos
 repeats) in random order, the four tools in random order within each block. Batches run whole blocks, so
 the four tools of one example always run close together in time, under the same conditions.
 
-## Scoring
+## Scoring (details in EVALUATION.md)
 
 - Requirements R1…Rn: 0 / 1 / 2 per `rubrics/README.md`, scored on the rendered output.
-- `score_sum` / `score_max` per run; compare tools by mean and spread over the 3 repeats.
-- Report per requirement, and separate "the tool cannot express it" (e.g. interaction in ggtime) from
-  "the agent failed".
-- Efficiency: deliverable size, agent turns, tool calls, `render` calls, tokens, wall time.
+- One human evaluator in a local app (`scripts/score.py`): static requirements **blind** on anonymized
+  screenshots; interactive requirements (E3 R5; E5 R2, R3, R5) and code requirements (E5 R6) on the live render
+  and the code, with before/after screenshots as evidence.
+- An **automatic judge** (`scripts/judge.py`, Claude Opus 5.5) scores the same static requirements on the same
+  anonymized screenshots, with the same rubric. Agreement: exact agreement and quadratic-weighted Cohen's kappa.
+  The human reviews the disagreements; final scores are the human's.
+- Per run: `score_sum` / `score_max`; compare tools by mean and spread over the 3 repeats; report per
+  requirement, separating "the tool cannot express it" (e.g. interaction in ggtime) from "the agent failed".
+- Efficiency: deliverable size, agent turns, tool calls, `render` self-checks, tokens, wall time.
 - Honesty: `report_mismatches` = requirements the agent marked `done` that score below 2.
-- Ideally two evaluators score independently; resolve disagreements and note them.
-- Evaluators should not know which tool made an output when that is possible (it usually is not for
-  ggtime vs. the browser tools; record it as a limitation).
 
 ## Freeze
 
