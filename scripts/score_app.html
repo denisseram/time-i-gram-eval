@@ -23,8 +23,8 @@
   .view { overflow: auto; padding: 14px; }
   .view img.shot { max-width: 100%; border: 1px solid var(--line); background: #fff; cursor: zoom-in; }
   .view img.shot.full { max-width: none; cursor: zoom-out; }
-  .frame { overflow: auto; border: 1px solid var(--line); background: #fff; max-height: 70vh; }
-  .frame iframe { width: 1400px; height: 900px; border: 0; display: block; }
+  .bigbtn { display: inline-block; padding: 10px 14px; margin-right: 8px; border-radius: 8px; background: var(--accent); color: #fff; text-decoration: none; font-weight: 600; }
+  .bigbtn.light { background: #fff; color: var(--accent); border: 1px solid var(--accent); }
   .panel { overflow: auto; border-left: 1px solid var(--line); background: #fff; padding: 14px; }
   .panel h2 { font-size: 16px; margin: 0 0 4px; }
   .req { border: 1px solid var(--line); border-radius: 8px; padding: 10px; margin: 10px 0; }
@@ -65,7 +65,7 @@
 </main>
 <script>
 const EVALUATOR = "__EVALUATOR__";
-let phase = localStorage.getItem("phase") || "blind", data = [], cur = 0;
+let phase = localStorage.getItem("phase") || "blind", data = [], cur = 0, lastSaved = "";
 
 function esc(s) { return String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); }
 function md(s) { return esc(s).replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>"); }
@@ -102,10 +102,13 @@ function render() {
     view = `<p class="muted">${esc(it.title)} · question: ${esc(it.question)} · click the image to see it at full size</p>
       <img class="shot" src="/img/${encodeURIComponent(it.item)}.png" alt="screenshot ${esc(it.item)}" onerror="this.replaceWith(Object.assign(document.createElement('p'),{textContent:'No screenshot: the run did not produce an image.'}))">`;
   } else {
-    view = `<p class="muted">${esc(it.title)} · tool <b>${esc(it.tool)}</b> · ${esc(it.question)}
-      · <a href="/live/${encodeURIComponent(it.item)}" target="_blank">open live render in a new tab</a>
-      · <a href="/code/${encodeURIComponent(it.item)}" target="_blank">open code</a></p>
-      <div class="frame"><iframe src="/live/${encodeURIComponent(it.item)}"></iframe></div>
+    const live = `/live/${encodeURIComponent(it.item)}`;
+    view = `<p class="muted">${esc(it.title)} · tool <b>${esc(it.tool)}</b> · ${esc(it.question)}</p>
+      <p><a class="bigbtn" href="${live}" target="_blank" rel="noopener">Open the live render in a new tab ↗</a>
+         <a class="bigbtn light" href="/code/${encodeURIComponent(it.item)}" target="_blank" rel="noopener">Open the code ↗</a></p>
+      <p class="hint">The live render opens in its own tab, so a slow or frozen render (e.g. E5 with 263,000 rows) never
+      blocks this page. Wait until it has finished drawing before you interact. If a tab stays frozen for more than
+      a few minutes, close it and note it here; score what the render did.</p>
       ${it.reqs.some(r => r.mode === "live") ? `
       <p class="hint" style="margin-top:12px"><b>Evidence:</b> take a screenshot <b>before</b> and <b>after</b> the interaction
       (Cmd+Ctrl+Shift+4 copies a region to the clipboard). Click a box below and press Cmd+V, or click "choose file".</p>
@@ -136,7 +139,7 @@ function render() {
   // panel
   document.getElementById("panel").innerHTML = `
     <h2>${esc(it.title)}</h2>
-    <div class="hint">Score what you see. 2 = met, 1 = partial, 0 = not met. If a ground-truth check below fails, at most 1.</div>
+    <div class="hint">Score what you see. 2 = met, 1 = partial, 0 = not met (click a selected score again to clear it). If a ground-truth check below fails, at most 1.</div>
     ${it.reqs.map(r => `
       <div class="req ${r.score !== "" ? "scored" : ""}" data-req="${r.id}">
         <span class="id">${r.id}</span><span class="mode">${r.mode}</span>
@@ -146,7 +149,7 @@ function render() {
       </div>`).join("")}
     <label class="hint">Note for this ${phase === "blind" ? "screenshot" : "run"} (optional, saved when you leave the box)</label>
     <textarea id="note">${esc(it.note)}</textarea>
-    <div class="saved" id="saved"></div>
+    <div class="saved" id="saved">${esc(lastSaved)}</div>
     <div class="navbtns"><button id="prev">← previous</button><button id="next">next →</button></div>
     <details><summary>Ground-truth checks for ${it.example}</summary><pre>${esc(it.groundTruth)}</pre></details>`;
   document.querySelectorAll(".req").forEach(card => card.querySelectorAll("button").forEach(b => b.onclick = async () => {
@@ -164,8 +167,9 @@ function render() {
 async function save(fields) {
   const it = data[cur];
   const r = await fetch("/api/score", { method: "POST", body: JSON.stringify({ phase, item: it.item, example: it.example, ...fields }) });
+  lastSaved = r.ok ? `saved ${new Date().toLocaleTimeString()}` : "NOT saved - is the app still running? (terminal: python3 scripts/score.py serve)";
   const el = document.getElementById("saved");
-  if (el) el.textContent = r.ok ? "saved" : "NOT saved - is the app still running?";
+  if (el) el.textContent = lastSaved;
 }
 
 function go(i) { if (i >= 0 && i < data.length) { cur = i; render(); document.getElementById("view").scrollTop = 0; } }

@@ -177,8 +177,8 @@ def live_page(run_id):
     run_dir = run_dir_of(run_id)
     tool = run_dir.parent.name
     base = f"/runfile/{urllib.parse.quote(run_id)}/"
-    if tool == "d3":
-        return f'<!doctype html><html><body style="margin:0"><iframe src="{base}index.html" width="1400" height="900" style="border:0"></iframe></body></html>'
+    if tool == "d3":  # the agent's own page, as the protocol renders it
+        return f'<!doctype html><html><head><meta http-equiv="refresh" content="0; url={base}index.html"></head></html>'
     if tool == "vega-lite":
         return f"""<!doctype html><html><head><meta charset="utf-8">
 <script src="/lib/vega/build/vega.min.js"></script><script src="/lib/vega-lite/build/vega-lite.min.js"></script>
