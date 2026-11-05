@@ -1,0 +1,105 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "title": {
+    "text": "Acute respiratory illness in Germany: weekly doctor consultations, one row per year",
+    "subtitle": [
+      "Every year rises in autumn and falls to a summer low, but the winter peak moves: mostly February–March, almost no winter wave in 2020/21, and December peaks in 2022 and 2023.",
+      "Data: Robert Koch-Institut, ARE-Praxis-Sentinel (CC BY 4.0), all of Germany, all ages. Empty cells: weeks outside the reported period."
+    ],
+    "anchor": "start",
+    "fontSize": 18,
+    "subtitleFontSize": 12,
+    "subtitlePadding": 6,
+    "offset": 12
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+    "format": {
+      "type": "tsv",
+      "parse": {
+        "ARE_Konsultationsinzidenz": "number"
+      }
+    }
+  },
+  "transform": [
+    {
+      "filter": "datum.Bundesland === 'Bundesweit' && datum.Altersgruppe === '00+'"
+    },
+    {
+      "calculate": "toNumber(substring(datum.Kalenderwoche, 0, 4))",
+      "as": "isoYear"
+    },
+    {
+      "calculate": "toNumber(substring(datum.Kalenderwoche, 6, 8))",
+      "as": "isoWeek"
+    }
+  ],
+  "width": 1150,
+  "height": 720,
+  "mark": {
+    "type": "rect",
+    "stroke": "white",
+    "strokeWidth": 0.5
+  },
+  "encoding": {
+    "x": {
+      "field": "isoWeek",
+      "type": "ordinal",
+      "sort": "ascending",
+      "title": "ISO calendar week",
+      "axis": {
+        "labelAngle": 0,
+        "orient": "top",
+        "domain": false,
+        "ticks": false
+      }
+    },
+    "y": {
+      "field": "isoYear",
+      "type": "ordinal",
+      "sort": "ascending",
+      "title": "ISO year",
+      "axis": {
+        "domain": false,
+        "ticks": false
+      }
+    },
+    "color": {
+      "field": "ARE_Konsultationsinzidenz",
+      "type": "quantitative",
+      "scale": {
+        "scheme": "yelloworangered",
+        "zero": false
+      },
+      "legend": {
+        "title": [
+          "ARE consultations",
+          "per 100,000 per week"
+        ],
+        "orient": "right",
+        "gradientLength": 400,
+        "format": ",.0f"
+      }
+    },
+    "tooltip": [
+      {
+        "field": "Kalenderwoche",
+        "title": "ISO week"
+      },
+      {
+        "field": "Saison",
+        "title": "Season"
+      },
+      {
+        "field": "ARE_Konsultationsinzidenz",
+        "title": "Consultations per 100,000",
+        "format": ","
+      }
+    ]
+  },
+  "config": {
+    "view": {
+      "stroke": null
+    }
+  }
+}

@@ -1,0 +1,18 @@
+REPORT
+deliverable: spec.vl.json
+requirements:
+  R1: done - one row per release labelled by version, sorted by release date within each panel
+  R2: done - x = years relative to own release date, axis title "Years relative to the release date (0 = release)"
+  R3: done - development/standard/extended server/ESM/legacy bars, one colour each with a legend; missing phases not drawn
+  R4: done - created = circle, release = diamond, with a shape legend
+  R5: done - separate stacked panels for LTS and interim releases
+  R6: done - title plus a one-sentence caption (subtitle, wrapped over two lines)
+assumptions:
+  - Years = days / 365.25
+  - ESM starts at the later of eol and eol-server
+  - Release type: "LTS" in the version string
+  - Missing trailing CSV fields are treated as no date
+limitations:
+  - Planned (future) dates look the same as past dates
+  - The release marker sits at 0 on every row, so it is the same on all rows by construction
+  - Rows are sorted by release date within each panel, not across both panels together

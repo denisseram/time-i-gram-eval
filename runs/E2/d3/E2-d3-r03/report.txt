@@ -1,0 +1,18 @@
+REPORT
+deliverable: index.html
+requirements:
+  R1: done - ISO years 2012–2026, one row each, top to bottom
+  R2: done - weeks 1..N per year, N from ISO week of 28 Dec; week 53 shown for 2015, 2020, 2026
+  R3: done - d3.interpolateYlOrRd from 0 to data max; legend titled "ARE consultations per 100,000 population per week"
+  R4: done - weeks before 2012-W40 and after 2026-W43 are drawn as empty grey outlines, labelled "no data" in the legend
+  R5: done - week ticks (1, even weeks, 53) along the bottom; year labels on the left
+  R6: done - title plus a one-sentence caption whose numbers are computed from the data
+assumptions:
+  - Year and week are taken from the Kalenderwoche field (ISO year), not from Saison
+  - Week slots that exist in the calendar but have no data are outlined; week 53 is drawn only in years that have it
+  - "Winter" means ISO weeks 1–10 and "summer" weeks 25–35; caption statistics use only complete ISO years (2013–2025)
+  - If a week appeared twice its values would be averaged (none were in this data)
+limitations:
+  - The 2020 vs 2021 split in the caption is my choice of cut-off; the counts themselves are computed
+  - Rows split the winter season across two rows, so a December–February wave appears at the right end of one row and the left end of the next
+  - The colour scale runs linearly to the 2022 maximum (about 3,200), so differences between low summer weeks are hard to see

@@ -1,0 +1,235 @@
+{
+ "title": "Air temperature and precipitation at Wien Hohe Warte, 2020–2024 (10-minute data)",
+ "subtitle": "Every year from 2020 to 2024 repeats the same annual cycle, from sub-zero winter days to summer days above 30 °C.",
+ "arrangement": "vertical",
+ "spacing": 30,
+ "zoomLimits": [
+  "1 hour",
+  "6 years"
+ ],
+ "views": [
+  {
+   "xDomain": {
+    "interval": [
+     "2020-01",
+     "2024-12"
+    ]
+   },
+   "tracks": [
+    {
+     "title": "Overview: daily min, mean and max of air temperature (°C), x: time (UTC) — drag the brush to set the detail period",
+     "data": {
+      "type": "csv-time",
+      "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/geosphere_wien_10min_2020-2024.csv",
+      "dateFields": [
+       "time"
+      ]
+     },
+     "alignment": "overlay",
+     "x": {
+      "field": "time",
+      "type": "temporal",
+      "timeUnit": "day",
+      "axis": "bottom"
+     },
+     "tracks": [
+      {
+       "mark": "line",
+       "y": {
+        "field": "tl",
+        "type": "quantitative",
+        "aggregate": "min",
+        "axis": "left",
+        "zeroBaseline": false
+       },
+       "color": {
+        "value": "#9ecae1"
+       },
+       "size": {
+        "value": 1
+       },
+       "style": {
+        "legendLabel": "min"
+       }
+      },
+      {
+       "mark": "line",
+       "y": {
+        "field": "tl",
+        "type": "quantitative",
+        "aggregate": "max",
+        "axis": "left",
+        "zeroBaseline": false
+       },
+       "color": {
+        "value": "#fcae91"
+       },
+       "size": {
+        "value": 1
+       },
+       "style": {
+        "legendLabel": "max"
+       }
+      },
+      {
+       "mark": "line",
+       "y": {
+        "field": "tl",
+        "type": "quantitative",
+        "aggregate": "mean",
+        "axis": "left",
+        "zeroBaseline": false,
+        "title": "Air temperature (°C)"
+       },
+       "color": {
+        "value": "#333333"
+       },
+       "size": {
+        "value": 1
+       },
+       "style": {
+        "legendLabel": "mean",
+        "legendTitle": "Daily"
+       }
+      },
+      {
+       "mark": "brush",
+       "x": {
+        "linkingId": "detail"
+       },
+       "color": {
+        "value": "steelBlue"
+       }
+      }
+     ],
+     "width": 1250,
+     "height": 220
+    }
+   ]
+  },
+  {
+   "xDomain": {
+    "interval": [
+     "2024-07-01",
+     "2024-07-07"
+    ]
+   },
+   "linkingId": "detail",
+   "spacing": 0,
+   "tracks": [
+    {
+     "title": "Detail: air temperature (°C), x: time (UTC); 10-min readings below 10 days visible, hourly means below 120 days, daily means above",
+     "data": {
+      "type": "csv-time",
+      "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/geosphere_wien_10min_2020-2024.csv",
+      "dateFields": [
+       "time"
+      ]
+     },
+     "mark": "line",
+     "x": {
+      "field": "time",
+      "type": "temporal",
+      "timeUnit": [
+       {
+        "unit": "none",
+        "maxSpan": "10 days"
+       },
+       {
+        "unit": "hour",
+        "maxSpan": "120 days"
+       },
+       {
+        "unit": "day"
+       }
+      ],
+      "axis": "none"
+     },
+     "y": {
+      "field": "tl",
+      "type": "quantitative",
+      "aggregate": "mean",
+      "axis": "left",
+      "zeroBaseline": false,
+      "title": "Air temperature (°C)"
+     },
+     "color": {
+      "value": "#c0392b"
+     },
+     "size": {
+      "value": 1.5
+     },
+     "tooltip": [
+      {
+       "field": "time",
+       "type": "temporal",
+       "alt": "Time (UTC)"
+      },
+      {
+       "field": "tl",
+       "type": "quantitative",
+       "alt": "Temperature (°C)",
+       "format": ".1f"
+      }
+     ],
+     "width": 1250,
+     "height": 200
+    },
+    {
+     "title": "Detail: precipitation (mm per 10 min), x: time (UTC); 10-min readings below 10 days visible, else the largest 10-min value per hour/day. Data: GeoSphere Austria, klima-v2-10min, Wien Hohe Warte (CC BY 4.0)",
+     "data": {
+      "type": "csv-time",
+      "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/geosphere_wien_10min_2020-2024.csv",
+      "dateFields": [
+       "time"
+      ]
+     },
+     "mark": "bar",
+     "x": {
+      "field": "time",
+      "type": "temporal",
+      "timeUnit": [
+       {
+        "unit": "none",
+        "maxSpan": "10 days"
+       },
+       {
+        "unit": "hour",
+        "maxSpan": "120 days"
+       },
+       {
+        "unit": "day"
+       }
+      ],
+      "axis": "bottom"
+     },
+     "y": {
+      "field": "rr",
+      "type": "quantitative",
+      "aggregate": "max",
+      "axis": "left",
+      "title": "Precipitation (mm per 10 min)"
+     },
+     "color": {
+      "value": "#2c7fb8"
+     },
+     "tooltip": [
+      {
+       "field": "time",
+       "type": "temporal",
+       "alt": "Time (UTC)"
+      },
+      {
+       "field": "rr",
+       "type": "quantitative",
+       "alt": "Precipitation (mm)",
+       "format": ".1f"
+      }
+     ],
+     "width": 1250,
+     "height": 150
+    }
+   ]
+  }
+ ]
+}

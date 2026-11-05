@@ -1,0 +1,5 @@
+render: plot.R (ggtime) -> render.png
+status: OK
+messages (2):
+  [R] `curl` package not installed, falling back to using `url()`
+  [R] rows loaded: 263088, missing tl: 0, missing rr: 0, implicit gaps: 0

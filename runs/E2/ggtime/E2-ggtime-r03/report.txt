@@ -1,0 +1,18 @@
+REPORT
+deliverable: plot.R
+requirements:
+  R1: done - coord_calendar(rows = year(1L)) on an ISO-week axis gives one row per ISO year, 2012–2026, top to bottom
+  R2: done - one cell per ISO week, week 1 on the left; week 53 appears in 2015 and 2020
+  R3: done - sequential magma scale; legend "ARE consultations per 100,000 per week"
+  R4: done - 2012 W01–W39 and 2026 W44–W53 are blank (2012 is padded with NA cells drawn with no fill)
+  R5: done - week numbers 1–53 on the x axis; year labels down the left edge with the title "ISO year"
+  R6: done - title plus a one-sentence caption built from the data (peak weeks, missing winter wave)
+assumptions:
+  - "ISO year" is the year part of Kalenderwoche, not Saison
+  - a "complete year" for the caption has at least 52 reported weeks; "no winter wave" means the lowest mean over weeks 1–13
+  - a peak in weeks 1–13 counts as a late-winter peak
+limitations:
+  - works around a ggtime 1.1.0 bug (coord_calendar always evaluates panes = month(1L), which fails on ISO-week axes) by overriding the coord's granule_specs; relies on ggtime internals
+  - year labels are calendar row labels pushed into the left margin with a negative margin, not real y-axis ticks
+  - x-axis labels come from a custom function that counts weeks from week 1 of the first row
+  - weeks 52/53 are low in almost every year, likely due to the holidays; the figure doesn't explain this

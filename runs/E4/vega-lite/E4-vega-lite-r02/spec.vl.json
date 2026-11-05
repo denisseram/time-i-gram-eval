@@ -1,0 +1,535 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "title": {
+    "text": "Ubuntu release life cycles, aligned on each release date",
+    "subtitle": "Aligned on release, interim releases follow one short, near-identical cycle (~6 months development, then 18 months support, 9 months since 13.04), while LTS releases since 14.04 share one long, stepwise cycle (5 years standard, ESM to 10, Legacy to 15).",
+    "anchor": "start",
+    "subtitleFontSize": 12
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "version": "string",
+        "created": "string",
+        "release": "string",
+        "eol": "string",
+        "eol-server": "string",
+        "eol-esm": "string",
+        "eol-legacy": "string"
+      }
+    }
+  },
+  "transform": [
+    {
+      "calculate": "indexof(datum.version, 'LTS') >= 0 ? 'LTS releases' : 'Interim releases'",
+      "as": "type"
+    },
+    {
+      "calculate": "toDate(datum.release)",
+      "as": "rel"
+    },
+    {
+      "calculate": "365.25 * 24 * 3600 * 1000",
+      "as": "yr"
+    },
+    {
+      "calculate": "(toDate(datum.created) - datum.rel) / datum.yr",
+      "as": "t_created"
+    },
+    {
+      "calculate": "(toDate(datum.eol) - datum.rel) / datum.yr",
+      "as": "t_eol"
+    },
+    {
+      "calculate": "datum['eol-server'] ? (toDate(datum['eol-server']) - datum.rel) / datum.yr : null",
+      "as": "t_srv"
+    },
+    {
+      "calculate": "datum['eol-esm'] ? (toDate(datum['eol-esm']) - datum.rel) / datum.yr : null",
+      "as": "t_esm"
+    },
+    {
+      "calculate": "datum['eol-legacy'] ? (toDate(datum['eol-legacy']) - datum.rel) / datum.yr : null",
+      "as": "t_leg"
+    },
+    {
+      "calculate": "datum.t_srv != null && datum.t_srv > datum.t_eol ? datum.t_srv : datum.t_eol",
+      "as": "t_before_esm"
+    },
+    {
+      "fold": [
+        "created",
+        "release",
+        "eol",
+        "eol-server",
+        "eol-esm"
+      ],
+      "as": [
+        "phasekey",
+        "phaseval"
+      ]
+    },
+    {
+      "calculate": "{'created':'Development','release':'Standard support','eol':'Extended server support','eol-server':'Expanded Security Maintenance (ESM)','eol-esm':'Legacy support add-on'}[datum.phasekey]",
+      "as": "phase"
+    },
+    {
+      "calculate": "{'created':datum.t_created,'release':0,'eol':datum.t_eol,'eol-server':datum.t_before_esm,'eol-esm':datum.t_esm}[datum.phasekey]",
+      "as": "start"
+    },
+    {
+      "calculate": "{'created':0,'release':datum.t_eol,'eol':(datum.t_srv != null && datum.t_srv > datum.t_eol ? datum.t_srv : null),'eol-server':datum.t_esm,'eol-esm':datum.t_leg}[datum.phasekey]",
+      "as": "end"
+    },
+    {
+      "filter": "datum.start != null && datum.end != null && datum.end > datum.start"
+    },
+    {
+      "calculate": "datum.phasekey == 'created' ? datum.t_created : null",
+      "as": "ev_created"
+    },
+    {
+      "calculate": "datum.phasekey == 'created' ? 0 : null",
+      "as": "ev_release"
+    }
+  ],
+  "vconcat": [
+    {
+      "title": {
+        "text": "LTS releases",
+        "fontSize": 13,
+        "anchor": "start"
+      },
+      "transform": [
+        {
+          "filter": "datum.type == 'LTS releases'"
+        }
+      ],
+      "width": 1050,
+      "height": {
+        "step": 13
+      },
+      "encoding": {
+        "y": {
+          "field": "version",
+          "type": "nominal",
+          "sort": {
+            "field": "rel",
+            "op": "min",
+            "order": "ascending"
+          },
+          "title": null,
+          "axis": {
+            "labelFontSize": 10
+          }
+        }
+      },
+      "layer": [
+        {
+          "mark": {
+            "type": "bar",
+            "height": 9
+          },
+          "encoding": {
+            "x": {
+              "field": "start",
+              "type": "quantitative",
+              "title": "Years relative to the release's own release date (0 = release)",
+              "scale": {
+                "domain": [
+                  -1,
+                  16
+                ]
+              },
+              "axis": {
+                "tickMinStep": 1,
+                "values": [
+                  -1,
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11,
+                  12,
+                  13,
+                  14,
+                  15,
+                  16
+                ],
+                "title": null
+              }
+            },
+            "x2": {
+              "field": "end"
+            },
+            "color": {
+              "field": "phase",
+              "type": "nominal",
+              "title": "Life-cycle phase",
+              "scale": {
+                "domain": [
+                  "Development",
+                  "Standard support",
+                  "Extended server support",
+                  "Expanded Security Maintenance (ESM)",
+                  "Legacy support add-on"
+                ],
+                "range": [
+                  "#bab0ac",
+                  "#4c78a8",
+                  "#72b7b2",
+                  "#f58518",
+                  "#b279a2"
+                ]
+              },
+              "legend": {
+                "orient": "bottom",
+                "direction": "horizontal",
+                "labelLimit": 400
+              }
+            },
+            "tooltip": [
+              {
+                "field": "version"
+              },
+              {
+                "field": "codename"
+              },
+              {
+                "field": "phase"
+              },
+              {
+                "field": "start",
+                "format": ".2f",
+                "title": "start (years)"
+              },
+              {
+                "field": "end",
+                "format": ".2f",
+                "title": "end (years)"
+              }
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "point",
+            "filled": true,
+            "size": 30,
+            "color": "black",
+            "opacity": 1
+          },
+          "encoding": {
+            "x": {
+              "field": "ev_created",
+              "type": "quantitative"
+            },
+            "shape": {
+              "datum": "Development start (created)",
+              "type": "nominal",
+              "title": "Event",
+              "scale": {
+                "domain": [
+                  "Development start (created)",
+                  "Release"
+                ],
+                "range": [
+                  "circle",
+                  "diamond"
+                ]
+              },
+              "legend": {
+                "orient": "bottom"
+              }
+            },
+            "tooltip": [
+              {
+                "field": "version"
+              },
+              {
+                "field": "created"
+              },
+              {
+                "field": "release"
+              }
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "point",
+            "filled": true,
+            "size": 30,
+            "color": "black",
+            "opacity": 1
+          },
+          "encoding": {
+            "x": {
+              "field": "ev_release",
+              "type": "quantitative"
+            },
+            "shape": {
+              "datum": "Release",
+              "type": "nominal",
+              "title": "Event",
+              "scale": {
+                "domain": [
+                  "Development start (created)",
+                  "Release"
+                ],
+                "range": [
+                  "circle",
+                  "diamond"
+                ]
+              },
+              "legend": {
+                "orient": "bottom"
+              }
+            },
+            "tooltip": [
+              {
+                "field": "version"
+              },
+              {
+                "field": "created"
+              },
+              {
+                "field": "release"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "text": "Interim releases",
+        "fontSize": 13,
+        "anchor": "start"
+      },
+      "transform": [
+        {
+          "filter": "datum.type == 'Interim releases'"
+        }
+      ],
+      "width": 1050,
+      "height": {
+        "step": 13
+      },
+      "encoding": {
+        "y": {
+          "field": "version",
+          "type": "nominal",
+          "sort": {
+            "field": "rel",
+            "op": "min",
+            "order": "ascending"
+          },
+          "title": null,
+          "axis": {
+            "labelFontSize": 10
+          }
+        }
+      },
+      "layer": [
+        {
+          "mark": {
+            "type": "bar",
+            "height": 9
+          },
+          "encoding": {
+            "x": {
+              "field": "start",
+              "type": "quantitative",
+              "title": "Years relative to the release's own release date (0 = release)",
+              "scale": {
+                "domain": [
+                  -1,
+                  16
+                ]
+              },
+              "axis": {
+                "tickMinStep": 1,
+                "values": [
+                  -1,
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11,
+                  12,
+                  13,
+                  14,
+                  15,
+                  16
+                ]
+              }
+            },
+            "x2": {
+              "field": "end"
+            },
+            "color": {
+              "field": "phase",
+              "type": "nominal",
+              "title": "Life-cycle phase",
+              "scale": {
+                "domain": [
+                  "Development",
+                  "Standard support",
+                  "Extended server support",
+                  "Expanded Security Maintenance (ESM)",
+                  "Legacy support add-on"
+                ],
+                "range": [
+                  "#bab0ac",
+                  "#4c78a8",
+                  "#72b7b2",
+                  "#f58518",
+                  "#b279a2"
+                ]
+              },
+              "legend": {
+                "orient": "bottom",
+                "direction": "horizontal",
+                "labelLimit": 400
+              }
+            },
+            "tooltip": [
+              {
+                "field": "version"
+              },
+              {
+                "field": "codename"
+              },
+              {
+                "field": "phase"
+              },
+              {
+                "field": "start",
+                "format": ".2f",
+                "title": "start (years)"
+              },
+              {
+                "field": "end",
+                "format": ".2f",
+                "title": "end (years)"
+              }
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "point",
+            "filled": true,
+            "size": 30,
+            "color": "black",
+            "opacity": 1
+          },
+          "encoding": {
+            "x": {
+              "field": "ev_created",
+              "type": "quantitative"
+            },
+            "shape": {
+              "datum": "Development start (created)",
+              "type": "nominal",
+              "title": "Event",
+              "scale": {
+                "domain": [
+                  "Development start (created)",
+                  "Release"
+                ],
+                "range": [
+                  "circle",
+                  "diamond"
+                ]
+              },
+              "legend": {
+                "orient": "bottom"
+              }
+            },
+            "tooltip": [
+              {
+                "field": "version"
+              },
+              {
+                "field": "created"
+              },
+              {
+                "field": "release"
+              }
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "point",
+            "filled": true,
+            "size": 30,
+            "color": "black",
+            "opacity": 1
+          },
+          "encoding": {
+            "x": {
+              "field": "ev_release",
+              "type": "quantitative"
+            },
+            "shape": {
+              "datum": "Release",
+              "type": "nominal",
+              "title": "Event",
+              "scale": {
+                "domain": [
+                  "Development start (created)",
+                  "Release"
+                ],
+                "range": [
+                  "circle",
+                  "diamond"
+                ]
+              },
+              "legend": {
+                "orient": "bottom"
+              }
+            },
+            "tooltip": [
+              {
+                "field": "version"
+              },
+              {
+                "field": "created"
+              },
+              {
+                "field": "release"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "spacing": 14,
+  "resolve": {
+    "scale": {
+      "x": "shared",
+      "color": "shared",
+      "shape": "shared"
+    }
+  }
+}

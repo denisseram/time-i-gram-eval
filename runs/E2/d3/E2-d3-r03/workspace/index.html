@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Acute respiratory illness in Germany by ISO week</title>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<style>
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: #222; background: #fff; }
+  #wrap { padding: 16px 28px 8px 28px; }
+  h1 { font-size: 22px; margin: 0 0 4px 0; font-weight: 600; }
+  #caption { font-size: 14.5px; margin: 0 0 6px 0; color: #333; max-width: 1300px; }
+  #source { font-size: 11.5px; color: #777; margin-top: 2px; }
+  .axis text { font-size: 11.5px; fill: #444; }
+  .axis path, .axis line { stroke: #bbb; }
+  .axis-title { font-size: 12px; fill: #444; }
+  .tooltip { position: absolute; pointer-events: none; background: #fff; border: 1px solid #ccc;
+             padding: 6px 8px; font-size: 12px; border-radius: 3px; box-shadow: 0 1px 4px rgba(0,0,0,.15); display: none; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <h1>Does every year follow the same cycle? Weekly acute respiratory illness (ARE) consultations in Germany</h1>
+  <p id="caption">Loading data…</p>
+  <div id="chart"></div>
+  <div id="source">Data: Robert Koch-Institut, ARE-Praxis-Sentinel, ARE-Konsultationsinzidenz (CC BY 4.0); Germany overall (Bundesweit), all ages (00+).
+    Empty outlined cells: ISO weeks with no reported estimate. Black outline: peak week of each ISO year (among reported weeks).</div>
+</div>
+<div class="tooltip" id="tip"></div>
+<script>
+const URL = "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv";
+
+// Number of ISO weeks in an ISO year: ISO week of 28 December
+const isoWeekOf = d3.utcFormat("%V");
+const weeksInYear = y => +isoWeekOf(new Date(Date.UTC(y, 11, 28)));
+
+d3.tsv(URL).then(raw => {
+  const rows = raw
+    .filter(d => d.Bundesland === "Bundesweit" && d.Altersgruppe === "00+")
+    .map(d => {
+      const m = /^(\d{4})-W(\d{2})$/.exec(d.Kalenderwoche);
+      return { year: +m[1], week: +m[2], value: +d.ARE_Konsultationsinzidenz, key: d.Kalenderwoche };
+    })
+    .filter(d => Number.isFinite(d.value));
+
+  // de-duplicate by week key (mean if duplicates exist)
+  const byKey = d3.rollup(rows, v => ({ year: v[0].year, week: v[0].week, value: d3.mean(v, x => x.value) }), d => d.key);
+  const data = Array.from(byKey.values()).sort((a, b) => a.year - b.year || a.week - b.week);
+
+  const [y0, y1] = d3.extent(data, d => d.year);
+  const years = d3.range(y0, y1 + 1);
+  const lookup = new Map(data.map(d => [d.year * 100 + d.week, d]));
+  const first = data[0], last = data[data.length - 1];
+
+  // all valid ISO week slots
+  const slots = [];
+  for (const y of years) for (let w = 1; w <= weeksInYear(y); w++) {
+    slots.push({ year: y, week: w, d: lookup.get(y * 100 + w) || null });
+  }
+
+  // peak week per ISO year
+  const peaks = new Map();
+  for (const [y, v] of d3.group(data, d => d.year)) peaks.set(y, d3.greatest(v, d => d.value));
+
+  // ---------- layout ----------
+  const width = 1344;
+  const margin = { top: 34, right: 20, bottom: 96, left: 52 };
+  const maxWeeks = d3.max(years, weeksInYear);
+  const innerW = width - margin.left - margin.right;
+  const rowH = Math.min(38, Math.floor((660 - margin.top - margin.bottom) / years.length));
+  const innerH = rowH * years.length;
+  const height = innerH + margin.top + margin.bottom;
+
+  const x = d3.scaleBand().domain(d3.range(1, maxWeeks + 1)).range([0, innerW]).paddingInner(0.08);
+  const y = d3.scaleBand().domain(years).range([0, innerH]).paddingInner(0.12);
+
+  const vmax = d3.max(data, d => d.value);
+  const color = d3.scaleSequential([0, vmax], d3.interpolateYlOrRd);
+
+  const svg = d3.select("#chart").append("svg")
+    .attr("width", width).attr("height", height)
+    .attr("viewBox", [0, 0, width, height]);
+  const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+  const tip = d3.select("#tip");
+
+  g.append("g").selectAll("rect").data(slots).join("rect")
+    .attr("x", d => x(d.week)).attr("y", d => y(d.year))
+    .attr("width", x.bandwidth()).attr("height", y.bandwidth())
+    .attr("fill", d => d.d ? color(d.d.value) : "none")
+    .attr("stroke", d => d.d ? "none" : "#d0d0d0")
+    .attr("stroke-width", 0.8)
+    .on("mousemove", (ev, d) => {
+      tip.style("display", "block")
+        .style("left", (ev.pageX + 12) + "px").style("top", (ev.pageY + 12) + "px")
+        .html(`<b>${d.year}-W${String(d.week).padStart(2, "0")}</b><br>` +
+              (d.d ? `${d3.format(",")(Math.round(d.d.value))} ARE consultations per 100,000` : "no data"));
+    })
+    .on("mouseleave", () => tip.style("display", "none"));
+
+  // peak outlines
+  g.append("g").selectAll("rect").data(Array.from(peaks.values())).join("rect")
+    .attr("x", d => x(d.week) + 0.75).attr("y", d => y(d.year) + 0.75)
+    .attr("width", x.bandwidth() - 1.5).attr("height", y.bandwidth() - 1.5)
+    .attr("fill", "none").attr("stroke", "#111").attr("stroke-width", 1.5)
+    .attr("pointer-events", "none");
+
+  // axes
+  g.append("g").attr("class", "axis")
+    .call(d3.axisLeft(y).tickSize(0).tickPadding(6))
+    .call(s => s.select(".domain").remove());
+  g.append("text").attr("class", "axis-title").attr("x", -margin.left).attr("y", -12).text("ISO year");
+
+  g.append("g").attr("class", "axis").attr("transform", `translate(0,${innerH})`)
+    .call(d3.axisBottom(x).tickValues(x.domain().filter(w => w === 1 || w % 2 === 0 || w === maxWeeks)).tickSizeOuter(0));
+  g.append("text").attr("class", "axis-title").attr("x", innerW / 2).attr("y", innerH + 34)
+    .attr("text-anchor", "middle").text("ISO week (week 1 = first week of January; week 53 exists only in some years)");
+
+  // legend
+  const lgW = 320, lgH = 12;
+  const lg = svg.append("g").attr("transform", `translate(${margin.left},${height - 34})`);
+  const gradId = "lg-grad";
+  const grad = svg.append("defs").append("linearGradient").attr("id", gradId);
+  d3.range(0, 1.0001, 0.1).forEach(t => grad.append("stop").attr("offset", t).attr("stop-color", color(t * vmax)));
+  lg.append("text").attr("class", "axis-title").attr("y", -6)
+    .text("ARE consultations per 100,000 population per week");
+  lg.append("rect").attr("width", lgW).attr("height", lgH).attr("fill", `url(#${gradId})`);
+  const lx = d3.scaleLinear([0, vmax], [0, lgW]);
+  lg.append("g").attr("class", "axis").attr("transform", `translate(0,${lgH})`)
+    .call(d3.axisBottom(lx).ticks(6).tickFormat(d3.format(",")).tickSize(3))
+    .call(s => s.select(".domain").remove());
+  const nd = lg.append("g").attr("transform", `translate(${lgW + 30},0)`);
+  nd.append("rect").attr("width", 18).attr("height", lgH).attr("fill", "none").attr("stroke", "#d0d0d0");
+  nd.append("text").attr("class", "axis-title").attr("x", 24).attr("y", lgH - 1).text("no data");
+  const pk = lg.append("g").attr("transform", `translate(${lgW + 110},0)`);
+  pk.append("rect").attr("width", 18).attr("height", lgH).attr("fill", "none").attr("stroke", "#111").attr("stroke-width", 1.5);
+  pk.append("text").attr("class", "axis-title").attr("x", 24).attr("y", lgH - 1).text("highest week of the ISO year");
+
+  // ---------- caption computed from data ----------
+  // Winter = ISO weeks 1–10 of each full year; summer = weeks 25–35.
+  const fullYears = years.filter(yr => d3.range(1, weeksInYear(yr) + 1).every(w => lookup.has(yr * 100 + w)));
+  const seasonMean = (yr, a, b) => d3.mean(data.filter(d => d.year === yr && d.week >= a && d.week <= b), d => d.value);
+  const ratios = fullYears.map(yr => ({ yr, r: seasonMean(yr, 1, 10) / seasonMean(yr, 25, 35) }));
+  const higher = ratios.filter(d => d.r > 1).length;
+  const weakest = d3.least(ratios, d => d.r);
+  const pk2 = fullYears.map(yr => peaks.get(yr));
+  const early = pk2.filter(d => d.year <= 2020), late = pk2.filter(d => d.year > 2020);
+  const nEarlyQ1 = early.filter(d => d.week <= 13).length;
+  const nLateQ4 = late.filter(d => d.week >= 40).length;
+  const cap = `Every year swings from a summer low to a winter high (winter weeks 1–10 above summer weeks 25–35 in ${higher} of ${fullYears.length} complete years), ` +
+    `but the timing is not identical: up to 2020 the yearly peak fell in weeks 1–13 in ${nEarlyQ1} of ${early.length} complete years, ` +
+    `from 2021 it fell in week 40 or later in ${nLateQ4} of ${late.length}, and ${weakest.yr} had no early-year wave (winter/summer ratio ${d3.format(".2f")(weakest.r)}).`;
+  d3.select("#source").insert("span", ":first-child").text(`Reported weeks: ${first.year}-W${String(first.week).padStart(2, "0")} to ${last.year}-W${String(last.week).padStart(2, "0")}. `);
+  d3.select("#caption").text(cap);
+}).catch(err => {
+  d3.select("#caption").text("Failed to load data: " + err.message);
+  console.error(err);
+});
+</script>
+</body>
+</html>

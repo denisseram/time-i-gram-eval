@@ -1,0 +1,21 @@
+REPORT
+deliverable: index.html
+requirements:
+  R1: done - daily mean line + daily min–max band of tl for all of 2020–2024, canvas
+  R2: done - zoom/pan down to a 2-hour window; single 10-min readings shown as dots, hover tooltip
+  R3: done - brushX in overview sets detail; zoom/pan in detail moves the brush back
+  R4: done - rr bar track under tl, same UTC x-scale
+  R5: done - overview: years/months; detail: multi-scale UTC format down to HH:MM
+  R6: done - all 263,088 rows parsed in browser; aggregation (daily, per pixel) done in JS
+  R7: done - axis units °C, mm per 10 min, UTC; title; caption sentence computed from data
+assumptions:
+  - Time stamps are treated as UTC and the axes use UTC (d3.scaleUtc)
+  - rr at time t covers the 10 min ending at t; bars are drawn over that interval
+  - Default detail period = 7 days around the 5-year maximum tl, found from the data
+  - Daily overview bins are UTC days
+  - Caption is one main-pattern sentence plus computed facts (extremes, row/missing counts)
+limitations:
+  - When zoomed out, detail shows per-pixel mean and min–max of tl and per-pixel max rr, not every reading
+  - Detail y-axes rescale to the visible data, so their scale changes with zoom
+  - A 1-week brush selection is a thin box in the overview; zooming in the detail view is easier
+  - Zoom is mouse/trackpad only; there is no keyboard control

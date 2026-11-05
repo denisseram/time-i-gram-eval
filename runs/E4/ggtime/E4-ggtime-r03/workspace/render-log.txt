@@ -1,0 +1,8 @@
+render: plot.R (ggtime) -> render.png
+status: OK
+messages (5):
+  [R] Attaching package: ‘dplyr’
+  [R] The following objects are masked from ‘package:stats’:
+  [R]  filter, lag
+  [R] The following objects are masked from ‘package:base’:
+  [R]  intersect, setdiff, setequal, union

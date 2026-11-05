@@ -1,0 +1,21 @@
+REPORT
+deliverable: spec.json
+requirements:
+  R1: done - overview of daily min/mean/max tl over all of 2020–2024
+  R2: done - detail shows raw 10-min rows when <10 days visible (initial view 2024-07-01..07)
+  R3: done - brush in overview linked to detail view via linkingId
+  R4: done - rr bar track below tl in the same detail view, shared time axis
+  R5: done - overview axis labels years; detail axis labels days/hours/minutes, adapts with zoom
+  R6: done - csv-time loads all rows (no sampleLength); aggregation via timeUnit in spec
+  R7: partial - title, caption, °C and mm per 10 min on y axes; "UTC" in track titles, not under the x axis (x title not in schema)
+assumptions:
+  - Overview uses daily min/mean/max of tl (aggregation allowed by R6)
+  - Zoomed-out rr shows max 10-min value per hour/day, so the unit stays mm per 10 min
+  - Initial detail period (first week of July 2024) chosen arbitrarily, not from the data
+  - Timestamps are UTC as published; no local-time conversion
+limitations:
+  - Granularity switches at 10 days (raw) and 120 days (hourly) visible span
+  - rr y-scale is fixed by the 5-year maximum, so small rain amounts show as tiny bars
+  - Overview tick labels "0"/"-10" overlap the lines slightly
+  - Console warnings ("unknown data type", "No dataConfig children", one truncated schema-validation warning) appear but rendering succeeds
+  - Interaction (brushing, zooming) not tested; only the static render was checked

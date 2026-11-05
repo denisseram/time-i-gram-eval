@@ -1,0 +1,19 @@
+REPORT
+deliverable: index.html
+requirements:
+  R1: done - one row per release labelled by version, sorted by release date within each group
+  R2: done - x = years relative to own release date (0 = release); unit in axis title
+  R3: done - dev/standard/extended server/ESM/legacy bars, own colours, legend; missing phases skipped
+  R4: done - created = open circle, release = black diamond at 0
+  R5: done - separate LTS and interim panels sharing one x scale; LTS labels in bold
+  R6: done - title plus caption whose numbers are computed from the data
+assumptions:
+  - Years = days / 365.25.
+  - ESM starts at the later of eol and eol-server (end of the previous phase).
+  - Extended server support only drawn when eol-server > eol (true only for 6.06, 8.04, 10.04).
+  - "Planned" = after the viewer's current date; those parts are drawn in a lighter shade.
+  - Missing trailing CSV fields (d3 parses them as "") are treated as "no date".
+limitations:
+  - Within-panel order is by release date; the two groups are not interleaved in one list.
+  - Planned/past shading depends on the date the page is opened.
+  - Hover tooltips (exact dates) are SVG <title> elements, not visible in the static render.

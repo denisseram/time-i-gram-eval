@@ -1,0 +1,19 @@
+REPORT
+deliverable: spec.json
+requirements:
+  R1: done - one row per ISO year 2012–2026, top to bottom; order set by explicit row domain (no sort option)
+  R2: done - one cell per ISO week (period year, weekBased, timeUnit week); W53 appears in 2015 and 2020
+  R3: done - viridis sequential scale; legend "ARE consultations" / "per 100,000 per week"
+  R4: done - weeks before 2012-W40 and after 2026-W43 are blank
+  R5: done - x axis ticks W1, W9 … W49 (every 8 weeks, set by tool); year labels in a left text track
+  R6: done - title plus one-sentence caption (subtitle) stating the shared winter cycle and the 2020–22 exceptions
+assumptions:
+  - "ISO year" = the ISO week-year in Kalenderwoche (e.g. 2026-W01 belongs to 2026)
+  - Row list 2012–2026 typed as the row domain (categories only, no data values); time-i-gram orders rows by first appearance, which put 2012 last
+  - Caption written after looking at the rendered data; it names no computed values
+limitations:
+  - Rows beyond 2026 would not appear unless the row domain is extended
+  - An invisible line layer forces tile merging so rows and colour scale are consistent across tiles
+  - Year labels are drawn once per week at the same spot, so they look slightly bold
+  - Legend colour bar is small (fixed 110 px legend box in the tool); unit is split between track title and legend title
+  - Axis ticks every 8 weeks; W53 has no tick label

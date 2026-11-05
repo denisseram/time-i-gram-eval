@@ -1,0 +1,19 @@
+REPORT
+deliverable: plot.R
+requirements:
+  R1: done - daily mean line + min–max band of tl over 2020–2024
+  R2: partial - detail shows every 10-min reading as points; static image, so the period is set by the script (DETAIL_START/DETAIL_END env vars), not by the reader
+  R3: partial - static linking: the selected range is shaded in the overview and drives the detail panels; no interactive brushing (interactive packages are not allowed)
+  R4: done - rr as 10-min bars in its own panel on the same time scale as tl
+  R5: done - years in the overview; hours:minutes plus weekday/date in the detail, break spacing chosen from the span length
+  R6: done - all 263,088 rows loaded; daily aggregation done inside the script
+  R7: done - axes labelled with °C, mm per 10 min, UTC; title and caption computed from the data
+assumptions:
+  - "Linked" in a static PNG/SVG = overview shows the shaded selected range that the detail displays
+  - Default selection = 3 days around the day with the largest daily rr total, computed from the data
+  - Timestamps parsed as UTC (the script checks that every row ends in +00:00)
+  - Overview uses daily mean/min/max of tl; rr bars are drawn centred on their 10-min interval
+limitations:
+  - No interactive zoom or brushing; another period needs a re-run with DETAIL_START/DETAIL_END set
+  - ggtime used for geom_time_line; axes use ggplot2 scale_x_datetime rather than scale_x_mixtime
+  - Caption pattern sentence has a second line with source/licence info

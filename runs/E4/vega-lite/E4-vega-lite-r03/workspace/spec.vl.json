@@ -1,0 +1,471 @@
+{
+ "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+ "title": {
+  "text": "Ubuntu release life cycles, aligned on each release date",
+  "subtitle": [
+   "Aligned on release, the cycles collapse into two templates: interim releases get ~6 months of development and 9 months of support (18 months before 13.04),",
+   "while LTS releases get 5 years of standard support (3 desktop / 5 server up to 10.04), ESM to 10 years (since 12.04) and legacy support to 15 years (since 14.04)."
+  ],
+  "anchor": "start",
+  "fontSize": 18,
+  "subtitleFontSize": 12,
+  "subtitlePadding": 6
+ },
+ "data": {
+  "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+  "format": {
+   "type": "csv",
+   "parse": {}
+  }
+ },
+ "transform": [
+  {
+   "calculate": "indexof(datum.version, 'LTS') >= 0 ? 'LTS releases' : 'Interim releases'",
+   "as": "type"
+  },
+  {
+   "calculate": "365.25 * 864e5",
+   "as": "yr"
+  },
+  {
+   "calculate": "toDate(datum.release)",
+   "as": "rel"
+  },
+  {
+   "calculate": "(toDate(datum.created) - datum.rel) / datum.yr",
+   "as": "t_created"
+  },
+  {
+   "calculate": "isValid(datum.eol) && datum.eol != '' ? (toDate(datum.eol) - datum.rel) / datum.yr : null",
+   "as": "t_eol"
+  },
+  {
+   "calculate": "isValid(datum['eol-server']) && datum['eol-server'] != '' ? (toDate(datum['eol-server']) - datum.rel) / datum.yr : null",
+   "as": "t_server"
+  },
+  {
+   "calculate": "isValid(datum['eol-esm']) && datum['eol-esm'] != '' ? (toDate(datum['eol-esm']) - datum.rel) / datum.yr : null",
+   "as": "t_esm"
+  },
+  {
+   "calculate": "isValid(datum['eol-legacy']) && datum['eol-legacy'] != '' ? (toDate(datum['eol-legacy']) - datum.rel) / datum.yr : null",
+   "as": "t_legacy"
+  },
+  {
+   "calculate": "datum.t_server != null && datum.t_server > datum.t_eol ? datum.t_server : datum.t_eol",
+   "as": "t_prev_esm"
+  },
+  {
+   "calculate": "[{p: '1 Development', s: datum.t_created, e: 0}, {p: '2 Standard support', s: 0, e: datum.t_eol}, {p: '3 Extended server support', s: datum.t_eol, e: datum.t_server}, {p: '4 Expanded Security Maintenance (ESM)', s: datum.t_prev_esm, e: datum.t_esm}, {p: '5 Legacy support add-on', s: datum.t_esm, e: datum.t_legacy}]",
+   "as": "phases"
+  },
+  {
+   "flatten": [
+    "phases"
+   ]
+  },
+  {
+   "calculate": "slice(datum.phases.p, 2)",
+   "as": "phase"
+  },
+  {
+   "calculate": "toNumber(slice(datum.phases.p, 0, 1))",
+   "as": "order"
+  },
+  {
+   "calculate": "datum.phases.s",
+   "as": "start"
+  },
+  {
+   "calculate": "datum.phases.e",
+   "as": "end"
+  }
+ ],
+ "vconcat": [
+  {
+   "width": 1050,
+   "height": {
+    "step": 14
+   },
+   "encoding": {
+    "y": {
+     "field": "version",
+     "type": "nominal",
+     "sort": {
+      "field": "rel",
+      "op": "min",
+      "order": "ascending"
+     },
+     "title": "LTS release (by release date)",
+     "axis": {
+      "labelFontSize": 10
+     }
+    }
+   },
+   "layer": [
+    {
+     "transform": [
+      {
+       "filter": "datum.start != null && datum.end != null && isFinite(datum.start) && isFinite(datum.end) && datum.end > datum.start"
+      }
+     ],
+     "mark": {
+      "type": "bar",
+      "height": 9
+     },
+     "encoding": {
+      "x": {
+       "field": "start",
+       "type": "quantitative",
+       "title": null,
+       "scale": {
+        "domain": [
+         -1,
+         15.5
+        ],
+        "nice": false
+       },
+       "axis": {
+        "tickMinStep": 1,
+        "grid": true
+       }
+      },
+      "x2": {
+       "field": "end"
+      },
+      "color": {
+       "field": "phase",
+       "type": "nominal",
+       "title": "Life-cycle phase",
+       "sort": [
+        "Development",
+        "Standard support",
+        "Extended server support",
+        "Expanded Security Maintenance (ESM)",
+        "Legacy support add-on"
+       ],
+       "scale": {
+        "domain": [
+         "Development",
+         "Standard support",
+         "Extended server support",
+         "Expanded Security Maintenance (ESM)",
+         "Legacy support add-on"
+        ],
+        "range": [
+         "#bab0ac",
+         "#4c78a8",
+         "#72b7b2",
+         "#f58518",
+         "#b279a2"
+        ]
+       },
+       "legend": {
+        "orient": "top",
+        "direction": "horizontal",
+        "titleOrient": "left",
+        "labelLimit": 400
+       }
+      },
+      "tooltip": [
+       {
+        "field": "version"
+       },
+       {
+        "field": "codename"
+       },
+       {
+        "field": "phase"
+       },
+       {
+        "field": "start",
+        "format": ".2f",
+        "title": "start (years)"
+       },
+       {
+        "field": "end",
+        "format": ".2f",
+        "title": "end (years)"
+       }
+      ]
+     }
+    },
+    {
+     "transform": [
+      {
+       "filter": "datum.order == 1"
+      },
+      {
+       "fold": [
+        "t_created",
+        "zero"
+       ],
+       "as": [
+        "event_key",
+        "dummy"
+       ]
+      },
+      {
+       "calculate": "datum.event_key == 't_created' ? 'created (start of development)' : 'release'",
+       "as": "event"
+      },
+      {
+       "calculate": "datum.event_key == 't_created' ? datum.t_created : 0",
+       "as": "t_event"
+      }
+     ],
+     "mark": {
+      "type": "point",
+      "filled": true,
+      "size": 30,
+      "color": "black"
+     },
+     "encoding": {
+      "x": {
+       "field": "t_event",
+       "type": "quantitative"
+      },
+      "shape": {
+       "field": "event",
+       "type": "nominal",
+       "title": "Event",
+       "scale": {
+        "domain": [
+         "created (start of development)",
+         "release"
+        ],
+        "range": [
+         "circle",
+         "diamond"
+        ]
+       },
+       "legend": {
+        "orient": "top",
+        "direction": "horizontal",
+        "titleOrient": "left",
+        "labelLimit": 400
+       }
+      },
+      "tooltip": [
+       {
+        "field": "version"
+       },
+       {
+        "field": "event"
+       },
+       {
+        "field": "created"
+       },
+       {
+        "field": "release"
+       }
+      ]
+     }
+    }
+   ],
+   "transform": [
+    {
+     "filter": "datum.type == 'LTS releases'"
+    }
+   ],
+   "title": {
+    "text": "LTS releases",
+    "anchor": "start",
+    "fontSize": 14
+   }
+  },
+  {
+   "width": 1050,
+   "height": {
+    "step": 14
+   },
+   "encoding": {
+    "y": {
+     "field": "version",
+     "type": "nominal",
+     "sort": {
+      "field": "rel",
+      "op": "min",
+      "order": "ascending"
+     },
+     "title": "Interim release (by release date)",
+     "axis": {
+      "labelFontSize": 10
+     }
+    }
+   },
+   "layer": [
+    {
+     "transform": [
+      {
+       "filter": "datum.start != null && datum.end != null && isFinite(datum.start) && isFinite(datum.end) && datum.end > datum.start"
+      }
+     ],
+     "mark": {
+      "type": "bar",
+      "height": 9
+     },
+     "encoding": {
+      "x": {
+       "field": "start",
+       "type": "quantitative",
+       "title": "Years relative to the release date (0 = release)",
+       "scale": {
+        "domain": [
+         -1,
+         15.5
+        ],
+        "nice": false
+       },
+       "axis": {
+        "tickMinStep": 1,
+        "grid": true
+       }
+      },
+      "x2": {
+       "field": "end"
+      },
+      "color": {
+       "field": "phase",
+       "type": "nominal",
+       "title": "Life-cycle phase",
+       "sort": [
+        "Development",
+        "Standard support",
+        "Extended server support",
+        "Expanded Security Maintenance (ESM)",
+        "Legacy support add-on"
+       ],
+       "scale": {
+        "domain": [
+         "Development",
+         "Standard support",
+         "Extended server support",
+         "Expanded Security Maintenance (ESM)",
+         "Legacy support add-on"
+        ],
+        "range": [
+         "#bab0ac",
+         "#4c78a8",
+         "#72b7b2",
+         "#f58518",
+         "#b279a2"
+        ]
+       },
+       "legend": {
+        "orient": "top",
+        "direction": "horizontal",
+        "titleOrient": "left",
+        "labelLimit": 400
+       }
+      },
+      "tooltip": [
+       {
+        "field": "version"
+       },
+       {
+        "field": "codename"
+       },
+       {
+        "field": "phase"
+       },
+       {
+        "field": "start",
+        "format": ".2f",
+        "title": "start (years)"
+       },
+       {
+        "field": "end",
+        "format": ".2f",
+        "title": "end (years)"
+       }
+      ]
+     }
+    },
+    {
+     "transform": [
+      {
+       "filter": "datum.order == 1"
+      },
+      {
+       "fold": [
+        "t_created",
+        "zero"
+       ],
+       "as": [
+        "event_key",
+        "dummy"
+       ]
+      },
+      {
+       "calculate": "datum.event_key == 't_created' ? 'created (start of development)' : 'release'",
+       "as": "event"
+      },
+      {
+       "calculate": "datum.event_key == 't_created' ? datum.t_created : 0",
+       "as": "t_event"
+      }
+     ],
+     "mark": {
+      "type": "point",
+      "filled": true,
+      "size": 30,
+      "color": "black"
+     },
+     "encoding": {
+      "x": {
+       "field": "t_event",
+       "type": "quantitative"
+      },
+      "shape": {
+       "field": "event",
+       "type": "nominal",
+       "title": "Event",
+       "scale": {
+        "domain": [
+         "created (start of development)",
+         "release"
+        ],
+        "range": [
+         "circle",
+         "diamond"
+        ]
+       },
+       "legend": {
+        "orient": "top",
+        "direction": "horizontal",
+        "titleOrient": "left",
+        "labelLimit": 400
+       }
+      },
+      "tooltip": [
+       {
+        "field": "version"
+       },
+       {
+        "field": "event"
+       },
+       {
+        "field": "created"
+       },
+       {
+        "field": "release"
+       }
+      ]
+     }
+    }
+   ],
+   "transform": [
+    {
+     "filter": "datum.type == 'Interim releases'"
+    }
+   ],
+   "title": {
+    "text": "Interim releases",
+    "anchor": "start",
+    "fontSize": 14
+   }
+  }
+ ],
+ "spacing": 18
+}

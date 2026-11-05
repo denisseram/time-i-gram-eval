@@ -1,0 +1,1885 @@
+{
+ "title": "Do Ubuntu releases follow the same life cycle once aligned on their release date?",
+ "subtitle": "Aligned cycles match within each type: interim support fell from 18 to 9 months at 13.04; since 14.04 each LTS gets 5 y standard + 5 y ESM + 5 y legacy.",
+ "arrangement": "vertical",
+ "spacing": 12,
+ "views": [
+  {
+   "spacing": 0,
+   "tracks": [
+    {
+     "title": "LTS releases (one row per release, ordered by release date)",
+     "alignment": "overlay",
+     "x": {
+      "field": "release",
+      "type": "temporal",
+      "relative": {
+       "anchor": {
+        "field": "release"
+       },
+       "unit": "year",
+       "label": "each release's own release date (0 = release)"
+      },
+      "domain": {
+       "interval": [
+        "-2 years",
+        "16 years"
+       ]
+      },
+      "axis": "none",
+      "linkingId": "rel"
+     },
+     "tracks": [
+      {
+       "mark": "rect",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "created",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "linkingId": "rel"
+       },
+       "xe": {
+        "field": "release",
+        "type": "temporal"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        }
+       ],
+       "color": {
+        "value": "#bdbdbd"
+       },
+       "size": {
+        "value": 9
+       },
+       "style": {
+        "legendLabel": "Development"
+       }
+      },
+      {
+       "mark": "rect",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "release",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "linkingId": "rel"
+       },
+       "xe": {
+        "field": "eol",
+        "type": "temporal"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        },
+        {
+         "type": "filter",
+         "field": "eol",
+         "inRange": [
+          -1000000000000.0,
+          1000000000000.0
+         ]
+        }
+       ],
+       "color": {
+        "value": "#4e79a7"
+       },
+       "size": {
+        "value": 9
+       },
+       "style": {
+        "legendLabel": "Standard support"
+       }
+      },
+      {
+       "mark": "rect",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "eol",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "linkingId": "rel"
+       },
+       "xe": {
+        "field": "eol-esm",
+        "type": "temporal"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        },
+        {
+         "type": "filter",
+         "field": "eol-esm",
+         "inRange": [
+          -1000000000000.0,
+          1000000000000.0
+         ]
+        }
+       ],
+       "color": {
+        "value": "#f28e2b"
+       },
+       "size": {
+        "value": 9
+       },
+       "style": {
+        "legendLabel": "Expanded Security Maintenance (ESM)"
+       }
+      },
+      {
+       "mark": "rect",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "eol",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "linkingId": "rel"
+       },
+       "xe": {
+        "field": "eol-server",
+        "type": "temporal"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        },
+        {
+         "type": "filter",
+         "field": "eol-server",
+         "inRange": [
+          -1000000000000.0,
+          1000000000000.0
+         ]
+        }
+       ],
+       "color": {
+        "value": "#59a14f"
+       },
+       "size": {
+        "value": 9
+       },
+       "style": {
+        "legendLabel": "Extended server support"
+       }
+      },
+      {
+       "mark": "rect",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "eol-esm",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "linkingId": "rel"
+       },
+       "xe": {
+        "field": "eol-legacy",
+        "type": "temporal"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        },
+        {
+         "type": "filter",
+         "field": "eol-esm",
+         "inRange": [
+          -1000000000000.0,
+          1000000000000.0
+         ]
+        },
+        {
+         "type": "filter",
+         "field": "eol-legacy",
+         "inRange": [
+          -1000000000000.0,
+          1000000000000.0
+         ]
+        }
+       ],
+       "color": {
+        "value": "#b07aa1"
+       },
+       "size": {
+        "value": 9
+       },
+       "style": {
+        "legendLabel": "Legacy add-on"
+       }
+      },
+      {
+       "mark": "point",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "created",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "linkingId": "rel"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        }
+       ],
+       "color": {
+        "value": "#e15759"
+       },
+       "stroke": {
+        "value": "black"
+       },
+       "strokeWidth": {
+        "value": 1
+       },
+       "size": {
+        "value": 3
+       },
+       "style": {
+        "legendLabel": "created (event)"
+       }
+      },
+      {
+       "mark": "point",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "release",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "linkingId": "rel"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        }
+       ],
+       "color": {
+        "value": "black"
+       },
+       "stroke": {
+        "value": "black"
+       },
+       "strokeWidth": {
+        "value": 1
+       },
+       "size": {
+        "value": 3
+       },
+       "style": {
+        "legendLabel": "release (event)"
+       }
+      }
+     ],
+     "width": 1150,
+     "height": 36
+    },
+    {
+     "alignment": "overlay",
+     "row": {
+      "field": "version",
+      "type": "nominal",
+      "legend": true
+     },
+     "x": {
+      "field": "release",
+      "type": "temporal",
+      "relative": {
+       "anchor": {
+        "field": "release"
+       },
+       "unit": "year",
+       "label": "each release's own release date (0 = release)"
+      },
+      "domain": {
+       "interval": [
+        "-2 years",
+        "16 years"
+       ]
+      },
+      "axis": "bottom",
+      "linkingId": "rel"
+     },
+     "tracks": [
+      {
+       "mark": "rect",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "created",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "linkingId": "rel"
+       },
+       "xe": {
+        "field": "release",
+        "type": "temporal"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": true
+        }
+       ],
+       "color": {
+        "value": "#bdbdbd"
+       },
+       "size": {
+        "value": 9
+       }
+      },
+      {
+       "mark": "rect",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "release",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "linkingId": "rel"
+       },
+       "xe": {
+        "field": "eol",
+        "type": "temporal"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "eol",
+         "inRange": [
+          -1000000000000.0,
+          1000000000000.0
+         ]
+        }
+       ],
+       "color": {
+        "value": "#4e79a7"
+       },
+       "size": {
+        "value": 9
+       }
+      },
+      {
+       "mark": "rect",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "eol",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "linkingId": "rel"
+       },
+       "xe": {
+        "field": "eol-esm",
+        "type": "temporal"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "eol-esm",
+         "inRange": [
+          -1000000000000.0,
+          1000000000000.0
+         ]
+        }
+       ],
+       "color": {
+        "value": "#f28e2b"
+       },
+       "size": {
+        "value": 9
+       }
+      },
+      {
+       "mark": "rect",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "eol",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "linkingId": "rel"
+       },
+       "xe": {
+        "field": "eol-server",
+        "type": "temporal"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "eol-server",
+         "inRange": [
+          -1000000000000.0,
+          1000000000000.0
+         ]
+        }
+       ],
+       "color": {
+        "value": "#59a14f"
+       },
+       "size": {
+        "value": 9
+       }
+      },
+      {
+       "mark": "rect",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "eol-esm",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "linkingId": "rel"
+       },
+       "xe": {
+        "field": "eol-legacy",
+        "type": "temporal"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": true
+        },
+        {
+         "type": "filter",
+         "field": "eol-esm",
+         "inRange": [
+          -1000000000000.0,
+          1000000000000.0
+         ]
+        },
+        {
+         "type": "filter",
+         "field": "eol-legacy",
+         "inRange": [
+          -1000000000000.0,
+          1000000000000.0
+         ]
+        }
+       ],
+       "color": {
+        "value": "#b07aa1"
+       },
+       "size": {
+        "value": 9
+       }
+      },
+      {
+       "mark": "point",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "created",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "linkingId": "rel"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": true
+        }
+       ],
+       "color": {
+        "value": "#e15759"
+       },
+       "stroke": {
+        "value": "black"
+       },
+       "strokeWidth": {
+        "value": 1
+       },
+       "size": {
+        "value": 3
+       }
+      },
+      {
+       "mark": "point",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "release",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "linkingId": "rel"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": true
+        }
+       ],
+       "color": {
+        "value": "black"
+       },
+       "stroke": {
+        "value": "black"
+       },
+       "strokeWidth": {
+        "value": 1
+       },
+       "size": {
+        "value": 3
+       }
+      }
+     ],
+     "width": 1150,
+     "height": 180
+    }
+   ]
+  },
+  {
+   "spacing": 0,
+   "tracks": [
+    {
+     "title": "Interim releases",
+     "alignment": "overlay",
+     "x": {
+      "field": "release",
+      "type": "temporal",
+      "relative": {
+       "anchor": {
+        "field": "release"
+       },
+       "unit": "year",
+       "label": "each release's own release date (0 = release)"
+      },
+      "domain": {
+       "interval": [
+        "-2 years",
+        "16 years"
+       ]
+      },
+      "axis": "none",
+      "linkingId": "rel"
+     },
+     "tracks": [
+      {
+       "mark": "rect",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "created",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "linkingId": "rel"
+       },
+       "xe": {
+        "field": "release",
+        "type": "temporal"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": false
+        },
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        }
+       ],
+       "color": {
+        "value": "#bdbdbd"
+       },
+       "size": {
+        "value": 7
+       }
+      },
+      {
+       "mark": "rect",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "release",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "linkingId": "rel"
+       },
+       "xe": {
+        "field": "eol",
+        "type": "temporal"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": false
+        },
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        },
+        {
+         "type": "filter",
+         "field": "eol",
+         "inRange": [
+          -1000000000000.0,
+          1000000000000.0
+         ]
+        }
+       ],
+       "color": {
+        "value": "#4e79a7"
+       },
+       "size": {
+        "value": 7
+       }
+      },
+      {
+       "mark": "rect",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "eol",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "linkingId": "rel"
+       },
+       "xe": {
+        "field": "eol-esm",
+        "type": "temporal"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": false
+        },
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        },
+        {
+         "type": "filter",
+         "field": "eol-esm",
+         "inRange": [
+          -1000000000000.0,
+          1000000000000.0
+         ]
+        }
+       ],
+       "color": {
+        "value": "#f28e2b"
+       },
+       "size": {
+        "value": 7
+       }
+      },
+      {
+       "mark": "rect",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "eol",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "linkingId": "rel"
+       },
+       "xe": {
+        "field": "eol-server",
+        "type": "temporal"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": false
+        },
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        },
+        {
+         "type": "filter",
+         "field": "eol-server",
+         "inRange": [
+          -1000000000000.0,
+          1000000000000.0
+         ]
+        }
+       ],
+       "color": {
+        "value": "#59a14f"
+       },
+       "size": {
+        "value": 7
+       }
+      },
+      {
+       "mark": "rect",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "eol-esm",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "linkingId": "rel"
+       },
+       "xe": {
+        "field": "eol-legacy",
+        "type": "temporal"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": false
+        },
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        },
+        {
+         "type": "filter",
+         "field": "eol-esm",
+         "inRange": [
+          -1000000000000.0,
+          1000000000000.0
+         ]
+        },
+        {
+         "type": "filter",
+         "field": "eol-legacy",
+         "inRange": [
+          -1000000000000.0,
+          1000000000000.0
+         ]
+        }
+       ],
+       "color": {
+        "value": "#b07aa1"
+       },
+       "size": {
+        "value": 7
+       }
+      },
+      {
+       "mark": "point",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "created",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "linkingId": "rel"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": false
+        },
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        }
+       ],
+       "color": {
+        "value": "#e15759"
+       },
+       "stroke": {
+        "value": "black"
+       },
+       "strokeWidth": {
+        "value": 1
+       },
+       "size": {
+        "value": 3
+       }
+      },
+      {
+       "mark": "point",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "release",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "none",
+        "linkingId": "rel"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": false
+        },
+        {
+         "type": "filter",
+         "field": "version",
+         "oneOf": [
+          "__none__"
+         ]
+        }
+       ],
+       "color": {
+        "value": "black"
+       },
+       "stroke": {
+        "value": "black"
+       },
+       "strokeWidth": {
+        "value": 1
+       },
+       "size": {
+        "value": 3
+       }
+      }
+     ],
+     "width": 1150,
+     "height": 20
+    },
+    {
+     "alignment": "overlay",
+     "row": {
+      "field": "version",
+      "type": "nominal",
+      "legend": true
+     },
+     "x": {
+      "field": "release",
+      "type": "temporal",
+      "relative": {
+       "anchor": {
+        "field": "release"
+       },
+       "unit": "year",
+       "label": "each release's own release date (0 = release)"
+      },
+      "domain": {
+       "interval": [
+        "-2 years",
+        "16 years"
+       ]
+      },
+      "axis": "bottom",
+      "linkingId": "rel"
+     },
+     "tracks": [
+      {
+       "mark": "rect",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "created",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "linkingId": "rel"
+       },
+       "xe": {
+        "field": "release",
+        "type": "temporal"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": false
+        }
+       ],
+       "color": {
+        "value": "#bdbdbd"
+       },
+       "size": {
+        "value": 7
+       }
+      },
+      {
+       "mark": "rect",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "release",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "linkingId": "rel"
+       },
+       "xe": {
+        "field": "eol",
+        "type": "temporal"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": false
+        },
+        {
+         "type": "filter",
+         "field": "eol",
+         "inRange": [
+          -1000000000000.0,
+          1000000000000.0
+         ]
+        }
+       ],
+       "color": {
+        "value": "#4e79a7"
+       },
+       "size": {
+        "value": 7
+       }
+      },
+      {
+       "mark": "rect",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "eol",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "linkingId": "rel"
+       },
+       "xe": {
+        "field": "eol-esm",
+        "type": "temporal"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": false
+        },
+        {
+         "type": "filter",
+         "field": "eol-esm",
+         "inRange": [
+          -1000000000000.0,
+          1000000000000.0
+         ]
+        }
+       ],
+       "color": {
+        "value": "#f28e2b"
+       },
+       "size": {
+        "value": 7
+       }
+      },
+      {
+       "mark": "rect",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "eol",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "linkingId": "rel"
+       },
+       "xe": {
+        "field": "eol-server",
+        "type": "temporal"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": false
+        },
+        {
+         "type": "filter",
+         "field": "eol-server",
+         "inRange": [
+          -1000000000000.0,
+          1000000000000.0
+         ]
+        }
+       ],
+       "color": {
+        "value": "#59a14f"
+       },
+       "size": {
+        "value": 7
+       }
+      },
+      {
+       "mark": "rect",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "eol-esm",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "linkingId": "rel"
+       },
+       "xe": {
+        "field": "eol-legacy",
+        "type": "temporal"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": false
+        },
+        {
+         "type": "filter",
+         "field": "eol-esm",
+         "inRange": [
+          -1000000000000.0,
+          1000000000000.0
+         ]
+        },
+        {
+         "type": "filter",
+         "field": "eol-legacy",
+         "inRange": [
+          -1000000000000.0,
+          1000000000000.0
+         ]
+        }
+       ],
+       "color": {
+        "value": "#b07aa1"
+       },
+       "size": {
+        "value": 7
+       }
+      },
+      {
+       "mark": "point",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "created",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "linkingId": "rel"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": false
+        }
+       ],
+       "color": {
+        "value": "#e15759"
+       },
+       "stroke": {
+        "value": "black"
+       },
+       "strokeWidth": {
+        "value": 1
+       },
+       "size": {
+        "value": 3
+       }
+      },
+      {
+       "mark": "point",
+       "data": {
+        "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv",
+        "type": "csv-time",
+        "interval": [
+         "created",
+         "release",
+         "eol",
+         "eol-server",
+         "eol-esm",
+         "eol-legacy"
+        ]
+       },
+       "x": {
+        "field": "release",
+        "type": "temporal",
+        "relative": {
+         "anchor": {
+          "field": "release"
+         },
+         "unit": "year",
+         "label": "each release's own release date (0 = release)"
+        },
+        "domain": {
+         "interval": [
+          "-2 years",
+          "16 years"
+         ]
+        },
+        "axis": "bottom",
+        "linkingId": "rel"
+       },
+       "dataTransform": [
+        {
+         "type": "filter",
+         "field": "version",
+         "include": "LTS",
+         "not": false
+        }
+       ],
+       "color": {
+        "value": "black"
+       },
+       "stroke": {
+        "value": "black"
+       },
+       "strokeWidth": {
+        "value": 1
+       },
+       "size": {
+        "value": 3
+       }
+      }
+     ],
+     "width": 1150,
+     "height": 440
+    }
+   ]
+  }
+ ]
+}

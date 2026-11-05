@@ -1,0 +1,21 @@
+REPORT
+deliverable: spec.vl.json
+requirements:
+  R1: done - daily mean line plus daily min–max band for tl, 2020–2024, aggregated inside the spec
+  R2: done - detail shows raw 10-min tl readings (line plus a point per reading) for the brushed period
+  R3: done - interval brush on the overview filters the detail and sets its x domain
+  R4: done - separate rr bar track (each bar spans its 10-min interval), sharing the detail's UTC x domain
+  R5: done - overview ticks "Mon YYYY" every 6 months; detail uses Vega's automatic multi-scale UTC labels (days/hours/minutes)
+  R6: done - full CSV loaded from the URL; aggregation only in Vega-Lite transforms
+  R7: done - axes show °C, mm per 10 min and UTC; title plus a one-sentence caption in the subtitle
+assumptions:
+  - Opening brush set to 8–15 July 2024 (an arbitrary week) so the detail is never empty or overloaded at load; it is not chosen from data values
+  - Each rr value is taken to cover the 10 minutes ending at its time stamp
+  - Overview aggregates to UTC calendar days (mean/min/max)
+  - The caption text is written by hand from the overview pattern; the maxima were checked against the data (35.0–36.7 °C per year)
+limitations:
+  - Clearing the brush (click outside it) shows all 263k readings in the detail, which is slow and unreadable
+  - The detail can't be zoomed or panned by itself; the period is set only through the overview brush
+  - Precipitation bars are very thin for periods longer than a few days
+  - Missing values (none found) would be dropped by the filters, so the line would bridge any gap
+  - Brush dragging and clicking was not tested; only the static default render was checked

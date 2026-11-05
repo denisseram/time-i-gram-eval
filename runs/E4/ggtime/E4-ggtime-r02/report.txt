@@ -1,0 +1,19 @@
+REPORT
+deliverable: plot.R
+requirements:
+  R1: done - one row per version, labelled, ordered by release date (oldest at top within each facet)
+  R2: done - x = years relative to own release date, axis title "Time relative to release date (years)"
+  R3: done - 5 phases as coloured bars with legend; server phase only when eol-server > eol; missing phases skipped
+  R4: done - created (circle) and release (diamond) marked as points, with an "Event" legend
+  R5: done - LTS and interim releases in separate facets; LTS labels also contain "LTS"
+  R6: done - title plus a one-sentence caption with medians/ranges computed from the data (and a short note line)
+assumptions:
+  - Bars drawn with ggtime::geom_time_line (two-point lines, thick linewidth); ggtime has no interval geom
+  - ESM starts at eol-server if later than eol, otherwise at eol
+  - Relative time in decimal years (lubridate time_length); ragged rows read with base read.csv(fill=TRUE)
+  - LTS = version contains "LTS"
+  - Added a tick for today's date on releases still in their life cycle, to show where planned dates begin
+limitations:
+  - Planned (future) dates are drawn the same as past ones; only the today tick shows where they begin
+  - Today ticks show in dark blue/red instead of the black set in the code; the caption just says "dark tick"
+  - Caption numbers are medians; older LTS releases (6.06-10.04) had 3-year desktop support plus server support to 5 years

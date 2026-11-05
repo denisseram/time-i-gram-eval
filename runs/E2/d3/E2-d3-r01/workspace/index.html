@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ARE consultation incidence in Germany by ISO week</title>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<style>
+  body { margin: 0; padding: 20px 28px; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: #222; background: #fff; }
+  h1 { font-size: 22px; margin: 0 0 4px; font-weight: 600; }
+  #caption { font-size: 14px; margin: 0 0 10px; color: #444; max-width: 1300px; }
+  .source { font-size: 11px; color: #777; margin-top: 6px; }
+  .axis text { font-size: 11px; fill: #444; }
+  .axis path, .axis line { stroke: #bbb; }
+  .axis-title { font-size: 12px; fill: #333; }
+  #tip { position: absolute; pointer-events: none; background: #fff; border: 1px solid #ccc; padding: 4px 8px; font-size: 12px; border-radius: 3px; display: none; }
+</style>
+</head>
+<body>
+<h1>Does every year follow the same cycle? Acute respiratory illness consultations in Germany</h1>
+<p id="caption">Loading…</p>
+<div id="chart"></div>
+<div class="source">Data: Robert Koch-Institut, ARE-Praxis-Sentinel, ARE-Konsultationsinzidenz (CC BY 4.0). Germany overall (Bundesweit), all ages (00+). Empty cells: weeks outside the reported period.</div>
+<div id="tip"></div>
+<script>
+const URL = "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv";
+
+// Number of ISO weeks in an ISO year: 53 if Jan 1 is Thursday, or leap year and Jan 1 is Wednesday.
+function isoWeeksInYear(y) {
+  const dow = new Date(Date.UTC(y, 0, 1)).getUTCDay();
+  const leap = (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0;
+  return (dow === 4 || (leap && dow === 3)) ? 53 : 52;
+}
+
+d3.tsv(URL).then(raw => {
+  const rows = raw
+    .filter(d => d.Bundesland === "Bundesweit" && d.Altersgruppe === "00+")
+    .map(d => {
+      const m = /^(\d{4})-W(\d{2})$/.exec(d.Kalenderwoche);
+      return { year: +m[1], week: +m[2], key: d.Kalenderwoche, value: +d.ARE_Konsultationsinzidenz };
+    });
+  // Guard against duplicate week rows: keep one value per week (mean if duplicates).
+  const byKey = d3.rollup(rows, v => ({ year: v[0].year, week: v[0].week, value: d3.mean(v, d => d.value) }), d => d.key);
+  const data = Array.from(byKey.values()).sort((a, b) => d3.ascending(a.year * 100 + a.week, b.year * 100 + b.week));
+
+  const years = d3.range(d3.min(data, d => d.year), d3.max(data, d => d.year) + 1);
+  const first = data[0], last = data[data.length - 1];
+
+  // Layout
+  const margin = { top: 34, right: 30, bottom: 70, left: 52 };
+  const width = 1340, cellW = (width - margin.left - margin.right) / 53;
+  const cellH = Math.min(36, Math.floor(560 / years.length));
+  const innerH = cellH * years.length;
+  const height = margin.top + innerH + margin.bottom;
+
+  const x = d3.scaleBand().domain(d3.range(1, 54)).range([0, cellW * 53]).paddingInner(0.08);
+  const y = d3.scaleBand().domain(years).range([0, innerH]).paddingInner(0.12);
+  const color = d3.scaleSequential(d3.interpolateYlOrRd).domain([0, d3.max(data, d => d.value)]).nice();
+
+  const svg = d3.select("#chart").append("svg").attr("width", width).attr("height", height);
+  const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+  // Faint outline for every week that exists in the ISO calendar (shows 52 vs 53 week years).
+  const slots = years.flatMap(yr => d3.range(1, isoWeeksInYear(yr) + 1).map(w => ({ year: yr, week: w })));
+  g.append("g").selectAll("rect").data(slots).join("rect")
+    .attr("x", d => x(d.week)).attr("y", d => y(d.year))
+    .attr("width", x.bandwidth()).attr("height", y.bandwidth())
+    .attr("fill", "#fff").attr("stroke", "#e2e2e2");
+
+  const tip = d3.select("#tip");
+  g.append("g").selectAll("rect").data(data).join("rect")
+    .attr("x", d => x(d.week)).attr("y", d => y(d.year))
+    .attr("width", x.bandwidth()).attr("height", y.bandwidth())
+    .attr("fill", d => color(d.value))
+    .on("mousemove", (ev, d) => tip.style("display", "block")
+        .style("left", (ev.pageX + 12) + "px").style("top", (ev.pageY - 10) + "px")
+        .html(`${d.year}-W${String(d.week).padStart(2, "0")}: <b>${d3.format(",")(Math.round(d.value))}</b> per 100,000`))
+    .on("mouseleave", () => tip.style("display", "none"));
+
+  // Axes
+  g.append("g").attr("class", "axis").attr("transform", `translate(0,${innerH})`)
+    .call(d3.axisBottom(x).tickValues(d3.range(1, 54).filter(w => w === 1 || w % 4 === 0 || w === 53)).tickSizeOuter(0));
+  g.append("text").attr("class", "axis-title").attr("x", cellW * 53 / 2).attr("y", innerH + 32)
+    .attr("text-anchor", "middle").text("ISO calendar week");
+  g.append("g").attr("class", "axis").call(d3.axisLeft(y).tickFormat(d3.format("d")).tickSizeOuter(0));
+  g.append("text").attr("class", "axis-title").attr("x", -40).attr("y", -12).text("ISO year");
+
+  // Legend
+  const legW = 320, legH = 10, lx = margin.left + cellW * 53 - legW, ly = margin.top + innerH + 40;
+  const defs = svg.append("defs");
+  const grad = defs.append("linearGradient").attr("id", "leg");
+  d3.range(0, 1.0001, 0.1).forEach(t => grad.append("stop").attr("offset", t)
+    .attr("stop-color", color(color.domain()[0] + t * (color.domain()[1] - color.domain()[0]))));
+  const leg = svg.append("g").attr("transform", `translate(${lx},${ly})`);
+  leg.append("rect").attr("width", legW).attr("height", legH).attr("fill", "url(#leg)");
+  const lsc = d3.scaleLinear().domain(color.domain()).range([0, legW]);
+  leg.append("g").attr("class", "axis").attr("transform", `translate(0,${legH})`)
+    .call(d3.axisBottom(lsc).ticks(5).tickFormat(d3.format(",")).tickSize(4));
+  leg.append("text").attr("class", "axis-title").attr("x", -8).attr("y", legH - 1).attr("text-anchor", "end")
+    .text("ARE consultations per 100,000 population per week");
+  const empty = svg.append("g").attr("transform", `translate(${margin.left},${ly})`);
+  empty.append("rect").attr("width", 12).attr("height", 10).attr("fill", "#fff").attr("stroke", "#ccc");
+  empty.append("text").attr("class", "axis-title").attr("x", 18).attr("y", 9)
+    .text(`No data (series runs ${first.year}-W${first.week} to ${last.year}-W${String(last.week).padStart(2,"0")})`);
+
+  // Caption computed from data (complete ISO years only).
+  const complete = years.filter(yr => d3.groups(data.filter(d => d.year === yr), d => d.week).length === isoWeeksInYear(yr));
+  const stats = complete.map(yr => {
+    const ds = data.filter(d => d.year === yr);
+    return { year: yr, peak: d3.greatest(ds, d => d.value), low: d3.least(ds, d => d.value) };
+  });
+  const peakWeeks = stats.map(s => s.peak.week);
+  const latePeaks = peakWeeks.filter(w => w > 26), earlyPeaks = peakWeeks.filter(w => w <= 26);
+  const peakFrom = latePeaks.length ? d3.min(latePeaks) : d3.min(earlyPeaks);
+  const peakTo = earlyPeaks.length ? d3.max(earlyPeaks) : d3.max(latePeaks);
+  const lowWeeks = stats.map(s => s.low.week).sort(d3.ascending);
+  const lowQ1 = Math.round(d3.quantile(lowWeeks, 0.25)), lowQ3 = Math.round(d3.quantile(lowWeeks, 0.75));
+  const odd = d3.least(stats, s => s.low.value);
+  d3.select("#caption").text(
+    `Every year repeats a winter high and a summer low (most yearly minima fall in weeks ${lowQ1}–${lowQ3}), ` +
+    `but the winter peak shifts from week ${peakFrom} to week ${peakTo} across years, and ${odd.year} ` +
+    `stands out with the lowest values of the series (${d3.format(",")(odd.low.value)} per 100,000 in week ${odd.low.week}).`);
+}).catch(err => {
+  d3.select("#caption").text("Failed to load data: " + err);
+  console.error(err);
+});
+</script>
+</body>
+</html>

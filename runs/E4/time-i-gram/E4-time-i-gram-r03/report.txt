@@ -1,0 +1,20 @@
+REPORT
+deliverable: spec.json
+requirements:
+  R1: done - one row per release labelled by version; order follows the CSV, which is in release-date order
+  R2: done - x is relative to each row's own release (anchor field "release"), axis "years from each release date"
+  R3: done - development, standard, extended server, ESM and legacy bars, each in its own colour, with a legend; missing dates are not drawn
+  R4: done - created (black dot) and release (red dot) on every row
+  R5: done - separate LTS and interim panels; LTS labels also contain "LTS"
+  R6: done - title plus a one-sentence caption (as the subtitle) stating the pattern
+assumptions:
+  - Server bar is eol→eol-server; where they are equal it has zero width, so it is not seen
+  - ESM is drawn from eol, under the server bar, so it shows from the later of eol and eol-server
+  - Planned (future) dates are drawn the same way as past ones
+  - Units are years; the domain is −2 to +16 years so every phase is visible
+limitations:
+  - The include filter's "not" is inverted in 0.1.0, so the LTS panel uses not:true and the interim panel plain include
+  - Header strips cover the first row, so titles and the legend sit in separate empty views (about 60 px each)
+  - Interim rows are about 11 px tall; labels are tight and the last label (27.04) is slightly clipped
+  - Row order relies on the CSV order (no row domain, to avoid typing data values); it is release-date order
+  - The console shows Gosling warnings ("unknown data type", "No dataConfig children"); rendering is not affected

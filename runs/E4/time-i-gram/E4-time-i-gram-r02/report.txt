@@ -1,0 +1,20 @@
+REPORT
+deliverable: spec.json
+requirements:
+  R1: done - one row per release, labelled by version; order is the CSV row order, which is by release date
+  R2: done - relative axis anchored on each row's `release`, in years; title "years from each release's own release date (0 = release)"
+  R3: done - development, standard, extended server, ESM, legacy as coloured bars with legend; rows without a date are dropped by filter
+  R4: done - created (red dot) and release (black dot) on every row
+  R5: done - separate LTS and interim views (filter on "LTS" in version); LTS labels also contain "LTS"
+  R6: done - title plus a one-sentence caption as the subtitle
+assumptions:
+  - ESM is drawn from eol to eol-esm; the server bar is drawn over its start, so if eol-server were later than eol, ESM would visibly begin at eol-server
+  - Extended server support appears only where eol-server > eol (6.06, 8.04, 10.04); where they are equal the bar has zero width
+  - Planned future dates are drawn the same way as past dates
+  - The order of rows comes from the data order (the CSV is sorted by release), not from a hard-coded list
+  - Both views share one axis (−2 to +16 y) so LTS and interim can be compared directly
+limitations:
+  - csv-time's `dateFields` merges several fields into one date, so all date columns are parsed through `interval`
+  - Title and legend are on a separate thin track per view, because the header strip would otherwise cover the first row
+  - Interim bars are short on the shared 18-year axis, and the interim row labels are tight (about 13 px per row)
+  - The caption text is written by hand, but the numbers in it were checked against the data

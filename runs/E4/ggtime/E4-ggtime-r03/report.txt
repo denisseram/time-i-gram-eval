@@ -1,0 +1,19 @@
+REPORT
+deliverable: plot.R
+requirements:
+  R1: done - one row per version, ordered by release date (oldest at top within each panel)
+  R2: done - x = years relative to own release date, "Years relative to release date (0 = release)"
+  R3: done - 5 coloured phases with legend; server phase only when eol-server > eol; missing phases not drawn
+  R4: done - created (circle) and release (triangle) points on each row
+  R5: done - LTS and interim in separate facet panels (plus "LTS" in labels)
+  R6: done - title plus a one-sentence caption with values computed from the data
+assumptions:
+  - ESM starts at max(eol, eol-server)
+  - Years = days / 365.25
+  - The CSV is read with base read.csv(fill = TRUE), so missing trailing fields become NA
+  - Dates after Sys.Date() count as planned and are drawn faded
+  - The point where interim support got shorter is found from the data (first run of standard support under 1 year)
+limitations:
+  - ggtime has no interval/event geom; bars and points are ggplot2 layers, and ggtime is loaded but unused
+  - The planned/elapsed split depends on the run date
+  - The 1.5-year interim value in the caption is a median, so a few releases differ slightly

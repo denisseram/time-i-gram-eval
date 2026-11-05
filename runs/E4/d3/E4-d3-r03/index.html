@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ubuntu release life cycles aligned on release date</title>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<style>
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; margin: 12px 20px; color: #222; background: #fff; }
+  h1 { font-size: 19px; margin: 0 0 3px; }
+  #caption { font-size: 13px; color: #444; margin: 0 0 4px; max-width: 1340px; }
+  svg text { font-size: 10px; fill: #333; }
+  .axis-title { font-size: 12px; fill: #222; }
+  .panel-title { font-size: 12px; font-weight: 600; fill: #222; }
+  .grid line { stroke: #e6e6e6; }
+  .grid path { display: none; }
+</style>
+</head>
+<body>
+<h1>Ubuntu release life cycles, each aligned on its own release date: LTS vs interim</h1>
+<p id="caption"></p>
+<div id="chart"></div>
+<script>
+const URL = "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/ubuntu.csv";
+const parse = d3.timeParse("%Y-%m-%d");
+const YEAR_MS = 365.25 * 24 * 3600 * 1000;
+const yrs = (a, b) => (b - a) / YEAR_MS;   // years from a to b
+const today = new Date();
+
+const PHASES = [
+  { key: "dev",    label: "Development (created → release)", color: "#9e9e9e" },
+  { key: "std",    label: "Standard support (release → eol)", color: "#2a6fdb" },
+  { key: "server", label: "Extended server support (eol → eol-server)", color: "#1aa39a" },
+  { key: "esm",    label: "Expanded Security Maintenance (→ eol-esm)", color: "#e8892b" },
+  { key: "legacy", label: "Legacy support add-on (eol-esm → eol-legacy)", color: "#8e5bc4" }
+];
+const colorOf = Object.fromEntries(PHASES.map(p => [p.key, p.color]));
+
+d3.csv(URL).then(raw => {
+  // d3.csvParse fills missing trailing fields with ""; parse("") -> null
+  const rel = raw.map(r => {
+    const d = {
+      version: r.version.trim(),
+      codename: r.codename,
+      lts: /LTS/.test(r.version),
+      created: parse(r.created || ""),
+      release: parse(r.release || ""),
+      eol: parse(r.eol || ""),
+      eolServer: parse(r["eol-server"] || ""),
+      eolEsm: parse(r["eol-esm"] || ""),
+      eolLegacy: parse(r["eol-legacy"] || "")
+    };
+    const R = d.release;
+    const iv = [];
+    if (d.created) iv.push({ key: "dev", s: d.created, e: R });
+    if (d.eol) iv.push({ key: "std", s: R, e: d.eol });
+    let prevEnd = d.eol;
+    if (d.eolServer && d.eol && d.eolServer > d.eol) { iv.push({ key: "server", s: d.eol, e: d.eolServer }); prevEnd = d.eolServer; }
+    if (d.eolEsm && prevEnd && d.eolEsm > prevEnd) { iv.push({ key: "esm", s: prevEnd, e: d.eolEsm }); prevEnd = d.eolEsm; }
+    if (d.eolLegacy && d.eolEsm && d.eolLegacy > d.eolEsm) iv.push({ key: "legacy", s: d.eolEsm, e: d.eolLegacy });
+    d.intervals = iv.map(o => ({ ...o, x0: yrs(R, o.s), x1: yrs(R, o.e), planned: o.e > today }));
+    d.todayX = yrs(R, today);
+    d.end = d3.max(d.intervals, o => o.x1);
+    return d;
+  }).filter(d => d.release).sort((a, b) => a.release - b.release);
+
+  const groups = [
+    { name: "LTS releases", rows: rel.filter(d => d.lts) },
+    { name: "Interim releases", rows: rel.filter(d => !d.lts) }
+  ];
+
+  // ---- computed caption ----
+  const months = (a, b) => yrs(a, b) * 12;
+  const ltsR = groups[0].rows, intR = groups[1].rows;
+  const intStd = intR.filter(d => d.eol).map(d => months(d.release, d.eol));
+  const recentInt = intR.filter(d => d.release >= parse("2013-01-01") && d.eol).map(d => months(d.release, d.eol));
+  const ltsStd = ltsR.filter(d => d.eol).map(d => yrs(d.release, d.eol));
+  const ltsEnd = ltsR.map(d => d.end);
+  const devAll = rel.filter(d => d.created).map(d => months(d.created, d.release));
+  const f0 = d3.format(".0f"), f1 = d3.format(".1f");
+  d3.select("#caption").text(
+    `Aligned on release, every release has a similar ~${f0(d3.median(devAll))}-month development phase, but life cycles split into two shapes: ` +
+    `interim releases get only ${f0(d3.min(intStd))}–${f0(d3.max(intStd))} months of standard support (${f0(d3.median(recentInt))} months for every interim release since 2013), ` +
+    `while LTS releases get ${f1(d3.min(ltsStd))}–${f1(d3.max(ltsStd))} years of standard support, extended over successive releases by ESM and legacy add-ons to up to ${f0(d3.max(ltsEnd))} years after release.`
+  );
+
+  // ---- layout ----
+  const W = 1360, rowH = 14.5, gap = 34;
+  const margin = { top: 58, right: 24, bottom: 46, left: 78 };
+  const panelH = groups.map(g => g.rows.length * rowH);
+  const H = margin.top + d3.sum(panelH) + gap + margin.bottom;
+
+  const svg = d3.select("#chart").append("svg").attr("width", W).attr("height", H)
+    .attr("viewBox", `0 0 ${W} ${H}`);
+
+  const xMin = Math.floor(d3.min(rel, d => d3.min(d.intervals, o => o.x0)) * 2) / 2;
+  const xMax = Math.ceil(d3.max(rel, d => d.end));
+  const x = d3.scaleLinear().domain([xMin, xMax]).range([margin.left, W - margin.right]);
+
+  // legend
+  const leg = svg.append("g").attr("transform", `translate(${margin.left},10)`);
+  let lx = 0, ly = 0;
+  const items = [
+    ...PHASES.map(p => ({ type: "bar", ...p })),
+    { type: "faded", label: "Lighter shade = planned (after today)" },
+    { type: "created", label: "created (start of development)" },
+    { type: "release", label: "release (0)" }
+  ];
+  items.forEach(it => {
+    const g = leg.append("g").attr("transform", `translate(${lx},${ly})`);
+    if (it.type === "bar") g.append("rect").attr("width", 18).attr("height", 9).attr("y", -1).attr("fill", it.color);
+    if (it.type === "faded") {
+      g.append("rect").attr("width", 9).attr("height", 9).attr("y", -1).attr("fill", "#2a6fdb");
+      g.append("rect").attr("x", 9).attr("width", 9).attr("height", 9).attr("y", -1).attr("fill", "#2a6fdb").attr("opacity", 0.35);
+    }
+    if (it.type === "created") g.append("circle").attr("cx", 9).attr("cy", 3.5).attr("r", 3.5).attr("fill", "#fff").attr("stroke", "#222").attr("stroke-width", 1.3);
+    if (it.type === "release") g.append("path").attr("d", d3.symbol(d3.symbolDiamond, 45)()).attr("transform", "translate(9,3.5)").attr("fill", "#222");
+    const t = g.append("text").attr("x", 23).attr("y", 7.5).style("font-size", "11px").text(it.label);
+    const w = 23 + t.node().getComputedTextLength() + 20;
+    lx += w;
+    if (lx > W - margin.left - margin.right - 260) { lx = 0; ly += 17; }
+  });
+
+  // grid + axis
+  const totalBottom = margin.top + d3.sum(panelH) + gap;
+  svg.append("g").attr("class", "grid")
+    .attr("transform", `translate(0,${totalBottom})`)
+    .call(d3.axisBottom(x).ticks(xMax - xMin).tickSize(-(totalBottom - margin.top + 6)).tickFormat(""));
+  svg.append("line").attr("x1", x(0)).attr("x2", x(0)).attr("y1", margin.top - 6).attr("y2", totalBottom)
+    .attr("stroke", "#222").attr("stroke-width", 1).attr("stroke-dasharray", "3,2");
+  svg.append("g").attr("transform", `translate(0,${totalBottom})`)
+    .call(d3.axisBottom(x).ticks(xMax - xMin).tickFormat(d => d > 0 ? "+" + d : d));
+  svg.append("text").attr("class", "axis-title").attr("x", (margin.left + W - margin.right) / 2).attr("y", totalBottom + 34)
+    .attr("text-anchor", "middle").text("Time relative to the release's own release date (years; 0 = release, negative = development)");
+
+  let y0 = margin.top;
+  groups.forEach((g, gi) => {
+    const y = d3.scaleBand().domain(g.rows.map(d => d.version)).range([y0, y0 + panelH[gi]]).paddingInner(0.25);
+    svg.append("text").attr("class", "panel-title").attr("x", x(0) + 6).attr("y", y0 - 4)
+      .text(`${g.name} (n = ${g.rows.length}), ordered by release date`);
+    const rows = svg.append("g").selectAll("g").data(g.rows).join("g")
+      .attr("transform", d => `translate(0,${y(d.version)})`);
+    const bh = y.bandwidth();
+    rows.append("text").attr("x", margin.left - 6).attr("y", bh / 2).attr("dy", "0.35em").attr("text-anchor", "end")
+      .style("font-weight", d => d.lts ? 600 : 400).text(d => d.version);
+    rows.append("title").text(d => `${d.version} ${d.codename}\n` +
+      d.intervals.map(o => `${PHASES.find(p => p.key === o.key).label.split(" (")[0]}: ${d3.timeFormat("%Y-%m-%d")(o.s)} → ${d3.timeFormat("%Y-%m-%d")(o.e)}`).join("\n"));
+    rows.each(function(d) {
+      const r = d3.select(this);
+      d.intervals.forEach(o => {
+        // full bar (faded), then the part up to today at full opacity
+        r.append("rect").attr("x", x(o.x0)).attr("width", Math.max(0.5, x(o.x1) - x(o.x0))).attr("height", bh)
+          .attr("fill", colorOf[o.key]).attr("opacity", 0.35);
+        const pastEnd = Math.min(o.x1, d.todayX);
+        if (pastEnd > o.x0) r.append("rect").attr("x", x(o.x0)).attr("width", x(pastEnd) - x(o.x0)).attr("height", bh)
+          .attr("fill", colorOf[o.key]);
+      });
+      if (d.created) r.append("circle").attr("cx", x(yrs(d.release, d.created))).attr("cy", bh / 2).attr("r", 3.2)
+        .attr("fill", "#fff").attr("stroke", "#222").attr("stroke-width", 1.3);
+      r.append("path").attr("d", d3.symbol(d3.symbolDiamond, 40)()).attr("transform", `translate(${x(0)},${bh / 2})`).attr("fill", "#222");
+    });
+    y0 += panelH[gi] + gap;
+  });
+}).catch(err => {
+  d3.select("#chart").append("p").style("color", "crimson").text("Failed to load data: " + err);
+  console.error(err);
+});
+</script>
+</body>
+</html>

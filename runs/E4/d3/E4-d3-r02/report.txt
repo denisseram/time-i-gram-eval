@@ -1,0 +1,19 @@
+REPORT
+deliverable: index.html
+requirements:
+  R1: done - one row per release labelled by version, ordered by release date within each group
+  R2: done - x = years relative to own release date (0 = release); axis title states unit
+  R3: done - dev/standard/extended server/ESM/legacy bars in distinct colours with legend; missing phases skipped
+  R4: done - created = open circle, release = black tick at 0
+  R5: done - two facets (LTS above, interim below), LTS labels bold
+  R6: done - title plus one-sentence caption computed from data (two templates: interim 18→9 months, LTS 5 y + ESM/Legacy to ~15 y)
+assumptions:
+  - ESM starts at the later of eol and eol-server (eol-server is only used when it is after eol)
+  - Years = 365.2425 days; months in the caption = years × 12, rounded
+  - Ordering by release date is kept inside each group (LTS facet, interim facet) rather than interleaved
+  - Planned dates (after the browser's current date) are drawn hatched; "today" is computed at render time
+  - Interim support switch point = first interim release with under 1 year of standard support
+limitations:
+  - Interim bars are short next to the 16-year LTS span, so interim detail is compressed (hover tooltips show exact dates)
+  - Where the planned portion begins changes with the viewing date
+  - The facet title "LTS releases (n = 11)" touches the dashed release line slightly

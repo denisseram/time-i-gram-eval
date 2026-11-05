@@ -1,0 +1,144 @@
+{
+  "title": "Acute respiratory illness in Germany: does every year follow the same cycle?",
+  "subtitle": "Most years peak in winter and dip in summer, but 2020-21 break the cycle: an early spring 2020 drop and no winter wave in early 2021.",
+  "arrangement": "vertical",
+  "spacing": 10,
+  "views": [
+    {
+      "spacing": 0,
+      "tracks": [
+        {
+          "title": "ARE consultations per 100,000, Germany, all ages; one row per ISO year, one cell per ISO week. Source: RKI ARE-Praxis-Sentinel (CC BY 4.0)",
+          "data": {
+            "type": "csv-time",
+            "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+            "separator": "\t",
+            "dateFields": [
+              "Kalenderwoche"
+            ]
+          },
+          "dataTransform": [
+            {
+              "type": "filter",
+              "field": "Bundesland",
+              "oneOf": [
+                "Bundesweit"
+              ]
+            },
+            {
+              "type": "filter",
+              "field": "Altersgruppe",
+              "oneOf": [
+                "00+"
+              ]
+            }
+          ],
+          "mark": "rect",
+          "x": {
+            "field": "Kalenderwoche",
+            "type": "temporal",
+            "period": {
+              "unit": "year",
+              "weekBased": true,
+              "newField": "iso_year"
+            },
+            "timeUnit": "week",
+            "axis": "bottom"
+          },
+          "row": {
+            "field": "iso_year",
+            "type": "nominal",
+            "domain": [
+              "",
+              "2012",
+              "2013",
+              "2014",
+              "2015",
+              "2016",
+              "2017",
+              "2018",
+              "2019",
+              "2020",
+              "2021",
+              "2022",
+              "2023",
+              "2024",
+              "2025",
+              "2026"
+            ],
+            "legend": true
+          },
+          "color": {
+            "field": "ARE_Konsultationsinzidenz",
+            "type": "quantitative",
+            "range": "viridis",
+            "legend": false,
+            "title": "per 100k/wk"
+          },
+          "stroke": {
+            "value": "white"
+          },
+          "strokeWidth": {
+            "value": 0.5
+          },
+          "width": 1100,
+          "height": 560
+        },
+        {
+          "data": {
+            "type": "csv-time",
+            "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+            "separator": "\t",
+            "dateFields": [
+              "Kalenderwoche"
+            ]
+          },
+          "dataTransform": [
+            {
+              "type": "filter",
+              "field": "Bundesland",
+              "oneOf": [
+                "Bundesweit"
+              ]
+            },
+            {
+              "type": "filter",
+              "field": "Altersgruppe",
+              "oneOf": [
+                "00+"
+              ]
+            }
+          ],
+          "mark": "rect",
+          "x": {
+            "field": "Kalenderwoche",
+            "type": "temporal",
+            "period": {
+              "unit": "year",
+              "weekBased": true,
+              "newField": "iso_year"
+            },
+            "timeUnit": "week",
+            "axis": "none"
+          },
+          "color": {
+            "field": "ARE_Konsultationsinzidenz",
+            "type": "quantitative",
+            "range": "viridis",
+            "legend": true,
+            "title": "per 100k/wk"
+          },
+          "width": 1100,
+          "height": 150,
+          "style": {
+            "outline": "none"
+          },
+          "opacity": {
+            "value": 0
+          },
+          "title": "Colour: ARE consultations per 100,000 population per week"
+        }
+      ]
+    }
+  ]
+}

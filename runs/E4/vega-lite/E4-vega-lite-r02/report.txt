@@ -1,0 +1,18 @@
+REPORT
+deliverable: spec.vl.json
+requirements:
+  R1: done - one row per release, labelled by version, sorted by release date within each group
+  R2: done - x = years since own release (0 = release), unit in axis title
+  R3: done - five phases as coloured bars with legend; missing or zero-length phases are not drawn
+  R4: done - black circle = created, black diamond = release on every row
+  R5: done - two stacked panels (LTS / Interim) sharing one x scale
+  R6: done - title plus a one-sentence caption (subtitle) stating the pattern
+assumptions:
+  - Release type is LTS when the version contains "LTS"
+  - Years = days / 365.25
+  - Extended server phase only when eol-server > eol; ESM starts at the later of eol and eol-server
+  - Missing trailing CSV fields are treated as "no date"
+limitations:
+  - Planned (future) dates are drawn the same as past dates; nothing marks today
+  - Caption numbers are written by hand from what the figure shows; the figure itself is computed from the data
+  - The subtitle line is long and reaches close to the right edge at 1400 px

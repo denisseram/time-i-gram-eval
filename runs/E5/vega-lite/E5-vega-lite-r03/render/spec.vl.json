@@ -1,0 +1,320 @@
+{
+ "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+ "title": {
+  "text": "Wien Hohe Warte, 10-minute air temperature and precipitation, 2020–2024",
+  "subtitle": [
+   "Temperature follows a strong annual cycle, from frosty winters to summer peaks near 35 °C every year, while precipitation falls in short, intense bursts.",
+   "Drag a range in the overview (daily min–max band and daily mean) to set the detail period; the detail shows every 10-minute reading. Data: GeoSphere Austria, CC BY 4.0."
+  ],
+  "anchor": "start",
+  "fontSize": 18,
+  "subtitleFontSize": 12
+ },
+ "data": {
+  "url": "https://raw.githubusercontent.com/denisseram/dataset-snapshots/3731e02e38c75e5d70ae92bf3596a69951866c2d/geosphere_wien_10min_2020-2024.csv",
+  "format": {
+   "type": "csv",
+   "parse": {
+    "time": "date",
+    "tl": "number",
+    "rr": "number"
+   }
+  }
+ },
+ "config": {
+  "view": {
+   "stroke": null
+  },
+  "axis": {
+   "labelFontSize": 11,
+   "titleFontSize": 12
+  }
+ },
+ "vconcat": [
+  {
+   "width": 1250,
+   "height": 160,
+   "title": {
+    "text": "Overview: daily air temperature, 2020–2024 (drag to select a period)",
+    "fontSize": 13,
+    "anchor": "start"
+   },
+   "transform": [
+    {
+     "filter": "isValid(datum.tl)"
+    },
+    {
+     "timeUnit": "utcyearmonthdate",
+     "field": "time",
+     "as": "time"
+    },
+    {
+     "aggregate": [
+      {
+       "op": "mean",
+       "field": "tl",
+       "as": "tmean"
+      },
+      {
+       "op": "min",
+       "field": "tl",
+       "as": "tmin"
+      },
+      {
+       "op": "max",
+       "field": "tl",
+       "as": "tmax"
+      }
+     ],
+     "groupby": [
+      "time"
+     ]
+    }
+   ],
+   "encoding": {
+    "x": {
+     "field": "time",
+     "type": "temporal",
+     "scale": {
+      "type": "utc"
+     },
+     "axis": {
+      "title": "Date (UTC)",
+      "format": "%b %Y",
+      "tickCount": {
+       "interval": "month",
+       "step": 6
+      },
+      "grid": false
+     }
+    }
+   },
+   "layer": [
+    {
+     "mark": {
+      "type": "area",
+      "color": "#9ecae1",
+      "opacity": 0.6
+     },
+     "params": [
+      {
+       "name": "brush",
+       "select": {
+        "type": "interval",
+        "encodings": [
+         "x"
+        ],
+        "mark": {
+         "fill": "#fdae6b",
+         "fillOpacity": 0.5,
+         "stroke": "#e6550d"
+        }
+       },
+       "value": {
+        "x": [
+         {
+          "year": 2024,
+          "month": 7,
+          "date": 8,
+          "utc": true
+         },
+         {
+          "year": 2024,
+          "month": 7,
+          "date": 15,
+          "utc": true
+         }
+        ]
+       }
+      }
+     ],
+     "encoding": {
+      "y": {
+       "field": "tmin",
+       "type": "quantitative",
+       "title": "Air temperature (°C)"
+      },
+      "y2": {
+       "field": "tmax"
+      }
+     }
+    },
+    {
+     "mark": {
+      "type": "line",
+      "color": "#08519c",
+      "strokeWidth": 0.8
+     },
+     "encoding": {
+      "y": {
+       "field": "tmean",
+       "type": "quantitative"
+      },
+      "tooltip": [
+       {
+        "field": "time",
+        "type": "temporal",
+        "title": "Day (UTC)",
+        "format": "%Y-%m-%d",
+        "scale": {
+         "type": "utc"
+        }
+       },
+       {
+        "field": "tmean",
+        "title": "Mean °C",
+        "format": ".1f"
+       },
+       {
+        "field": "tmin",
+        "title": "Min °C"
+       },
+       {
+        "field": "tmax",
+        "title": "Max °C"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "width": 1250,
+   "height": 250,
+   "title": {
+    "text": "Detail: 10-minute air temperature in the selected period",
+    "fontSize": 13,
+    "anchor": "start"
+   },
+   "transform": [
+    {
+     "filter": {
+      "param": "brush"
+     }
+    },
+    {
+     "filter": "isValid(datum.tl)"
+    }
+   ],
+   "mark": {
+    "type": "line",
+    "color": "#d6604d",
+    "strokeWidth": 1.2,
+    "point": {
+     "size": 6,
+     "filled": true,
+     "color": "#d6604d"
+    }
+   },
+   "encoding": {
+    "x": {
+     "field": "time",
+     "type": "temporal",
+     "scale": {
+      "type": "utc",
+      "domain": {
+       "param": "brush"
+      }
+     },
+     "axis": {
+      "title": "Time (UTC)",
+      "labels": true,
+      "labelOverlap": true
+     }
+    },
+    "y": {
+     "field": "tl",
+     "type": "quantitative",
+     "title": "Air temperature (°C)",
+     "scale": {
+      "zero": false
+     }
+    },
+    "tooltip": [
+     {
+      "field": "time",
+      "type": "temporal",
+      "title": "Time (UTC)",
+      "format": "%Y-%m-%d %H:%M",
+      "scale": {
+       "type": "utc"
+      }
+     },
+     {
+      "field": "tl",
+      "title": "Temperature °C"
+     },
+     {
+      "field": "rr",
+      "title": "Precipitation mm/10 min"
+     }
+    ]
+   }
+  },
+  {
+   "width": 1250,
+   "height": 110,
+   "title": {
+    "text": "Detail: precipitation per 10 minutes in the selected period",
+    "fontSize": 13,
+    "anchor": "start"
+   },
+   "transform": [
+    {
+     "filter": {
+      "param": "brush"
+     }
+    },
+    {
+     "filter": "isValid(datum.rr)"
+    },
+    {
+     "calculate": "datum.time - 600000",
+     "as": "tstart"
+    }
+   ],
+   "mark": {
+    "type": "rect",
+    "color": "#2171b5"
+   },
+   "encoding": {
+    "x": {
+     "field": "tstart",
+     "type": "temporal",
+     "scale": {
+      "type": "utc",
+      "domain": {
+       "param": "brush"
+      }
+     },
+     "axis": {
+      "title": "Time (UTC)"
+     }
+    },
+    "y": {
+     "field": "rr",
+     "type": "quantitative",
+     "title": "Precip. (mm per 10 min)"
+    },
+    "tooltip": [
+     {
+      "field": "time",
+      "type": "temporal",
+      "title": "Time (UTC)",
+      "format": "%Y-%m-%d %H:%M",
+      "scale": {
+       "type": "utc"
+      }
+     },
+     {
+      "field": "rr",
+      "title": "Precipitation mm/10 min"
+     }
+    ],
+    "x2": {
+     "field": "time"
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,17 @@
+REPORT
+deliverable: spec.vl.json
+requirements:
+  R1: done - ordinal y = ISO year parsed from Kalenderwoche, ascending top to bottom (2012–2026)
+  R2: done - ordinal x = ISO week 1–53; week 53 cells appear in 2015 and 2020 only
+  R3: done - sequential yelloworangered scale; legend "ARE consultations per 100,000 per week"
+  R4: done - only weeks in the data get a rect; earlier and later weeks are blank
+  R5: done - week numbers on top x axis, years on left y axis
+  R6: done - title plus a one-sentence caption (subtitle) on the main pattern
+assumptions:
+  - ISO year and week come from the Kalenderwoche string (YYYY-Www), not from Saison
+  - Rows are calendar ISO years, not seasons, as R1 asks; one winter wave is therefore split across two rows
+  - Filter is Bundesland = 'Bundesweit' and Altersgruppe = '00+'
+limitations:
+  - The caption is written from what the rendered figure shows, so it is fixed text and does not update if the data changes
+  - The colour scale is linear and does not start at zero; small differences in summer are hard to see
+  - Data before 2012-W40 and after 2026-W43 are absent, so the 2012 and 2026 rows are partial

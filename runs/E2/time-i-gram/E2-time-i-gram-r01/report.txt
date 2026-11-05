@@ -1,0 +1,19 @@
+REPORT
+deliverable: spec.json
+requirements:
+  R1: done - one row per ISO year 2012-2026, top to bottom; order set by a hand-listed row domain
+  R2: done - one cell per ISO week (week-based year period), W1 left; W53 shown for 2015 and 2020
+  R3: done - viridis sequential scale; legend "per 100k/wk", full unit in legend track title
+  R4: done - weeks before 2012-W40 and after 2026-W43 are blank
+  R5: done - week ticks every 8 weeks (W1, W9, ...); year labels on each row
+  R6: done - title plus one-sentence caption as subtitle
+assumptions:
+  - ISO year = week-based year of Kalenderwoche, not the Saison column
+  - Row order given as an explicit list of the years 2012-2026 (grammar has no sort for row); leading '' row leaves room for the track header, as in the repo example
+  - Caption is in the subtitle; data source is in the track title
+limitations:
+  - Year list has to be edited by hand when the data reaches 2027
+  - Week axis labels every 8th week, not every week
+  - Legend sits in a separate track below the heatmap, with an invisible copy of the data
+  - Legend title is shortened ("per 100k/wk"); the full unit is in the legend track title
+  - Render log has console warnings (unknown data type, dataConfig, bare stack trace); not traced

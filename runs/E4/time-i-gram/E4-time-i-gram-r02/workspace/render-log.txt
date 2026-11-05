@@ -1,0 +1,21 @@
+render: spec.json (time-i-gram) -> render.png
+status: OK
+messages (18):
+  [console.warn]  at new e (http://127.0.0.1:40455/_lib/time-i-gram/dist/index.js:425:23894) at a.value (http://127.0.0.1:40455/_lib/time-i-gram/dist/index.js:1396:161531) at mMe (http://127.0.0.1:40455/_lib/time-i-gram/dist/index.js:12:32071) at fMe (http://127.0.0.1:40455/_lib/time-i-gram/dist/index.js:12:31840) at zti (http://127.0.0.1:40455/_lib/time-i-gram/dist/index.js:12:31369) at Qti (http://127.0.0.1:40455/_lib/time-i-gram/dist/index.js:12:41486) at nw (http://127.0.0.1:40455/_lib/time-i-gram/dist/index
+  [console.warn] unknown data type: undefined
+  [console.warn] unknown data type: undefined
+  [console.warn] unknown data type: undefined
+  [console.warn] unknown data type: undefined
+  [console.warn] unknown data type: undefined
+  [console.warn] unknown data type: undefined
+  [console.warn] unknown data type: undefined
+  [console.warn] unknown data type: undefined
+  [console.warn] unknown data type: undefined
+  [console.warn] unknown data type: undefined
+  [console.warn] No dataConfig children, server or tilesetUid: {server: }
+  [console.warn] No dataConfig children, server or tilesetUid: {server: }
+  [console.warn] unknown data type: undefined
+  [console.warn] unknown data type: undefined
+  [console.warn] unknown data type: undefined
+  [console.warn] unknown data type: undefined
+  [console.warn] unknown data type: undefined

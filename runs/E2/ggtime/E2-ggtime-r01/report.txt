@@ -1,0 +1,20 @@
+REPORT
+deliverable: plot.R
+requirements:
+  R1: done - coord_calendar rows = cal_isoweek$year(1L); 2012 to 2026, top to bottom
+  R2: done - cells = cal_isoweek$week(1L), week 1 on the left; week 53 shown for 2015 and 2020
+  R3: done - sequential magma scale (reversed); legend "ARE consultations per 100,000 population per week"
+  R4: done - x limits cover whole ISO years; 2012-W01..W39 and 2026-W44..W53 stay blank, not zero
+  R5: done - week numbers 1–53 on the x axis; years as row labels on the left, y title "ISO year"
+  R6: done - title plus a one-sentence italic caption with the main pattern
+assumptions:
+  - ISO year and week are parsed from Kalenderwoche ("YYYY-Www"), not from Saison
+  - Week Monday computed as the Monday of the week containing 4 Jan + (week-1)*7, then mixtime::yearweek()
+  - Rows cover all ISO years in the data, including the partial 2012 and 2026
+  - Caption pattern (winter peak, summer low, Christmas dip, 2020–21 and 2022 exceptions) is my reading of the figure; no data values are hard-coded
+limitations:
+  - Works around a ggtime 1.1.0 bug: the default panes = month(1L) is evaluated even with panes = NULL and fails on the ISO-week calendar; plot.R overrides the coord's granule_specs method
+  - Year labels sit just left of the panel (moved with a negative text margin), not as real y-axis ticks; the y axis itself is a dummy
+  - Week labels are generated as 1..n over the cell breaks; this assumes the first break is week 1, which holds here
+  - Blank cells mean either "outside the data" or "this year has no week 53"; the subtitle says so
+  - Week-52 dip is probably holiday practice closures (fewer consultations), not lower disease activity

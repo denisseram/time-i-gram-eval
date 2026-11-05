@@ -1,0 +1,18 @@
+REPORT
+deliverable: index.html
+requirements:
+  R1: done - rows for ISO years 2012–2026, top to bottom
+  R2: done - weeks 1–52/53; week 53 drawn for 2015, 2020, 2026 (computed from the calendar)
+  R3: done - YlOrRd sequential scale; legend "ARE consultations per 100,000 population per week"
+  R4: done - unreported weeks are white with a faint outline and a "No data" legend entry
+  R5: done - week ticks (1, 4, 8, … 52, 53) on x, years on y, both axes titled
+  R6: done - title plus one-sentence caption built from the data (trough weeks, peak range, outlier year)
+assumptions:
+  - Row/column come from the ISO year/week in Kalenderwoche, not from Saison
+  - 53-week years: Jan 1 is a Thursday, or a leap year with Jan 1 on a Wednesday
+  - Duplicate week rows, if any, are averaged (none expected)
+  - Caption statistics use only complete ISO years; a peak range that crosses the new year is reported as "week 46 to week 12"
+limitations:
+  - 2026-W53 is outlined but empty because it is after the last reported week (2026-W43)
+  - Colour starts at 0, so differences between summer weeks are hard to see
+  - Tooltip on hover only; the static image shows no exact values

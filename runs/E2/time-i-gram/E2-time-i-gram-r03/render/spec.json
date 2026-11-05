@@ -1,0 +1,303 @@
+{
+ "title": "Acute respiratory illness in Germany: does every year follow the same cycle?",
+ "subtitle": "Most years repeat one cycle (high from about week 40 to week 12, low in summer), but 2020-21 broke it and the 2022 peak came early, in December. Source: RKI, CC BY 4.0",
+ "arrangement": "horizontal",
+ "spacing": 5,
+ "views": [
+  {
+   "tracks": [
+    {
+     "alignment": "overlay",
+     "data": {
+      "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+      "type": "csv-time",
+      "separator": "\t",
+      "dateFields": [
+       "Kalenderwoche"
+      ]
+     },
+     "dataTransform": [
+      {
+       "type": "filter",
+       "field": "Bundesland",
+       "oneOf": [
+        "Bundesweit"
+       ]
+      },
+      {
+       "type": "filter",
+       "field": "Altersgruppe",
+       "oneOf": [
+        "00+"
+       ]
+      },
+      {
+       "type": "span",
+       "field": "Kalenderwoche",
+       "duration": "3 days",
+       "newField": "thu"
+      },
+      {
+       "type": "timeUnit",
+       "field": "thu",
+       "unit": "year",
+       "newField": "thuYear",
+       "labelField": "isoYear"
+      }
+     ],
+     "x": {
+      "field": "Kalenderwoche",
+      "type": "temporal",
+      "axis": "none",
+      "relative": {
+       "anchor": {
+        "field": "Kalenderwoche"
+       },
+       "unit": "week"
+      },
+      "domain": {
+       "interval": [
+        "-1 weeks",
+        "1 weeks"
+       ]
+      }
+     },
+     "row": {
+      "field": "isoYear",
+      "type": "nominal",
+      "domain": [
+       "2012",
+       "2013",
+       "2014",
+       "2015",
+       "2016",
+       "2017",
+       "2018",
+       "2019",
+       "2020",
+       "2021",
+       "2022",
+       "2023",
+       "2024",
+       "2025",
+       "2026"
+      ]
+     },
+     "tracks": [
+      {
+       "mark": "text",
+       "text": {
+        "field": "isoYear",
+        "type": "nominal"
+       },
+       "color": {
+        "value": "#333"
+       },
+       "size": {
+        "value": 13
+       }
+      }
+     ],
+     "width": 60,
+     "height": 640,
+     "style": {
+      "outline": "none"
+     }
+    }
+   ]
+  },
+  {
+   "tracks": [
+    {
+     "alignment": "overlay",
+     "data": {
+      "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+      "type": "csv-time",
+      "separator": "\t",
+      "dateFields": [
+       "Kalenderwoche"
+      ]
+     },
+     "dataTransform": [
+      {
+       "type": "filter",
+       "field": "Bundesland",
+       "oneOf": [
+        "Bundesweit"
+       ]
+      },
+      {
+       "type": "filter",
+       "field": "Altersgruppe",
+       "oneOf": [
+        "00+"
+       ]
+      }
+     ],
+     "x": {
+      "field": "Kalenderwoche",
+      "type": "temporal",
+      "period": {
+       "unit": "year",
+       "weekBased": true,
+       "newField": "year"
+      },
+      "timeUnit": "week",
+      "axis": "bottom"
+     },
+     "row": {
+      "field": "year",
+      "type": "nominal",
+      "domain": [
+       "2012",
+       "2013",
+       "2014",
+       "2015",
+       "2016",
+       "2017",
+       "2018",
+       "2019",
+       "2020",
+       "2021",
+       "2022",
+       "2023",
+       "2024",
+       "2025",
+       "2026"
+      ]
+     },
+     "tracks": [
+      {
+       "mark": "rect",
+       "color": {
+        "field": "ARE_Konsultationsinzidenz",
+        "type": "quantitative",
+        "range": "viridis"
+       },
+       "stroke": {
+        "value": "white"
+       },
+       "strokeWidth": {
+        "value": 0.5
+       }
+      },
+      {
+       "mark": "line",
+       "y": {
+        "field": "ARE_Konsultationsinzidenz",
+        "type": "quantitative",
+        "axis": "none"
+       },
+       "color": {
+        "value": "black"
+       },
+       "opacity": {
+        "value": 0
+       }
+      }
+     ],
+     "width": 1000,
+     "height": 640
+    }
+   ]
+  },
+  {
+   "tracks": [
+    {
+     "alignment": "overlay",
+     "data": {
+      "url": "https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv",
+      "type": "csv-time",
+      "separator": "\t",
+      "dateFields": [
+       "Kalenderwoche"
+      ]
+     },
+     "dataTransform": [
+      {
+       "type": "filter",
+       "field": "Bundesland",
+       "oneOf": [
+        "Bundesweit"
+       ]
+      },
+      {
+       "type": "filter",
+       "field": "Altersgruppe",
+       "oneOf": [
+        "00+"
+       ]
+      }
+     ],
+     "x": {
+      "field": "Kalenderwoche",
+      "type": "temporal",
+      "period": {
+       "unit": "year",
+       "weekBased": true,
+       "newField": "year"
+      },
+      "timeUnit": "week",
+      "axis": "none"
+     },
+     "row": {
+      "field": "year",
+      "type": "nominal",
+      "domain": [
+       "2012",
+       "2013",
+       "2014",
+       "2015",
+       "2016",
+       "2017",
+       "2018",
+       "2019",
+       "2020",
+       "2021",
+       "2022",
+       "2023",
+       "2024",
+       "2025",
+       "2026"
+      ]
+     },
+     "tracks": [
+      {
+       "mark": "rect",
+       "color": {
+        "field": "ARE_Konsultationsinzidenz",
+        "type": "quantitative",
+        "range": "viridis",
+        "legend": true,
+        "title": "per 100,000\nper week"
+       },
+       "opacity": {
+        "value": 0
+       }
+      },
+      {
+       "mark": "line",
+       "y": {
+        "field": "ARE_Konsultationsinzidenz",
+        "type": "quantitative",
+        "axis": "none"
+       },
+       "color": {
+        "value": "black"
+       },
+       "opacity": {
+        "value": 0
+       }
+      }
+     ],
+     "width": 190,
+     "height": 640,
+     "style": {
+      "outline": "none"
+     },
+     "title": "ARE consultations"
+    }
+   ]
+  }
+ ]
+}
