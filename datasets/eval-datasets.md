@@ -34,7 +34,7 @@ same publisher and API (GeoSphere) as the solar example's weather file. It is a 
 | Ex | Recommended dataset | Why | License | Rows | Size | Direct URL (pinned) |
 |---|---|---|---|---|---|---|
 | **E1** | Coastal ocean temperature by depth, Birchy Head, Nova Scotia (CMAR Coastal Monitoring Program; daily means, TidyTuesday 2026-03-31) ✅ | Daily data for 7.8 years (2018-02-20 to 2025-12-06) at 7 depths, in long format with ISO dates. It has real gaps: the 2 m sensor is missing 348 days (including May–Nov 2024), 5 m is missing 191 and 40 m is missing 225. The month-by-month story is clear: the surface warms to about 17 °C in Aug–Sep while 40 m stays below 7 °C, and all depths converge at 2–4 °C in winter. | Open Government Licence – Nova Scotia (data); TidyTuesday repo CC0 1.0 | 19,165 | 1.0 MB | https://raw.githubusercontent.com/rfordatascience/tidytuesday/6753376ef104727ef0ca3e3db6f2ca580c0d5a7b/data/2026/2026-03-31/ocean_temperature.csv |
-| **E2 + E3** | RKI ARE-Konsultationsinzidenz: weekly acute respiratory illness consultation incidence, Germany ✅ | ISO weeks 2012-W40 to 2026-W43: 734 national weeks with no gaps, 14 full seasons, and 53-week years (2015, 2020). The peak falls in ISO weeks 5–12 in most seasons but in week 50 in 2022 and 2023, and in week 44 in 2020, so it crosses the year boundary. Agency source with a DOI. | CC BY 4.0 | 24,756 (734 per series) | 1.0 MB (TSV) | https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv |
+| **E2 + E3** | RKI ARE-Konsultationsinzidenz: weekly acute respiratory illness consultation incidence, Germany ✅ | ISO weeks 2012-W40 to 2026-W43: 734 national weeks with no gaps, 14 full seasons, and 53-week years (2015, 2020). The peak falls in ISO weeks 5–12 in most seasons but in week 50 in 2022 and 2023, so it crosses the year boundary; 2020/21 had no winter peak. Agency source with a DOI. | CC BY 4.0 | 24,756 (734 per series) | 1.0 MB (TSV) | https://raw.githubusercontent.com/robert-koch-institut/ARE-Konsultationsinzidenz/65ac2d278c06333808415795d65f0347c54be638/ARE-Konsultationsinzidenz.tsv |
 | ✅ E2/E3 week format | | **Resolved 2026-11-03:** time-i-gram 0.1.0 (npm) reads `YYYY-Www` in `dateFields`. Original note: Weeks are single strings such as `2012-W40`. D3 (`%G-W%V`), Vega-Lite (`parse: "utc:'%G-W%V'"`) and tsibble `yearweek()` read them. **time-i-gram's `csv-time` cannot**: it needs a date, or separate numeric year and week columns. See §2 E2/E3 for the options. | | | | |
 | **E4** | Ubuntu release history (`ubuntu.csv` from Debian/Ubuntu `distro-info-data`) ✅ | 46 releases (entities), each with a development start (`created`) and a release date (events). The intervals are the development cycle, standard support (`release`→`eol`) and, for LTS releases, `eol-server`, `eol-esm` and `eol-legacy`. Align on `release`. The pattern: LTS releases get about 5 years of standard support (plus 5 of ESM), while interim releases get 9 months. ISO dates. | ISC | 46 | 3.2 KB | `https://salsa.debian.org/debian/distro-info-data/-/raw/<tag>/ubuntu.csv` (pin a tag; host not reachable from here, verified copy is from package `2026.10.12-0ubuntu0.24.04.1`) |
 | **E5** | GeoSphere Austria `klima-v2-10min`, one station (Wien Hohe Warte), air temperature `tl` + precipitation `rr`, 2020–2024 📄 | 10-minute, quality-controlled national-agency data with a DOI and ISO timestamps carrying an explicit `+00:00` offset. The request fits the API's 1,000,000-value CSV limit (2 × 263,088). Expected overview: the seasonal cycle. Expected detail: the diurnal cycle and individual storms. **Not downloaded.** | CC BY 4.0 | 263,088 (computed) | ≈10 MB (estimated) | `https://dataset.api.hub.geosphere.at/v1/station/historical/klima-v2-10min?parameters=tl,rr&station_ids=105&start=2020-01-01T00:00&end=2024-12-31T23:50&output_format=csv` (station id 105 unconfirmed) |
@@ -183,7 +183,7 @@ same publisher and API (GeoSphere) as the solar example's weather file. It is a 
   | 2017/18 | W08 |
   | 2018/19 | W07 |
   | 2019/20 | W12 |
-  | 2020/21 | 2020-W44 |
+  | 2020/21 | 2021-W39 (no winter peak; corrected 2026-11-05, see rubrics/E3.md) |
   | 2021/22 | W11 |
   | 2022/23 | **2022-W50** |
   | 2023/24 | **2023-W50** |
@@ -191,7 +191,7 @@ same publisher and API (GeoSphere) as the solar example's weather file. It is a 
   | 2025/26 | W06 |
 
 - **Pattern for E3:** the peak sits in February in most years, but jumped to mid-December in 2022 and 2023
-  (and to autumn in the pandemic season 2020/21).
+  (and the pandemic season 2020/21 had no winter peak at all).
 - **Pattern for E2:** every year has a low summer trough (about 300–1,000) and a sharp dip in ISO week 52
   (for example 2018: W51 = 1,344, W52 = 463, W01 = 901). That dip is a reporting artifact of the Christmas
   practice closures. It is worth a caption, and it means an `argmax` peak is never in W52.

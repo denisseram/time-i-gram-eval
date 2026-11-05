@@ -48,3 +48,11 @@ reviewing the disagreements with the judge); the judge only measures agreement.
   in the results.
 - Screenshots can reveal the tool through its default style (e.g. ggplot2's grey background), so the blind
   phase is only partly blind.
+
+## Corrections after scoring
+
+- **2026-11-05, `rubrics/E3.md`, ground truth of the season peaks.** The table had 2020/21 → 2020-W44; the
+  correct value for the task's `Saison` (W40–W39) is 2021-W39 (computed July–June by mistake). The rubric is
+  not part of any prompt, so the runs are unaffected. Consequences: the judge was re-run for E3 with the
+  corrected rubric; scores the human had changed to follow the judge's E3 R3/R7 reasons were re-verified
+  against the figures. `scripts/score.py changes <initial>` lists every score changed after the review.

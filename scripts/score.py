@@ -389,6 +389,10 @@ def load_initial(ref, human_name):
     return {(r["phase"], r["item"], r["requirement"]): r for r in rows if valid(r)}
 
 
+def pairs_initial_count(initial):
+    return [k for k, r in initial.items() if k[0] == "blind" and k[2] != "_note" and r["score"] != ""]
+
+
 def cmd_changes(args):
     """Every score that differs between the initial file/commit and now, with the judge's score and reason."""
     key = read_key()
@@ -411,8 +415,9 @@ def cmd_changes(args):
                                           "judge_reason"], lineterminator="\n")
         w.writeheader()
         w.writerows(rows)
-    print(f"{len(rows)} scores changed since {args.initial} -> {out.relative_to(ROOT)}")
-    for r in rows:
+    real = [r for r in rows if r["initial"]]
+    print(f"{len(real)} scores changed and {len(rows) - len(real)} added since {args.initial} -> {out.relative_to(ROOT)}")
+    for r in real + [r for r in rows if not r["initial"]]:
         print(f"  {r['item']:<10} {r['run_id']:<22} {r['requirement']}: {r['initial'] or '-'} -> {r['final'] or '-'}"
               f"  (judge {r['judge'] or '-'}: {r['judge_reason'][:70]})")
 
@@ -528,11 +533,13 @@ def cmd_summary(args):
         out.append(f"| {label} | " + " | ".join(cells) + " |")
     exact = sum(a == b for a, b in pairs) / len(pairs) if pairs else float("nan")
     if initial is not None:
-        changed = [k for k, r in human.items() if k[2] != "_note" and initial.get(k, {}).get("score", "") != r["score"]]
+        changed = [k for k, r in human.items() if k[2] != "_note" and initial.get(k, {}).get("score", "") not in ("", r["score"])]
+        added = [k for k, r in human.items() if k[2] != "_note" and initial.get(k, {}).get("score", "") == "" and r["score"]]
         changed_blind = [k for k in changed if k[0] == "blind"]
-        basis = (f"Computed with the human's **initial** scores (`{Path(initial_ref).name}`, before seeing the judge). After "
-                 f"reviewing the disagreements, the human changed {len(changed_blind)} blind scores "
-                 f"({len(changed) - len(changed_blind)} live/code scores changed as well); the final scores are used everywhere else.")
+        basis = (f"Computed with the human's **initial** scores (`{Path(initial_ref).name}`, before seeing the judge; "
+                 f"{len(pairs_initial_count(initial))} blind scores). Since then the human changed {len(changed_blind)} "
+                 f"blind and {len(changed) - len(changed_blind)} live/code scores, and entered {len(added)} scores that "
+                 f"were not in the initial file; the final scores are used everywhere else.")
     else:
         basis = ("**Computed with the human's final scores.** If any score was changed after seeing the judge, this "
                  "overstates agreement: run `summary --initial <commit>` with the commit of the scores before the judge ran.")
