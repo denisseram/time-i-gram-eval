@@ -50,7 +50,7 @@ python3 scripts/runner.py pilot --clean       # delete the pilot runs after look
 python3 scripts/build_prompts.py --check && python3 scripts/verify_data.py
 git tag v1-frozen && git push origin v1-frozen    # freeze (batch refuses to run without it)
 python3 scripts/runner.py init                # draw the order of the 60 runs once
-caffeinate -i python3 scripts/runner.py batch --blocks 2    # 2 blocks = 8 runs; repeat on later days
+caffeinate -i python3 scripts/runner.py batch --blocks 2    
 python3 scripts/runner.py status              # progress, time, tokens
 ```
 
