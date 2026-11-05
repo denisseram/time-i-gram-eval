@@ -21,8 +21,11 @@ import json
 import math
 import random
 import re
+import os
 import statistics
 import sys
+import tempfile
+import threading
 import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -35,6 +38,7 @@ KEY = RESULTS / "blind_key.csv"
 LIB = ROOT / "gallery/node_modules"
 DELIVERABLE = {"d3": "index.html", "vega-lite": "spec.vl.json", "ggtime": "plot.R", "time-i-gram": "spec.json"}
 SCORE_COLS = ["evaluator", "phase", "item", "example", "requirement", "score", "note", "updated"]
+WRITE_LOCK = threading.Lock()  # the app saves from several threads; one read-modify-write at a time
 
 
 # ------------------------------------------------------------------------------------- materials
@@ -97,27 +101,37 @@ def run_dir_of(run_id):
     return ROOT / "runs" / example / tool / run_id
 
 
-def read_scores(path):
+def valid(row):
+    return (row.get("phase") in ("blind", "live") and row.get("item") and row.get("requirement")
+            and (row.get("score") or "") in ("", "0", "1", "2"))
+
+
+def read_scores(path, keep_invalid=False):
+    """Rows of a scores file; malformed rows (e.g. from an interrupted write) are skipped."""
     if not path.exists():
         return []
-    with path.open() as f:
-        return list(csv.DictReader(f))
+    with path.open(newline="") as f:
+        rows = [{k: (v if v is not None else "") for k, v in r.items() if k is not None} for r in csv.DictReader(f)]
+    return rows if keep_invalid else [r for r in rows if valid(r)]
 
 
 def write_scores(path, rows):
-    rows = sorted(rows, key=lambda r: (r["phase"], r["item"], r["requirement"]))
-    with path.open("w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=SCORE_COLS, lineterminator="\n")
+    rows = sorted((r for r in rows if valid(r)), key=lambda r: (r["phase"], r["item"], r["requirement"]))
+    fd, tmp = tempfile.mkstemp(dir=path.parent, prefix=path.name, suffix=".tmp")
+    with os.fdopen(fd, "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=SCORE_COLS, lineterminator="\n", extrasaction="ignore")
         w.writeheader()
         w.writerows(rows)
+    os.replace(tmp, path)  # atomic: a reader sees the old file or the new one, never half of it
 
 
 def upsert(path, row):
-    rows = [r for r in read_scores(path)
-            if not (r["phase"] == row["phase"] and r["item"] == row["item"] and r["requirement"] == row["requirement"])]
-    if row.get("score", "") != "" or row.get("note", ""):
-        rows.append({c: row.get(c, "") for c in SCORE_COLS})
-    write_scores(path, rows)
+    with WRITE_LOCK:
+        rows = [r for r in read_scores(path)
+                if not (r["phase"] == row["phase"] and r["item"] == row["item"] and r["requirement"] == row["requirement"])]
+        if row.get("score", "") != "" or row.get("note", ""):
+            rows.append({c: row.get(c, "") for c in SCORE_COLS})
+        write_scores(path, rows)
 
 
 # ------------------------------------------------------------------------------------- commands
@@ -244,6 +258,13 @@ class Handler(BaseHTTPRequestHandler):
         self.send("not found", "text/plain", 404)
 
     def do_POST(self):
+        try:
+            self.post()
+        except Exception as e:  # never leave the browser without an answer
+            print(f"Error while saving: {e!r}", file=sys.stderr)
+            self.send(json.dumps({"error": str(e)}), "application/json", 500)
+
+    def post(self):
         body = json.loads(self.rfile.read(int(self.headers.get("content-length", 0))) or b"{}")
         path = urllib.parse.urlparse(self.path).path
         now = dt.datetime.now().isoformat(timespec="seconds")
@@ -270,12 +291,31 @@ def cmd_serve(args):
     if not (LIB / "vega").exists() or not (LIB / "time-i-gram").exists():
         sys.exit("The live phase needs the pinned libraries: run `cd gallery && npm install` once.")
     Handler.evaluator = args.evaluator
+    ThreadingHTTPServer.request_queue_size = 64
     server = ThreadingHTTPServer(("127.0.0.1", args.port), Handler)
     print(f"Scoring app for '{args.evaluator}': http://127.0.0.1:{args.port}   (Ctrl+C to stop; scores are saved at every click)")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
         print("\nStopped.")
+
+
+def cmd_repair(args):
+    path = RESULTS / f"scores-{args.evaluator}.csv"
+    if not path.exists():
+        sys.exit(f"{path.relative_to(ROOT)} does not exist.")
+    raw = path.read_text(errors="replace")
+    rows = read_scores(path, keep_invalid=True)
+    good = [r for r in rows if valid(r)]
+    bad = [r for r in rows if not valid(r)]
+    backup = path.with_name(f"{path.stem}.backup-{dt.datetime.now():%Y%m%dT%H%M%S}.csv")
+    backup.write_text(raw)
+    write_scores(path, good)
+    print(f"Backup of the original: {backup.relative_to(ROOT)}")
+    print(f"Kept {len(good)} valid scores; removed {len(bad)} malformed rows:")
+    for r in bad:
+        print("  ", {k: v for k, v in r.items() if v})
+    print("Run `python3 scripts/score.py progress` and re-score anything still missing in the app.")
 
 
 def cmd_progress(args):
@@ -463,6 +503,9 @@ def main():
     s.add_argument("--evaluator", default=SCFG["human_evaluator"])
     s.add_argument("--port", type=int, default=8800)
     s.set_defaults(func=cmd_serve)
+    s = sub.add_parser("repair", help="remove malformed rows from a scores file (keeps a backup)")
+    s.add_argument("--evaluator", default=SCFG["human_evaluator"])
+    s.set_defaults(func=cmd_repair)
     s = sub.add_parser("progress")
     s.add_argument("--evaluator", default=SCFG["human_evaluator"])
     s.set_defaults(func=cmd_progress)

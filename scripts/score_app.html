@@ -155,21 +155,32 @@ function render() {
   document.querySelectorAll(".req").forEach(card => card.querySelectorAll("button").forEach(b => b.onclick = async () => {
     const r = it.reqs.find(x => x.id === card.dataset.req);
     const score = r.score === b.dataset.s ? "" : b.dataset.s; // click again to clear
-    await save({ requirement: r.id, score });
+    try { await save({ requirement: r.id, score }); } catch (e) { return; }
     r.score = score;
     render();
   }));
-  document.getElementById("note").onblur = async e => { if (e.target.value !== it.note) { await save({ requirement: "_note", score: "", note: e.target.value }); it.note = e.target.value; } };
+  document.getElementById("note").onblur = async e => { if (e.target.value !== it.note) { const v = e.target.value; try { await save({ requirement: "_note", score: "", note: v }); it.note = v; } catch (err) {} } };
   document.getElementById("prev").onclick = () => go(cur - 1);
   document.getElementById("next").onclick = () => go(cur + 1);
 }
 
-async function save(fields) {
+let saving = Promise.resolve();
+function save(fields) {
+  // one save at a time, in click order
   const it = data[cur];
-  const r = await fetch("/api/score", { method: "POST", body: JSON.stringify({ phase, item: it.item, example: it.example, ...fields }) });
-  lastSaved = r.ok ? `saved ${new Date().toLocaleTimeString()}` : "NOT saved - is the app still running? (terminal: python3 scripts/score.py serve)";
-  const el = document.getElementById("saved");
-  if (el) el.textContent = lastSaved;
+  saving = saving.then(async () => {
+    let ok = false, msg = "";
+    try {
+      const r = await fetch("/api/score", { method: "POST", body: JSON.stringify({ phase, item: it.item, example: it.example, ...fields }) });
+      ok = r.ok;
+      if (!ok) msg = (await r.json().catch(() => ({}))).error || r.status;
+    } catch (e) { msg = "the app is not answering (terminal: python3 scripts/score.py serve)"; }
+    lastSaved = ok ? `saved ${new Date().toLocaleTimeString()}` : `NOT saved: ${msg}`;
+    const el = document.getElementById("saved");
+    if (el) { el.textContent = lastSaved; el.style.color = ok ? "" : "#b3261e"; }
+    if (!ok) throw new Error(lastSaved);
+  });
+  return saving.catch(e => { saving = Promise.resolve(); throw e; });
 }
 
 function go(i) { if (i >= 0 && i < data.length) { cur = i; render(); document.getElementById("view").scrollTop = 0; } }
