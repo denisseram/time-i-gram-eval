@@ -1,0 +1,70 @@
+phase,item,run_id,requirement,initial,final,judge,judge_reason
+blind,E1-02,E1-ggtime-r01,R6,2,1,1,"There is a title and a one-sentence caption, but the caption gives the 40 m range as 2–9 °C while the data peak at 10.9 °C."
+blind,E2-01,E2-vega-lite-r03,R5,,2,2,Week numbers are labelled along the top x-axis and years along the y-axis.
+blind,E3-02,E3-time-i-gram-r03,R1,,2,2,"Polar layout with W1 at 12 o'clock, weeks running clockwise (W9, W17, W25, W33, W41, W49), one ring per ISO year, and the value on the radius."
+blind,E3-02,E3-time-i-gram-r03,R2,,2,2,"Each ISO year from 2012 to 2026 is a separately coloured line, and a legend identifies the years."
+blind,E3-04,E3-ggtime-r03,R3,2,1,1,"Each season has a peak marker, but 2020/21 is labelled W39 while the data peak is 2020-W44, so one marker contradicts the ground truth."
+blind,E3-06,E3-ggtime-r01,R3,2,1,1,"Peaks are marked per season and match most of the ground truth, but 2020/21 is marked at W39 (2021) instead of 2020-W44, which contradicts the check."
+blind,E3-06,E3-ggtime-r01,R7,2,1,1,"There is a title and a 'No' caption, but the caption lists W39 for 2020/21, which contradicts the ground truth, and the caption is cut off at the right edge."
+blind,E3-08,E3-d3-r03,R3,2,1,1,"Peaks are marked per season with triangles, but 2020/21 is marked at 2021-W39 instead of the ground-truth peak at 2020-W44."
+blind,E3-08,E3-d3-r03,R7,2,1,1,"There is a title and a caption with the correct overall pattern, but the caption gives the 2020/21 peak as W39, which contradicts the ground truth (W44)."
+blind,E3-09,E3-d3-r02,R3,2,1,1,"Peaks are marked per season, but 2020/21 is marked at 2021-W39, which contradicts the ground-truth peak of 2020-W44."
+blind,E3-09,E3-d3-r02,R7,2,1,1,"There is a title and a caption, but the caption's claim that peaks ranged 'from W50 to W39' relies on the wrong 2020/21 peak (true peak: W44)."
+blind,E3-10,E3-vega-lite-r01,R3,2,1,1,"Each season has a labelled marker and most match, but the 2020/21 marker sits around week 38–39 (September 2021) instead of the true peak in 2020-W44."
+blind,E3-10,E3-vega-lite-r01,R7,2,1,1,"There is a title and a caption with the right main pattern, but the caption says the 2021 peak came in September, while the data puts the 2020/21 peak in 2020-W44."
+blind,E3-11,E3-d3-r01,R3,2,1,1,"There is one marker per season, but 2020/21 is marked at week 39 (2021) instead of the true peak, 2020-W44."
+blind,E3-11,E3-d3-r01,R7,2,1,1,"There is a title and a caption, but the caption says 2020/21 peaked in week 39, which contradicts the ground truth (2020-W44)."
+blind,E3-12,E3-ggtime-r02,R3,2,1,1,"There is one circle per season, but the 2020/21 peak is labelled W39, which contradicts the ground-truth 2020-W44."
+live,E3-time-i-gram-r02,E3-time-i-gram-r02,R5,,2,,
+live,E3-time-i-gram-r03,E3-time-i-gram-r03,R5,,1,,
+live,E3-vega-lite-r01,E3-vega-lite-r01,R5,,2,,
+live,E3-vega-lite-r02,E3-vega-lite-r02,R5,,2,,
+live,E3-vega-lite-r03,E3-vega-lite-r03,R5,,2,,
+live,E5-d3-r01,E5-d3-r01,R2,,2,,
+live,E5-d3-r01,E5-d3-r01,R3,,2,,
+live,E5-d3-r01,E5-d3-r01,R5,,2,,
+live,E5-d3-r01,E5-d3-r01,R6,,2,,
+live,E5-d3-r02,E5-d3-r02,R2,,2,,
+live,E5-d3-r02,E5-d3-r02,R3,,2,,
+live,E5-d3-r02,E5-d3-r02,R5,,2,,
+live,E5-d3-r02,E5-d3-r02,R6,,2,,
+live,E5-d3-r03,E5-d3-r03,R2,,2,,
+live,E5-d3-r03,E5-d3-r03,R3,,2,,
+live,E5-d3-r03,E5-d3-r03,R5,,2,,
+live,E5-d3-r03,E5-d3-r03,R6,,2,,
+live,E5-ggtime-r01,E5-ggtime-r01,R2,,2,,
+live,E5-ggtime-r01,E5-ggtime-r01,R3,,1,,
+live,E5-ggtime-r01,E5-ggtime-r01,R5,,1,,
+live,E5-ggtime-r01,E5-ggtime-r01,R6,,1,,
+live,E5-ggtime-r02,E5-ggtime-r02,R2,,2,,
+live,E5-ggtime-r02,E5-ggtime-r02,R3,,1,,
+live,E5-ggtime-r02,E5-ggtime-r02,R5,,1,,
+live,E5-ggtime-r02,E5-ggtime-r02,R6,,1,,
+live,E5-ggtime-r03,E5-ggtime-r03,R2,,2,,
+live,E5-ggtime-r03,E5-ggtime-r03,R3,,1,,
+live,E5-ggtime-r03,E5-ggtime-r03,R5,,1,,
+live,E5-ggtime-r03,E5-ggtime-r03,R6,,1,,
+live,E5-time-i-gram-r01,E5-time-i-gram-r01,R2,,2,,
+live,E5-time-i-gram-r01,E5-time-i-gram-r01,R3,,2,,
+live,E5-time-i-gram-r01,E5-time-i-gram-r01,R5,,2,,
+live,E5-time-i-gram-r01,E5-time-i-gram-r01,R6,,2,,
+live,E5-time-i-gram-r02,E5-time-i-gram-r02,R2,,2,,
+live,E5-time-i-gram-r02,E5-time-i-gram-r02,R3,,2,,
+live,E5-time-i-gram-r02,E5-time-i-gram-r02,R5,,2,,
+live,E5-time-i-gram-r02,E5-time-i-gram-r02,R6,,2,,
+live,E5-time-i-gram-r03,E5-time-i-gram-r03,R2,,2,,
+live,E5-time-i-gram-r03,E5-time-i-gram-r03,R3,,2,,
+live,E5-time-i-gram-r03,E5-time-i-gram-r03,R5,,2,,
+live,E5-time-i-gram-r03,E5-time-i-gram-r03,R6,,2,,
+live,E5-vega-lite-r01,E5-vega-lite-r01,R2,,1,,
+live,E5-vega-lite-r01,E5-vega-lite-r01,R3,,1,,
+live,E5-vega-lite-r01,E5-vega-lite-r01,R5,,1,,
+live,E5-vega-lite-r01,E5-vega-lite-r01,R6,,2,,
+live,E5-vega-lite-r02,E5-vega-lite-r02,R2,,2,,
+live,E5-vega-lite-r02,E5-vega-lite-r02,R3,,2,,
+live,E5-vega-lite-r02,E5-vega-lite-r02,R5,,1,,
+live,E5-vega-lite-r02,E5-vega-lite-r02,R6,,2,,
+live,E5-vega-lite-r03,E5-vega-lite-r03,R2,,2,,
+live,E5-vega-lite-r03,E5-vega-lite-r03,R3,,2,,
+live,E5-vega-lite-r03,E5-vega-lite-r03,R5,,1,,
+live,E5-vega-lite-r03,E5-vega-lite-r03,R6,,2,,

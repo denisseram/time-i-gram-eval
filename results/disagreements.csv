@@ -1,1 +1,3 @@
 code,example,requirement,human,judge,judge_reason
+E1-02,E1,R6,2,1,"There is a title and a one-sentence caption, but the caption gives the 40 m range as 2–9 °C while the data peak at 10.9 °C."
+E3-06,E3,R2,2,1,"There is one line per ISO year with a colour-bar legend, but the lines are very faint and the continuous palette makes neighbouring years hard to tell apart."

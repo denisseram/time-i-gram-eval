@@ -51,7 +51,7 @@ Mean of score_sum / score_max over the repeats (± standard deviation; n runs).
 | E5 | R6 (code) | 3/3 | 3/3 | 0/3 | 3/3 |
 | E5 | R7 (static) | 3/3 | 3/3 | 3/3 | 3/3 |
 
-## Effort per run (median over all examples)
+## Effort per run (median over all examples, except where a total is stated)
 
 | Measure | d3 | vega-lite | ggtime | time-i-gram |
 |---|---|---|---|---|
@@ -60,19 +60,21 @@ Mean of score_sum / score_max over the repeats (± standard deviation; n runs).
 | Tool calls | 6 | 7 | 11 | 25 |
 | Self-checks with render | 2 | 3 | 3 | 4 |
 | Output tokens | 7679 | 5817 | 5955 | 11652 |
-| Deliverable lines | 165 | 320 | 77 | 208 |
-| Renders without edits | 15/15 | 15/15 | 15/15 | 15/15 |
-| REPORT claims not met | 0 | 0 | 0 | 0 |
+| Deliverable size (characters, no comments or extra whitespace) | 9694 | 4107 | 4796 | 2906 |
+| Renders without edits (count) | 15/15 | 15/15 | 15/15 | 15/15 |
+| REPORT claims 'done' that scored below 2 (total) | 6 (in 3 of 15 runs) | 7 (in 4 of 15 runs) | 11 (in 7 of 15 runs) | 0 (in 0 of 15 runs) |
 
 ## Agreement with the automatic judge (blind, static requirements)
 
-324 paired scores; exact agreement 100 %; quadratic-weighted Cohen's kappa 1.00. Disagreements: `results/disagreements.csv` (0).
+Computed with the human's **initial** scores (`scores-denisse.backup-20261105T102312.csv`, before seeing the judge; 321 blind scores). Since then the human changed 13 blind and 0 live/code scores, and entered 56 scores that were not in the initial file; the final scores are used everywhere else.
+
+321 paired scores; exact agreement 99 %; quadratic-weighted Cohen's kappa 0.93 (– when both raters used a single score). Disagreements: `results/disagreements.csv` (2).
 
 | Example | pairs | exact agreement | weighted kappa |
 |---|---|---|---|
-| E1 | 72 | 100 % | 1.00 |
-| E2 | 72 | 100 % | 1.00 |
-| E3 | 72 | 100 % | 1.00 |
+| E1 | 72 | 99 % | 0.00 |
+| E2 | 71 | 100 % | 1.00 |
+| E3 | 70 | 99 % | 0.96 |
 | E4 | 72 | 100 % | – |
 | E5 | 36 | 100 % | – |
 

@@ -143,78 +143,78 @@ judge-claude-opus-5-5,blind,E2-12,E2,R3,2,"Sequential yellow-to-red scale with a
 judge-claude-opus-5-5,blind,E2-12,E2,R4,2,"2012 W01–W39 and 2026 W44 onward are blank, and the caption says empty cells are outside the reported period.",2026-11-05T10:37:49
 judge-claude-opus-5-5,blind,E2-12,E2,R5,2,Week numbers 1–53 label the top x-axis and years label the y-axis.,2026-11-05T10:37:49
 judge-claude-opus-5-5,blind,E2-12,E2,R6,2,"Title plus a caption on the autumn rise, summer low, shifting peak and missing 2020/21 winter wave, which matches the data.",2026-11-05T10:37:49
-judge-claude-opus-5-5,blind,E3-01,E3,R1,2,"The circular view has W1 at 12 o'clock and W9 to the right, so weeks run clockwise; there is one ring per ISO year, and the radius encodes the consultation rate.",2026-11-05T10:37:59
-judge-claude-opus-5-5,blind,E3-01,E3,R2,2,"Each ISO year is its own coloured line with a legend for 2012–2026, though neighbouring viridis shades are hard to tell apart.",2026-11-05T10:37:59
-judge-claude-opus-5-5,blind,E3-01,E3,R3,0,"The circular view has no markers for the peak weeks, per season or otherwise.",2026-11-05T10:37:59
-judge-claude-opus-5-5,blind,E3-01,E3,R4,2,The linear panel shows the whole series from late 2012 to 2026 on a calendar date axis.,2026-11-05T10:37:59
-judge-claude-opus-5-5,blind,E3-01,E3,R6,2,"Week labels sit around the circle, the linear view has a year axis, and the value unit 'ARE consultations per 100,000 per week' is given.",2026-11-05T10:37:59
-judge-claude-opus-5-5,blind,E3-01,E3,R7,2,"There is a title, and the caption matches the data: Feb–Mar peaks through 2019 and December peaks in 2022 and 2023, though 'since 2020' slightly overstates the shift.",2026-11-05T10:37:59
-judge-claude-opus-5-5,blind,E3-02,E3,R1,2,"Polar layout with W1 at 12 o'clock, weeks running clockwise (W9, W17, W25, W33, W41, W49), one ring per ISO year, and the value on the radius.",2026-11-05T10:38:10
-judge-claude-opus-5-5,blind,E3-02,E3,R2,2,"Each ISO year from 2012 to 2026 is a separately coloured line, and a legend identifies the years.",2026-11-05T10:38:10
-judge-claude-opus-5-5,blind,E3-02,E3,R3,0,The circular view has no markers for season peak weeks.,2026-11-05T10:38:10
-judge-claude-opus-5-5,blind,E3-02,E3,R4,2,The linear view shows the whole series from late 2012 to 2026 on a date axis with year ticks.,2026-11-05T10:38:10
-judge-claude-opus-5-5,blind,E3-02,E3,R6,2,"Week labels run around the circle, the linear axis shows years, and the value unit (ARE consultations per 100,000 per week) is labelled in both views.",2026-11-05T10:38:10
-judge-claude-opus-5-5,blind,E3-02,E3,R7,2,"There is a title and a one-sentence caption, and the caption's claim of February peaks until 2019 followed by shifts (March, autumn, December) matches the data.",2026-11-05T10:38:10
-judge-claude-opus-5-5,blind,E3-03,E3,R1,2,"The polar layout puts W1 at 12 o'clock with weeks running clockwise (W5, W9, …), one ring per ISO year, and the value on the radius.",2026-11-05T10:38:21
-judge-claude-opus-5-5,blind,E3-03,E3,R2,2,"Each ISO year is its own line, coloured on a viridis scale with an ISO-year legend, though neighbouring years look similar.",2026-11-05T10:38:21
-judge-claude-opus-5-5,blind,E3-03,E3,R3,2,"There is one labelled marker per season at its peak week, including 2022/23 and 2023/24 near W50, 2020/21 in autumn, and the partial 2026/27 season as a diamond.",2026-11-05T10:38:21
-judge-claude-opus-5-5,blind,E3-03,E3,R4,2,The linear view shows the whole series from late 2012 to 2026 on a date axis (Monday of ISO week).,2026-11-05T10:38:21
-judge-claude-opus-5-5,blind,E3-03,E3,R6,2,"Week labels run around the circle, the linear view has a date axis, and the value unit (consultations per 100,000 per week) is given on both views.",2026-11-05T10:38:21
-judge-claude-opus-5-5,blind,E3-03,E3,R7,2,"There is a title and a caption saying peak timing varies since 2020, with December peaks in 2022 and 2023, which matches the data.",2026-11-05T10:38:21
-judge-claude-opus-5-5,blind,E3-04,E3,R1,2,"Polar layout with W01 at 12 o'clock, weeks running clockwise, one ring per ISO year, and the value on the radius.",2026-11-05T10:38:34
-judge-claude-opus-5-5,blind,E3-04,E3,R2,2,"Each ISO year has its own coloured ring with a legend, though neighbouring rainbow colours are hard to tell apart.",2026-11-05T10:38:34
-judge-claude-opus-5-5,blind,E3-04,E3,R3,1,"Each season has a peak marker, but 2020/21 is labelled W39 while the data peak is 2020-W44, so one marker contradicts the ground truth.",2026-11-05T10:38:34
-judge-claude-opus-5-5,blind,E3-04,E3,R4,2,The linear view covers 2012 to 2026 on a calendar time axis.,2026-11-05T10:38:34
-judge-claude-opus-5-5,blind,E3-04,E3,R6,2,"Week labels run around the circle, years label the linear axis, and the value unit 'per 100,000 per week' is given.",2026-11-05T10:38:34
-judge-claude-opus-5-5,blind,E3-04,E3,R7,2,"There is a title and a caption; the caption's claim that the peak week shifts (W50, W50, W07, W06) matches the data.",2026-11-05T10:38:34
-judge-claude-opus-5-5,blind,E3-05,E3,R1,2,"The polar view puts W1 at the top, runs clockwise (W9 to the right, W41 to the left), makes one turn per ISO year, and encodes the value on the radius.",2026-11-05T10:38:43
-judge-claude-opus-5-5,blind,E3-05,E3,R2,2,"Each ISO year is a separate line with its own viridis colour, and there is an ISO year legend, though neighbouring years look alike.",2026-11-05T10:38:43
-judge-claude-opus-5-5,blind,E3-05,E3,R3,0,No per-season peak markers are visible in the circular view.,2026-11-05T10:38:43
-judge-claude-opus-5-5,blind,E3-05,E3,R4,2,The linear overview covers the whole series from 2012 to 2026 on a calendar year axis.,2026-11-05T10:38:43
-judge-claude-opus-5-5,blind,E3-05,E3,R6,2,"Week labels (W1–W49) sit around the circle, the linear views have date axes, and the value is labelled 'ARE consultations per 100,000 per week'.",2026-11-05T10:38:43
-judge-claude-opus-5-5,blind,E3-05,E3,R7,2,"The title is present, and the caption (peaks in weeks 5–12 before 2020, December peaks in 2022 and 2023) matches the ground truth.",2026-11-05T10:38:43
-judge-claude-opus-5-5,blind,E3-06,E3,R1,2,"The polar view has ISO week 1 at the top, runs clockwise, makes one turn per ISO year and puts the value on the radius.",2026-11-05T10:38:55
-judge-claude-opus-5-5,blind,E3-06,E3,R2,2,"Each ISO year is a separate line coloured by year, with a colour-bar legend, though neighbouring years look alike and many lines are faint.",2026-11-05T10:38:55
-judge-claude-opus-5-5,blind,E3-06,E3,R3,1,"Peaks are marked per season and match most of the ground truth, but 2020/21 is marked at W39 (2021) instead of 2020-W44, which contradicts the check.",2026-11-05T10:38:55
-judge-claude-opus-5-5,blind,E3-06,E3,R4,2,The linear view covers 2012 to 2026-W43 on a calendar date axis.,2026-11-05T10:38:55
-judge-claude-opus-5-5,blind,E3-06,E3,R6,2,"Week labels run around the circle, the linear view has a date axis, and the value axis says 'ARE consultations per 100,000 per week'.",2026-11-05T10:38:55
-judge-claude-opus-5-5,blind,E3-06,E3,R7,1,"There is a title and a 'No' caption, but the caption lists W39 for 2020/21, which contradicts the ground truth, and the caption is cut off at the right edge.",2026-11-05T10:38:55
-judge-claude-opus-5-5,blind,E3-07,E3,R1,2,"The circular view puts W1 at 12 o'clock, runs clockwise (W5 to the right of the top), makes one ring per ISO year, and encodes the value on the radius.",2026-11-05T10:39:07
-judge-claude-opus-5-5,blind,E3-07,E3,R2,2,"Each ISO year is a separate coloured ring, and the legend lists the years 2012–2026.",2026-11-05T10:39:07
-judge-claude-opus-5-5,blind,E3-07,E3,R3,2,"Each season has one labelled marker at its peak week, for example 2022/23 and 2023/24 near W50, 2020/21 in autumn, and a triangle for the 2026/27 season in progress.",2026-11-05T10:39:07
-judge-claude-opus-5-5,blind,E3-07,E3,R4,2,The linear view shows the whole series from 2012 to 2026 on a date axis (Monday of the ISO week).,2026-11-05T10:39:07
-judge-claude-opus-5-5,blind,E3-07,E3,R6,2,"Week labels run around the circle, the linear view has a date axis, and the unit 'ARE consultations per 100,000 per week' is labelled.",2026-11-05T10:39:07
-judge-claude-opus-5-5,blind,E3-07,E3,R7,2,"There is a question-style title and a caption saying peaks fell in February before 2020 and have moved around since (December to March), which matches the data, although it leaves out the 2020/21 autumn peak.",2026-11-05T10:39:07
-judge-claude-opus-5-5,blind,E3-08,E3,R1,2,"The circular view puts W1 at 12 o'clock and runs clockwise, with one turn per ISO year and the ARE incidence on the radius.",2026-11-05T10:39:21
-judge-claude-opus-5-5,blind,E3-08,E3,R2,2,"Each ISO year (2012–2026) has its own coloured ring, and a legend identifies the years.",2026-11-05T10:39:21
-judge-claude-opus-5-5,blind,E3-08,E3,R3,1,"Peaks are marked per season with triangles, but 2020/21 is marked at 2021-W39 instead of the ground-truth peak at 2020-W44.",2026-11-05T10:39:21
-judge-claude-opus-5-5,blind,E3-08,E3,R4,2,The linear view shows the whole series from late 2012 to 2026-W43 on a calendar date axis.,2026-11-05T10:39:21
-judge-claude-opus-5-5,blind,E3-08,E3,R6,2,"Week labels run around the circle, the linear view has a date axis, and the value unit (ARE consultations per 100,000 population per week) is given.",2026-11-05T10:39:21
-judge-claude-opus-5-5,blind,E3-08,E3,R7,1,"There is a title and a caption with the correct overall pattern, but the caption gives the 2020/21 peak as W39, which contradicts the ground truth (W44).",2026-11-05T10:39:21
-judge-claude-opus-5-5,blind,E3-09,E3,R1,2,"The circular view puts W1 at the top, runs clockwise with one turn per ISO year, and shows the value on the radius.",2026-11-05T10:39:32
-judge-claude-opus-5-5,blind,E3-09,E3,R2,2,"Each ISO year is its own coloured line, with a legend listing 2012–2026, though neighbouring hues are similar.",2026-11-05T10:39:32
-judge-claude-opus-5-5,blind,E3-09,E3,R3,1,"Peaks are marked per season, but 2020/21 is marked at 2021-W39, which contradicts the ground-truth peak of 2020-W44.",2026-11-05T10:39:32
-judge-claude-opus-5-5,blind,E3-09,E3,R4,2,The linear view shows the whole series from 2012 to 2026 on a date axis.,2026-11-05T10:39:32
-judge-claude-opus-5-5,blind,E3-09,E3,R6,2,"The circle has week labels, the linear view has a date axis, and the value unit (consultations per 100,000 per week) is stated.",2026-11-05T10:39:32
-judge-claude-opus-5-5,blind,E3-09,E3,R7,1,"There is a title and a caption, but the caption's claim that peaks ranged 'from W50 to W39' relies on the wrong 2020/21 peak (true peak: W44).",2026-11-05T10:39:32
-judge-claude-opus-5-5,blind,E3-10,E3,R1,2,"The circular view puts W1 at the top, runs clockwise with one turn per ISO year, and uses the radius for ARE consultations.",2026-11-05T10:39:52
-judge-claude-opus-5-5,blind,E3-10,E3,R2,2,"Each ISO year has its own coloured line with an ISO-year legend, though the similar greens and blues are hard to tell apart.",2026-11-05T10:39:52
-judge-claude-opus-5-5,blind,E3-10,E3,R3,1,"Each season has a labelled marker and most match, but the 2020/21 marker sits around week 38–39 (September 2021) instead of the true peak in 2020-W44.",2026-11-05T10:39:52
-judge-claude-opus-5-5,blind,E3-10,E3,R4,2,The linear view covers late 2012 to late 2026 on a date axis (Monday of each ISO week).,2026-11-05T10:39:52
-judge-claude-opus-5-5,blind,E3-10,E3,R6,2,"Week labels run around the circle, the linear view has a date axis, and the value unit 'ARE consultations per 100,000 per week' is given.",2026-11-05T10:39:52
-judge-claude-opus-5-5,blind,E3-10,E3,R7,1,"There is a title and a caption with the right main pattern, but the caption says the 2021 peak came in September, while the data puts the 2020/21 peak in 2020-W44.",2026-11-05T10:39:52
-judge-claude-opus-5-5,blind,E3-11,E3,R1,2,"The polar layout puts ISO week 1 at the top and runs clockwise, one turn per ISO year, with the value on the radius.",2026-11-05T10:40:05
-judge-claude-opus-5-5,blind,E3-11,E3,R2,2,"Each ISO year has its own coloured line, and a legend lists the years 2012–2026.",2026-11-05T10:40:05
-judge-claude-opus-5-5,blind,E3-11,E3,R3,1,"There is one marker per season, but 2020/21 is marked at week 39 (2021) instead of the true peak, 2020-W44.",2026-11-05T10:40:05
-judge-claude-opus-5-5,blind,E3-11,E3,R4,2,The linear view shows the whole series from 2012 to 2026 on a calendar date axis.,2026-11-05T10:40:05
-judge-claude-opus-5-5,blind,E3-11,E3,R6,2,"Week and month labels go around the circle, the linear axis has dates, and the value unit is given.",2026-11-05T10:40:05
-judge-claude-opus-5-5,blind,E3-11,E3,R7,1,"There is a title and a caption, but the caption says 2020/21 peaked in week 39, which contradicts the ground truth (2020-W44).",2026-11-05T10:40:05
-judge-claude-opus-5-5,blind,E3-12,E3,R1,2,"The circular view is polar, with week 1 between W49 and W09 at the top, weeks running clockwise, one turn per ISO year, and the value on the radius.",2026-11-05T10:40:19
-judge-claude-opus-5-5,blind,E3-12,E3,R2,2,"Each ISO year is its own coloured line, with a legend; neighbouring years have similar colours, but the legend makes them identifiable.",2026-11-05T10:40:19
-judge-claude-opus-5-5,blind,E3-12,E3,R3,1,"There is one circle per season, but the 2020/21 peak is labelled W39, which contradicts the ground-truth 2020-W44.",2026-11-05T10:40:19
-judge-claude-opus-5-5,blind,E3-12,E3,R4,2,The linear view shows the whole 2012–2026 series on a calendar date axis.,2026-11-05T10:40:19
-judge-claude-opus-5-5,blind,E3-12,E3,R6,2,"The circle has week labels (W09…W49), the linear view has a date axis, and the value is labelled as consultations per 100,000 per week.",2026-11-05T10:40:19
-judge-claude-opus-5-5,blind,E3-12,E3,R7,2,"There is a title and a one-sentence caption saying the peak was in late winter before 2020 and has shifted since, which broadly matches the data.",2026-11-05T10:40:19
+judge-claude-opus-5-5,blind,E3-01,E3,R1,2,"The view is polar, with W1 at 12 o'clock and weeks running clockwise (W9 is on the right), one turn per ISO year, and the value on the radius.",2026-11-05T11:15:13
+judge-claude-opus-5-5,blind,E3-01,E3,R2,2,"Each ISO year is its own line, coloured with a viridis scale and listed in a legend, though neighbouring years are hard to tell apart.",2026-11-05T11:15:13
+judge-claude-opus-5-5,blind,E3-01,E3,R3,0,The circular view has no markers for season peak weeks.,2026-11-05T11:15:13
+judge-claude-opus-5-5,blind,E3-01,E3,R4,2,A linear panel shows all weeks from late 2012 to 2026 on a calendar date axis.,2026-11-05T11:15:13
+judge-claude-opus-5-5,blind,E3-01,E3,R6,2,"Week labels sit around the circle, the linear view has a date axis, and the value is labelled as ARE consultations per 100,000 per week.",2026-11-05T11:15:13
+judge-claude-opus-5-5,blind,E3-01,E3,R7,2,"There is a title and a caption saying peaks were Feb–Mar until 2019 and moved to December in 2022 and 2023, which broadly matches the data.",2026-11-05T11:15:13
+judge-claude-opus-5-5,blind,E3-02,E3,R1,2,"The polar layout puts W1 at 12 o'clock, runs the weeks clockwise (W9, W17, W25, W33, W41, W49), uses one turn per ISO year and encodes the value on the radius.",2026-11-05T11:15:25
+judge-claude-opus-5-5,blind,E3-02,E3,R2,2,"Each ISO year from 2012 to 2026 is a separate coloured line, with an 'ISO year' legend.",2026-11-05T11:15:25
+judge-claude-opus-5-5,blind,E3-02,E3,R3,0,The circular view has no marker at any season's peak week.,2026-11-05T11:15:25
+judge-claude-opus-5-5,blind,E3-02,E3,R4,2,The linear view shows the whole series from late 2012 to late 2026 on a year-labelled date axis.,2026-11-05T11:15:25
+judge-claude-opus-5-5,blind,E3-02,E3,R6,2,"The circle has week labels, the linear view has a date axis, and the value unit 'ARE consultations per 100,000 per week' is given.",2026-11-05T11:15:25
+judge-claude-opus-5-5,blind,E3-02,E3,R7,2,"There is a title and a caption about the peak shift that broadly matches the data, though 2025 and 2026 peaked in February again.",2026-11-05T11:15:25
+judge-claude-opus-5-5,blind,E3-03,E3,R1,2,"The circular view puts W1 at 12 o'clock and runs clockwise (W5 is to the right), with one ring per ISO year and ARE consultations on the radius.",2026-11-05T11:15:42
+judge-claude-opus-5-5,blind,E3-03,E3,R2,2,"Each ISO year is its own coloured ring, and a legend lists 2012–2026; the viridis colours are close together but can be told apart with the legend.",2026-11-05T11:15:42
+judge-claude-opus-5-5,blind,E3-03,E3,R3,2,"Each season has one labelled marker; 2022/23 and 2023/24 sit at about W50, 2020/21 near W39 and 2026/27 is a diamond near W43, which matches peaks computed per Saison.",2026-11-05T11:15:42
+judge-claude-opus-5-5,blind,E3-03,E3,R4,2,"The linear view covers late 2012 to 2026 on a date axis (Monday of ISO week), with the season peaks marked.",2026-11-05T11:15:42
+judge-claude-opus-5-5,blind,E3-03,E3,R6,2,"The circle has week labels, the linear view has a date axis, and the value is labelled as ARE consultations per 100,000 per week.",2026-11-05T11:15:42
+judge-claude-opus-5-5,blind,E3-03,E3,R7,2,"The title asks the question, and the caption (Feb–Mar peaks before 2020, none in 2020/21, March 2022, December 2022 and 2023, February 2025 and 2026) matches the ground truth.",2026-11-05T11:15:42
+judge-claude-opus-5-5,blind,E3-04,E3,R1,2,"The circular view is a polar layout with W01 at 12 o'clock and weeks running clockwise. It has one ring per ISO year, and the radius encodes ARE incidence.",2026-11-05T11:15:54
+judge-claude-opus-5-5,blind,E3-04,E3,R2,2,"Each ISO year is drawn as its own coloured ring, and a legend lists 2012–2026, although neighbouring years have similar hues.",2026-11-05T11:15:54
+judge-claude-opus-5-5,blind,E3-04,E3,R3,2,"Circles mark the peak week of each season, and the labels match the ground truth (2022/23 W50, 2023/24 W50, 2020/21 W39); only the recent, highlighted seasons stand out in the circle.",2026-11-05T11:15:54
+judge-claude-opus-5-5,blind,E3-04,E3,R4,2,The linear view shows the whole series from 2012 to 2026 on a calendar-year axis.,2026-11-05T11:15:54
+judge-claude-opus-5-5,blind,E3-04,E3,R6,2,"Week labels run around the circle, the linear view has a year axis, and both value axes give the unit 'ARE consultations per 100,000 per week'.",2026-11-05T11:15:54
+judge-claude-opus-5-5,blind,E3-04,E3,R7,2,"There is a question title and a one-sentence 'No' caption that matches the data: Feb–Mar peaks before 2020, then W50/W50/W07/W06.",2026-11-05T11:15:54
+judge-claude-opus-5-5,blind,E3-05,E3,R1,2,"Polar layout with W1 at 12 o'clock, weeks run clockwise (W9 right, W25 bottom, W41 left), one turn per ISO year, and the value is on the radius.",2026-11-05T11:16:05
+judge-claude-opus-5-5,blind,E3-05,E3,R2,2,"There is one line per ISO year, coloured with a viridis scale and a legend; the labelled small-multiple rings also tell the years apart.",2026-11-05T11:16:05
+judge-claude-opus-5-5,blind,E3-05,E3,R3,0,"No per-season peak markers are visible in the circular view; the grey tick in each small ring sits at the same angle every year, so it does not mark a peak.",2026-11-05T11:16:05
+judge-claude-opus-5-5,blind,E3-05,E3,R4,2,The linear overview covers 2012 to 2026 on a calendar date axis.,2026-11-05T11:16:05
+judge-claude-opus-5-5,blind,E3-05,E3,R6,2,"Week labels (W1–W49) are around the circle, the linear views have date axes, and the unit 'ARE consultations per 100,000 per week' is shown.",2026-11-05T11:16:05
+judge-claude-opus-5-5,blind,E3-05,E3,R7,2,"The title and caption match the data: weeks 5–12 before 2020, then varying timing with December peaks in 2022 and 2023.",2026-11-05T11:16:05
+judge-claude-opus-5-5,blind,E3-06,E3,R1,2,"The circular view is polar, with W01 at 12 o'clock, weeks running clockwise and one turn per ISO year, and the value on the radius.",2026-11-05T11:16:20
+judge-claude-opus-5-5,blind,E3-06,E3,R2,1,"There is one line per ISO year with a colour-bar legend, but the lines are very faint and the continuous palette makes neighbouring years hard to tell apart.",2026-11-05T11:16:20
+judge-claude-opus-5-5,blind,E3-06,E3,R3,2,"Each season has one marker at its peak week, including W50 for 2022/23 and 2023/24 and W39 for 2020/21, which matches the ground truth.",2026-11-05T11:16:20
+judge-claude-opus-5-5,blind,E3-06,E3,R4,2,The linear view covers 2012-W40 to 2026-W43 on a date axis.,2026-11-05T11:16:20
+judge-claude-opus-5-5,blind,E3-06,E3,R6,2,"Week labels run around the circle, the linear view has a date axis, and the value is labelled 'ARE consultations per 100,000 per week'.",2026-11-05T11:16:20
+judge-claude-opus-5-5,blind,E3-06,E3,R7,2,"There is a title, and the caption ('No: narrow W5–9 window until 2018/19, scattered since COVID') matches the data, though its text is cut off at the right edge.",2026-11-05T11:16:20
+judge-claude-opus-5-5,blind,E3-07,E3,R1,2,"The circular view puts W1 at 12 o'clock and runs clockwise, with one ring per ISO year and incidence on the radius.",2026-11-05T11:16:38
+judge-claude-opus-5-5,blind,E3-07,E3,R2,2,"Each ISO year is its own coloured ring, and a legend lists 2012–2026.",2026-11-05T11:16:38
+judge-claude-opus-5-5,blind,E3-07,E3,R3,2,"Each season has one marker at its maximum, including 2022/23 and 2023/24 near W50, 2020/21 near W39 and a triangle for the partial 2026/27 season near W43.",2026-11-05T11:16:38
+judge-claude-opus-5-5,blind,E3-07,E3,R4,2,The linear view shows the whole series from late 2012 to 2026 on a date axis labelled 'Monday of ISO week'.,2026-11-05T11:16:38
+judge-claude-opus-5-5,blind,E3-07,E3,R6,2,"Week labels run around the circle, the linear view has a date axis, and the value axis gives the unit 'per 100,000 per week'.",2026-11-05T11:16:38
+judge-claude-opus-5-5,blind,E3-07,E3,R7,2,"The title is present, and the caption (Feb peaks before COVID, shifting to December or March after) matches the data.",2026-11-05T11:16:38
+judge-claude-opus-5-5,blind,E3-08,E3,R1,2,"The circular view has W1 at 12 o'clock and weeks run clockwise, one turn per ISO year; the radius encodes ARE consultations per 100k.",2026-11-05T11:17:06
+judge-claude-opus-5-5,blind,E3-08,E3,R2,2,"Each ISO year is its own coloured line, with a legend for 2012–2026, though some neighbouring hues look alike.",2026-11-05T11:17:06
+judge-claude-opus-5-5,blind,E3-08,E3,R3,2,"Each season (W40–W39) has one triangle at its peak week: W8, W7, W9, W7, W5, W8, W7, W12, W39, W11, W50, W50, W7 and W6, plus an open W43 for the ongoing season. All match the ground truth.",2026-11-05T11:17:06
+judge-claude-opus-5-5,blind,E3-08,E3,R4,2,The linear view covers the whole series from late 2012 to 2026-W43 on a calendar-date axis.,2026-11-05T11:17:06
+judge-claude-opus-5-5,blind,E3-08,E3,R6,2,"Week labels run around the circle, the linear view has a date axis, and the value is labelled as ARE consultations per 100,000 population per week.",2026-11-05T11:17:06
+judge-claude-opus-5-5,blind,E3-08,E3,R7,2,"The title is a question and the caption gives a pattern that matches the data: 9 of 14 seasons peaked in W5–9, with shifts around the pandemic, including W50 in 2022/23 and 2023/24.",2026-11-05T11:17:06
+judge-claude-opus-5-5,blind,E3-09,E3,R1,2,"The polar view puts W1 at 12 o'clock, runs clockwise with one turn per ISO year, and the radius encodes ARE consultations.",2026-11-05T11:17:18
+judge-claude-opus-5-5,blind,E3-09,E3,R2,2,"Each ISO year is its own coloured line, with a legend for 2012–2026; neighbouring hues are similar, but the years can be told apart.",2026-11-05T11:17:18
+judge-claude-opus-5-5,blind,E3-09,E3,R3,2,"There is one triangle marker per Saison at its peak week, and all of them match the ground truth, including 2021-W39, 2022-W50 and 2023-W50.",2026-11-05T11:17:18
+judge-claude-opus-5-5,blind,E3-09,E3,R4,2,The linear view shows the whole series from 2012 to 2026 on a date axis.,2026-11-05T11:17:18
+judge-claude-opus-5-5,blind,E3-09,E3,R6,2,"Week labels run around the circle, the linear axis shows dates, and the value is labelled 'consultations per 100,000 per week'.",2026-11-05T11:17:18
+judge-claude-opus-5-5,blind,E3-09,E3,R7,2,"There is a title, and the caption matches the data: W5–W12 until 2019/20, then W50 to W39, with 3 of 6 peaks outside that window.",2026-11-05T11:17:18
+judge-claude-opus-5-5,blind,E3-10,E3,R1,2,"The polar view puts W1 at 12 o'clock, runs weeks clockwise with one turn per ISO year, and uses the radius for incidence.",2026-11-05T11:17:36
+judge-claude-opus-5-5,blind,E3-10,E3,R2,2,"Each ISO year is its own coloured line with a legend, though the sequential colours are hard to tell apart; season labels on the peak markers help.",2026-11-05T11:17:36
+judge-claude-opus-5-5,blind,E3-10,E3,R3,2,"Each season has one labelled diamond at its maximum, including 2022/23 and 2023/24 near W50 and 2020/21 near W39, which matches the ground truth.",2026-11-05T11:17:36
+judge-claude-opus-5-5,blind,E3-10,E3,R4,2,The linear view covers late 2012 to 2026 on a date axis (Monday of the ISO week).,2026-11-05T11:17:36
+judge-claude-opus-5-5,blind,E3-10,E3,R6,2,"Week labels run around the circle, the linear view has a date axis, and the y-axis gives the unit (consultations per 100,000 per week).",2026-11-05T11:17:36
+judge-claude-opus-5-5,blind,E3-10,E3,R7,2,"There is a title, and the caption says peaks fell in weeks 5–12 before 2020, in September 2021 and in December for 2022/23 and 2023/24, which matches the data.",2026-11-05T11:17:36
+judge-claude-opus-5-5,blind,E3-11,E3,R1,2,"The circular view puts W1 at 12 o'clock and runs clockwise (W4, W8, W12 …), with one turn per ISO year and the value on the radius.",2026-11-05T11:17:46
+judge-claude-opus-5-5,blind,E3-11,E3,R2,2,"There is one coloured line per ISO year from 2012 to 2026, with a legend for the years.",2026-11-05T11:17:46
+judge-claude-opus-5-5,blind,E3-11,E3,R3,2,"Triangle markers are drawn per season using the W40–W39 definition, including W50 for 2022/23 and 2023/24 and W39 for 2020/21, which match the ground truth.",2026-11-05T11:17:46
+judge-claude-opus-5-5,blind,E3-11,E3,R4,2,The linear view shows the full series from late 2012 to 2026-W43 on a date axis with yearly ticks.,2026-11-05T11:17:46
+judge-claude-opus-5-5,blind,E3-11,E3,R6,2,"Week and month labels run around the circle, the linear view has a date axis, and the value label gives the unit (ARE consultations per 100,000 per week).",2026-11-05T11:17:46
+judge-claude-opus-5-5,blind,E3-11,E3,R7,2,"The figure has a title, and the caption matches the data: 11 of 14 seasons peaked in W5–12, 2022/23 and 2023/24 peaked in December, and 2020/21 peaked in W39.",2026-11-05T11:17:46
+judge-claude-opus-5-5,blind,E3-12,E3,R1,2,"Polar layout with one turn per ISO year, clockwise; W49 and W09 sit either side of the top, so week 1 is at 12 o'clock, and the radius encodes the value.",2026-11-05T11:18:00
+judge-claude-opus-5-5,blind,E3-12,E3,R2,2,"Each ISO year is its own coloured line with an 'ISO year' legend, although neighbouring years have similar shades.",2026-11-05T11:18:00
+judge-claude-opus-5-5,blind,E3-12,E3,R3,2,"Circle markers show each season's peak week; the labels match the data, including 22/23 W50, 23/24 W50 and 20/21 W39.",2026-11-05T11:18:00
+judge-claude-opus-5-5,blind,E3-12,E3,R4,2,The linear view shows the full 2012–2026 series on a date axis.,2026-11-05T11:18:00
+judge-claude-opus-5-5,blind,E3-12,E3,R6,2,"Week labels (W09–W49) appear around the circle, the linear view has a date axis, and the value axis gives the unit 'ARE consultations per 100,000 per week'.",2026-11-05T11:18:00
+judge-claude-opus-5-5,blind,E3-12,E3,R7,2,"The title is a question and the subtitle answers 'No' with a pattern that matches the data: pre-2020 peaks in weeks 5–9, later peaks between W50 and W11.",2026-11-05T11:18:00
 judge-claude-opus-5-5,blind,E4-01,E4,R1,2,"All 46 releases (11 LTS and 35 interim) have their own version-labelled rows in release-date order within each group, though the interim labels are crowded and 27.04 is cut off at the bottom.",2026-11-05T10:40:32
 judge-claude-opus-5-5,blind,E4-01,E4,R2,2,"The x-axis title is 'years from each release date', with 0 at release and ticks running from −2 y to +16 y.",2026-11-05T10:40:32
 judge-claude-opus-5-5,blind,E4-01,E4,R3,2,"Development, standard, extended server, ESM and legacy each have their own colour and a legend; extended server appears only for 6.06, 8.04 and 10.04, and no phase is drawn from an empty field.",2026-11-05T10:40:32
