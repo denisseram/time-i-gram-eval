@@ -8,7 +8,7 @@ Mean of score_sum / score_max over the repeats (± standard deviation; n runs).
 
 | Example | d3 | vega-lite | ggtime | time-i-gram |
 |---|---|---|---|---|
-| E1 | 100% ± 0% (n=3) | 100% ± 0% (n=3) | 100% ± 0% (n=3) | 100% ± 0% (n=3) |
+| E1 | 100% ± 0% (n=3) | 100% ± 0% (n=3) | 97% ± 4% (n=3) | 100% ± 0% (n=3) |
 | E2 | 100% ± 0% (n=3) | 100% ± 0% (n=3) | 100% ± 0% (n=3) | 97% ± 4% (n=3) |
 | E3 | 98% ± 3% (n=3) | 100% ± 0% (n=3) | 86% ± 0% (n=3) | 74% ± 3% (n=3) |
 | E4 | 100% ± 0% (n=3) | 100% ± 0% (n=3) | 100% ± 0% (n=3) | 100% ± 0% (n=3) |
@@ -23,7 +23,7 @@ Mean of score_sum / score_max over the repeats (± standard deviation; n runs).
 | E1 | R3 (static) | 3/3 | 3/3 | 3/3 | 3/3 |
 | E1 | R4 (static) | 3/3 | 3/3 | 3/3 | 3/3 |
 | E1 | R5 (static) | 3/3 | 3/3 | 3/3 | 3/3 |
-| E1 | R6 (static) | 3/3 | 3/3 | 3/3 | 3/3 |
+| E1 | R6 (static) | 3/3 | 3/3 | 2/3 | 3/3 |
 | E2 | R1 (static) | 3/3 | 3/3 | 3/3 | 2/3 |
 | E2 | R2 (static) | 3/3 | 3/3 | 3/3 | 3/3 |
 | E2 | R3 (static) | 3/3 | 3/3 | 3/3 | 3/3 |
@@ -62,11 +62,11 @@ Mean of score_sum / score_max over the repeats (± standard deviation; n runs).
 | Output tokens | 7679 | 5817 | 5955 | 11652 |
 | Deliverable size (characters, no comments or extra whitespace) | 9694 | 4107 | 4796 | 2906 |
 | Renders without edits (count) | 15/15 | 15/15 | 15/15 | 15/15 |
-| REPORT claims 'done' that scored below 2 (total) | 1 (in 1 of 15 runs) | 5 (in 3 of 15 runs) | 6 (in 3 of 15 runs) | 0 (in 0 of 15 runs) |
+| REPORT claims 'done' that scored below 2 (total) | 1 (in 1 of 15 runs) | 5 (in 3 of 15 runs) | 7 (in 4 of 15 runs) | 0 (in 0 of 15 runs) |
 
 ## Agreement with the automatic judge (blind, static requirements)
 
-Computed with the human's **initial** scores (`scores-denisse.backup-20261105T102312.csv`, before seeing the judge; 321 blind scores). Since then the human changed 1 blind and 1 live/code scores, and entered 56 scores that were not in the initial file; the final scores are used everywhere else.
+Computed with the human's **initial** scores (`scores-denisse.backup-20261105T102312.csv`, before seeing the judge; 321 blind scores). Since then the human changed 2 blind and 1 live/code scores, and entered 56 scores that were not in the initial file; the final scores are used everywhere else.
 
 321 paired scores; exact agreement 99 %; quadratic-weighted Cohen's kappa 0.93 (– when both raters used a single score). Disagreements: `results/disagreements.csv` (2).
 
