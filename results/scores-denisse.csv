@@ -339,10 +339,11 @@ denisse,live,E3-d3-r03,E3,R5,2,,2026-11-05T10:04:41
 denisse,live,E3-ggtime-r01,E3,R5,0,,2026-11-05T10:06:10
 denisse,live,E3-ggtime-r02,E3,R5,0,,2026-11-05T10:08:01
 denisse,live,E3-ggtime-r03,E3,R5,0,,2026-11-05T10:08:03
-denisse,live,E3-time-i-gram-r01,E3,R5,1,,2026-11-05T10:08:53
+denisse,live,E3-time-i-gram-r01,E3,R5,0,,2026-11-05T11:34:34
 denisse,live,E3-time-i-gram-r01,E3,_note,,brush is not working,2026-11-05T10:08:53
-denisse,live,E3-time-i-gram-r02,E3,R5,2,,2026-11-05T10:24:18
-denisse,live,E3-time-i-gram-r03,E3,R5,1,,2026-11-05T10:24:35
+denisse,live,E3-time-i-gram-r02,E3,R5,1,,2026-11-05T11:35:05
+denisse,live,E3-time-i-gram-r02,E3,_note,,"small multiples por año, sin brush; conexión solo visual”",2026-11-05T11:35:03
+denisse,live,E3-time-i-gram-r03,E3,R5,0,,2026-11-05T11:35:08
 denisse,live,E3-vega-lite-r01,E3,R5,2,,2026-11-05T10:24:49
 denisse,live,E3-vega-lite-r02,E3,R5,2,,2026-11-05T10:24:59
 denisse,live,E3-vega-lite-r03,E3,R5,2,,2026-11-05T10:25:06

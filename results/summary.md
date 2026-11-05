@@ -10,7 +10,7 @@ Mean of score_sum / score_max over the repeats (± standard deviation; n runs).
 |---|---|---|---|---|
 | E1 | 100% ± 0% (n=3) | 100% ± 0% (n=3) | 100% ± 0% (n=3) | 100% ± 0% (n=3) |
 | E2 | 100% ± 0% (n=3) | 100% ± 0% (n=3) | 100% ± 0% (n=3) | 97% ± 4% (n=3) |
-| E3 | 98% ± 3% (n=3) | 100% ± 0% (n=3) | 86% ± 0% (n=3) | 81% ± 3% (n=3) |
+| E3 | 98% ± 3% (n=3) | 100% ± 0% (n=3) | 86% ± 0% (n=3) | 74% ± 3% (n=3) |
 | E4 | 100% ± 0% (n=3) | 100% ± 0% (n=3) | 100% ± 0% (n=3) | 100% ± 0% (n=3) |
 | E5 | 100% ± 0% (n=3) | 88% ± 7% (n=3) | 79% ± 0% (n=3) | 100% ± 0% (n=3) |
 
@@ -34,7 +34,7 @@ Mean of score_sum / score_max over the repeats (± standard deviation; n runs).
 | E3 | R2 (static) | 3/3 | 3/3 | 3/3 | 3/3 |
 | E3 | R3 (static) | 3/3 | 3/3 | 3/3 | 0/3 |
 | E3 | R4 (static) | 3/3 | 3/3 | 3/3 | 3/3 |
-| E3 | R5 (live) | 3/3 | 3/3 | 0/3 | 1/3 |
+| E3 | R5 (live) | 3/3 | 3/3 | 0/3 | 0/3 |
 | E3 | R6 (static) | 3/3 | 3/3 | 3/3 | 3/3 |
 | E3 | R7 (static) | 2/3 | 3/3 | 3/3 | 3/3 |
 | E4 | R1 (static) | 3/3 | 3/3 | 3/3 | 3/3 |
@@ -66,7 +66,7 @@ Mean of score_sum / score_max over the repeats (± standard deviation; n runs).
 
 ## Agreement with the automatic judge (blind, static requirements)
 
-Computed with the human's **initial** scores (`scores-denisse.backup-20261105T102312.csv`, before seeing the judge; 321 blind scores). Since then the human changed 1 blind and 0 live/code scores, and entered 56 scores that were not in the initial file; the final scores are used everywhere else.
+Computed with the human's **initial** scores (`scores-denisse.backup-20261105T102312.csv`, before seeing the judge; 321 blind scores). Since then the human changed 1 blind and 1 live/code scores, and entered 56 scores that were not in the initial file; the final scores are used everywhere else.
 
 321 paired scores; exact agreement 99 %; quadratic-weighted Cohen's kappa 0.93 (– when both raters used a single score). Disagreements: `results/disagreements.csv` (2).
 
