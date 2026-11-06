@@ -229,50 +229,77 @@ def figure(df, col, plot, scope, log):
     return stem
 
 
-# Example variants of the overall box plot with the runs marked by task. Shapes avoid the diamond (= mean).
+# Overall box plot with the runs marked by task: tool-colored boxes and dots, shape = task, and each task in
+# its own column inside the box (E1 left ... E5 right) so the same task lines up across tools.
+# Shapes avoid the diamond (= mean).
 TASK_MARKER = {"E1": "o", "E2": "s", "E3": "^", "E4": "v", "E5": "P"}
-# Okabe-Ito is taken by the tools, so task colors come from the dataviz reference palette: this 5-hue subset
-# passes the all-pairs validator (worst CVD dE 6.9, legal only with the shapes as secondary encoding).
-TASK_COLOR = {"E1": "#6250d6", "E2": "#1baf7a", "E3": "#eda100", "E4": "#e34948", "E5": "#008300"}
-NEUTRAL = "#9e9e9e"
 
 
-def figure_by_task(df, col, log, variant):
-    """variant 'shape': tool-colored boxes and dots, shape = task; 'shape-color': neutral boxes, shape + color = task."""
+def figure_by_task(df, col, log):
     rng = np.random.default_rng(SEED)
-    fig, ax = plt.subplots(figsize=(WIDTH["overall"], HEIGHT + 0.25), layout="constrained")
+    fig, ax = plt.subplots(figsize=(WIDTH["overall"], HEIGHT + 0.15), layout="constrained")
+    box_w = 0.8 * 0.6
+    offset = dict(zip(TASKS, np.linspace(-box_w * 0.4, box_w * 0.4, len(TASKS))))
+    jitter = box_w * 0.025  # only enough to separate runs with (almost) equal values
     for i, tool in enumerate(TOOLS):
         sub = df[df.tool == tool]
-        box(ax, i, sub[col].to_numpy(float), COLOR[tool] if variant == "shape" else NEUTRAL, 0.8 * 0.6)
-        xs = i + rng.uniform(-0.8 * 0.2, 0.8 * 0.2, len(sub))
+        values = sub[col].to_numpy(float)
+        box(ax, i, values, COLOR[tool], box_w)
         for task in TASKS:
-            m = (sub.task == task).to_numpy()
-            ax.scatter(xs[m], sub[col].to_numpy(float)[m], marker=TASK_MARKER[task], s=16,
-                       color=COLOR[tool] if variant == "shape" else TASK_COLOR[task],
-                       edgecolor="#222222", linewidth=0.5, zorder=3)
-        mean_median(ax, i, sub[col].to_numpy(float), 0, median=False)
+            v = sub.loc[sub.task == task, col].to_numpy(float)
+            xs = i + offset[task] + rng.uniform(-jitter, jitter, len(v))
+            ax.scatter(xs, v, marker=TASK_MARKER[task], s=16, color=COLOR[tool], edgecolor="#222222",
+                       linewidth=0.5, zorder=3)
+        mean_median(ax, i, values, 0, median=False)
     ax.set_xticks(range(len(TOOLS)), [LABEL[t] for t in TOOLS])
     ax.set_xlim(-0.55, len(TOOLS) - 0.45)
     ax.set_xlabel("Tool")
     ax.tick_params(axis="x", length=0)
     axis_format(ax, col, log, df[col])
-    face = (lambda t: "#bdbdbd") if variant == "shape" else (lambda t: TASK_COLOR[t])
-    handles = [Line2D([], [], marker=TASK_MARKER[t], ls="none", markersize=4.2, markerfacecolor=face(t),
+    handles = [Line2D([], [], marker=TASK_MARKER[t], ls="none", markersize=4.2, markerfacecolor="#bdbdbd",
                       markeredgecolor="#222222", markeredgewidth=0.5, label=t) for t in TASKS]
-    second = [Line2D([], [], marker="D", ls="none", markersize=4, markerfacecolor="white",
-                     markeredgecolor="black", markeredgewidth=0.7, label="Mean"),
-              Line2D([], [], color="black", lw=1.4, label="Median; box = IQR")]
-    # mean / median in the last columns, so the long label widens only the rightmost column
-    second = [Line2D([], [], ls="none", label=" ") for _ in range(len(TASKS) - len(second))] + second
-    # legend fills column-major: interleave so row 1 = tasks, row 2 = mean / median
-    handles = [h for pair in zip(handles, second) for h in pair]
-    fig.legend(handles=handles, loc="outside upper center", ncol=5, frameon=False, handlelength=1.2,
-               handletextpad=0.4, columnspacing=1.0, borderaxespad=0.2)
-    stem = OUT / f"{col.replace('spec_chars', 'characters')}_box_overall_by-task-{variant}"
+    handles += [Line2D([], [], marker="D", ls="none", markersize=4, markerfacecolor="white",
+                       markeredgecolor="black", markeredgewidth=0.7, label="Mean"),
+                Line2D([], [], color="black", lw=1.4, label="Median")]
+    fig.legend(handles=handles, loc="outside upper center", ncol=len(handles), frameon=False, handlelength=1.0,
+               handletextpad=0.3, columnspacing=0.7, borderaxespad=0.2)
+    stem = OUT / f"{col.replace('spec_chars', 'characters')}_box_overall_by-task"
     fig.savefig(stem.with_suffix(".pdf"))
     fig.savefig(stem.with_suffix(".png"), dpi=300)
     plt.close(fig)
+    numbers_by_task(df, col).to_csv(stem.with_suffix(".csv"), index=False)
     return stem
+
+
+def numbers_by_task(df, col):
+    """The numbers behind figure_by_task: one row per tool overall (level=overall) and per tool x task
+    (level=task). Whiskers as matplotlib draws them (most extreme run within 1.5 IQR of the box)."""
+    rows = []
+    for tool in TOOLS:
+        v = df.loc[df.tool == tool, col].to_numpy(float)
+        q1, med, q3 = np.percentile(v, [25, 50, 75])
+        iqr = q3 - q1
+        lo, hi = v[v >= q1 - 1.5 * iqr].min(), v[v <= q3 + 1.5 * iqr].max()
+        rows.append(dict(level="overall", tool=LABEL[tool], task="all", n=len(v), mean=v.mean(),
+                         sd=v.std(ddof=1), median=med, q1=q1, q3=q3, iqr=iqr, whisker_low=lo, whisker_high=hi,
+                         runs_beyond_whiskers=int(((v < lo) | (v > hi)).sum()), min=v.min(), max=v.max(),
+                         max_over_min=v.max() / v.min()))
+    for task in TASKS:
+        meds = {t: df.loc[(df.tool == t) & (df.task == task), col].median() for t in TOOLS}
+        rank = {t: r for r, t in enumerate(sorted(TOOLS, key=meds.get), 1)}
+        for tool in TOOLS:
+            sub = df[(df.tool == tool) & (df.task == task)].sort_values("repeat")
+            v = sub[col].to_numpy(float)
+            row = dict(level="task", tool=LABEL[tool], task=task, n=len(v), mean=v.mean(), sd=v.std(ddof=1),
+                       median=np.median(v), min=v.min(), max=v.max(), max_over_min=v.max() / v.min(),
+                       rank_by_median_in_task=rank[tool],
+                       ratio_to_smallest_median_in_task=meds[tool] / min(meds.values()))
+            row.update({f"run_r{r}": x for r, x in zip(sub["repeat"], v)})
+            rows.append(row)
+    out = pd.DataFrame(rows)
+    num = out.select_dtypes("number").columns
+    out[num] = out[num].round(2)
+    return out
 
 
 def pdf_fonts(path):
@@ -293,7 +320,7 @@ def main():
             for scope in ("pertask", "overall"):
                 stems.append(figure(df, col, plot, scope, log))
         if col == "spec_chars":
-            stems += [figure_by_task(df, col, log, v) for v in ("shape", "shape-color")]
+            stems.append(figure_by_task(df, col, log))
     bad = {s.name: f for s in stems if (f := pdf_fonts(s.with_suffix(".pdf"))) and
            not all(b"Roboto" in x for x in f)}
     if bad:
