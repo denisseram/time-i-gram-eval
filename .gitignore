@@ -7,3 +7,5 @@ __pycache__/
 env/render/node_modules/
 __pycache__/
 results/smoke/
+# Roboto, downloaded and instanced by scripts/plot_effort.py
+scripts/.fonts/
