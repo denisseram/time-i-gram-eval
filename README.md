@@ -80,28 +80,3 @@ python3 scripts/build_gallery.py          # or --demo to try it with the fixture
 cd gallery && npm run dev                 # local preview; `npm run build` or `npm run deploy` (Observable Cloud)
 ```
 
-Library versions are pinned in `gallery/package.json`; `build_gallery.py` copies them into `gallery/src/lib/`.
-**Do not deploy the gallery before all runs are done** (the agents have open web access). The agents are not asked to produce Observable notebooks: each writes its tool's
-native deliverable, and the gallery collects them, so the comparison stays the same for all four tools.
-
-## Decisions (2026-11-03)
-
-E3 keeps the range brush (R5) · Claude Code + Claude Opus 5.5 · open web for all agents · agents can
-check their work with the same `render` command · 3 repeats · 50 turns or 30 min per run · E6 excluded ·
-time-i-gram 0.1.0 from npm, source at `vanessastoiber/time-i-gram` tag `v0.1.0`. Details in `PROTOCOL.md`.
-
-## Still to do before running
-
-- [x] time-i-gram 0.1.0 source merged into `vanessastoiber/time-i-gram` (commit `fa8a247`).
-- [x] Tag `v0.1.0` on `fa8a247` in `vanessastoiber/time-i-gram`.
-- [x] E4/E5 data copied unmodified to a public repo (raw.githubusercontent.com allows browser access).
-- [ ] **Neutral name for the data repo.** Its name appears in every E4/E5 prompt, so it must not say
-      "time-i-gram" or "eval": rename it (e.g. `dataset-snapshots`), make its README neutral, then
-      `python3 scripts/pin_data_repo.py denisseram/dataset-snapshots <commit-sha>`. Until then
-      `build_prompts.py --check` fails for E4 and E5.
-- [x] Repository private on GitHub.
-- [ ] **Run environment**: `docker build -t tig-eval:1 env/`, then `scripts/tests/smoke_render.sh`
-      (see `env/README.md`). Check the ggtime version in `/opt/versions.txt` against `tools/ggtime.md`.
-- [ ] **Credential** in `.env` (`claude setup-token`).
-- [ ] **Pilot** (`runner.py pilot`), look at the outputs, estimate time and usage per run, `pilot --clean`.
-- [ ] **Freeze** (`git tag v1-frozen`), `runner.py init`, then batches.
